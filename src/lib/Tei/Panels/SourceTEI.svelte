@@ -1,6 +1,6 @@
 <script>
 	import Modal from '$lib/UI/MarkdownModal.svelte';
-	import { Moon } from 'svelte-loading-spinners';
+	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	import TeiStore from '$lib/stores/tei-store.js';
 	import OpenXMLFileButton from '$lib/UI/FileButtons/OpenXMLFileButton.svelte';
@@ -74,7 +74,7 @@
 	<div class="m-4 text-xs">
 		{#if isLoading}
 			<div class="flex justify-center">
-				<Moon size="30" unit="px" duration="2s" color="purple" />
+				<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 			</div>
 		{:else}
 			{#if noTeiLoaded}

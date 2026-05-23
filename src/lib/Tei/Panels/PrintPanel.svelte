@@ -1,7 +1,7 @@
 <script>
 	import Modal from '$lib/UI/MarkdownModal.svelte';
 	import { printpage } from '$lib/Utils/printpage.js';
-	import { Moon } from 'svelte-loading-spinners';
+	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 	// Panel vars
 
 	let showModal = false;
@@ -105,7 +105,7 @@ let pdf_data = {
 		{#if isBuildingPdf}
 			<div class="flex justify-center">
 				<div class="flex flex-col items-center">
-					<Moon size="30" unit="px" duration="2s" color="purple" />
+					<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 					<p class="p-2 text-xs">{progressText}</p>
 				</div>
 			</div>

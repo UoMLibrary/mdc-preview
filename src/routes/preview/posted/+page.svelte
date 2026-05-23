@@ -4,7 +4,7 @@
 	import PreviewPanel from '$lib/Tei/Panels/PreviewPanel.svelte';
 	import JSONViewer from '$lib/Tei/Panels/JSONViewer.svelte';
 	import { createViewModel } from '$lib/Tei/createViewModel.js';
-	import { Moon } from 'svelte-loading-spinners';
+	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	// We load the sef when the page is loaded, this preview page doen't need to react to
 	// live updates in the sef files
@@ -120,7 +120,7 @@
 		/>
 	{:else}
 		<div class="flex justify-center">
-			<Moon size="30" unit="px" duration="2s" color="purple" />
+			<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 		</div>
 	{/if}
 </div>

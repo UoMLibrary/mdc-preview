@@ -40,8 +40,7 @@
 		"marked": "^5.1.0",
 		"openseadragon": "^4.1.0",
 		"saxon-js": "^2.5.0",
-		"svelte-awesome": "^3.2.1",
-		"svelte-loading-spinners": "^0.3.4"
+		"svelte-awesome": "^3.2.1"
 	},
 	"overrides": {
 		"cookie": "0.7.2"

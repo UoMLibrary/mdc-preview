@@ -1,7 +1,7 @@
 <script>
 	import SefStore from '$lib/stores/sef-store.js';
 	import OpenXsltFileButton from '$lib/UI/FileButtons/OpenXSLTFileButton.svelte';
-	import { Moon } from 'svelte-loading-spinners';
+	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	import Modal from '$lib/UI/MarkdownModal.svelte';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
@@ -89,7 +89,7 @@
 	<div class="m-4 text-xs pb-2">
 		{#if isLoading}
 			<div class="flex justify-center">
-				<Moon size="30" unit="px" duration="2s" color="purple" />
+				<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 			</div>
 		{:else}
 			{#if noXSLTLoaded}
