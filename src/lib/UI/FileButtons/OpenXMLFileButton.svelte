@@ -17,95 +17,34 @@
 		It passes the xml object, fileData (size,name etc) and parses the first XML
 		comment for key pair values
 	*/
-	import { parseFirstXMLComment } from '$lib/Utils/xmlutils.js';
-	import type { Snippet } from 'svelte';
-	import type { parseFirstXMLComment as ParseFirstXMLComment } from '$lib/Utils/xmlutils.js';
+	import {
+		selectParsedXmlFile,
+		type FileButtonWithErrorProps,
+		type XmlFilePayloadBase
+	} from './file-button-utils.js';
 
-	type MetaData = ReturnType<typeof ParseFirstXMLComment>;
-
-	interface FileData {
-		basename: string;
-		name: string;
-		size: number;
-		lastModified: Date;
-		type: string;
+	interface ErrorPayload extends XmlFilePayloadBase {
+		xmlDoc: null;
 	}
 
-	type OpenFile = () => void;
-	type ErrorPayload = { fileData: FileData; xmlDoc: null; metaData: MetaData; errors: string[] };
-	type LoadedPayload = {
-		fileData: FileData;
+	interface LoadedPayload extends XmlFilePayloadBase {
 		xmlDoc: XMLDocument;
-		metaData: MetaData;
-		errors: string[];
-	};
-
-	interface Props {
-		children?: Snippet<[OpenFile]>;
-		started?: () => void;
-		error?: (payload: ErrorPayload) => void;
-		loaded?: (payload: LoadedPayload) => void;
 	}
 
-	let { children, started, error, loaded }: Props = $props();
+	let { children, started, error, loaded }: FileButtonWithErrorProps<LoadedPayload, ErrorPayload> =
+		$props();
 
-	function handleFileOpen() {
-		let xmlString = '';
+	async function handleFileOpen() {
+		const xmlFile = await selectParsedXmlFile({ accept: '.xml', started });
+		if (!xmlFile) return;
 
-		const fileInput = document.createElement('input');
-		fileInput.type = 'file';
-		fileInput.accept = '.xml';
+		const { fileData, xmlDoc, metaData, errors } = xmlFile;
 
-		fileInput.addEventListener('change', function handleChange(event: Event) {
-			started?.();
-			const file = (event.currentTarget as HTMLInputElement).files?.[0];
-			if (!file) return;
-
-			const reader = new FileReader();
-
-			reader.onload = function () {
-				xmlString = String(reader.result ?? '');
-
-				let parser = new DOMParser();
-				let parsererrorNS =
-					parser
-						.parseFromString('INVALID', 'application/xml')
-						.getElementsByTagName('parsererror')[0].namespaceURI ?? '';
-				let xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-
-				// Get any metadata and filedata
-				let metaData = parseFirstXMLComment(xmlString);
-				let fileData = {
-					basename: file.name.replace(/\.[^/.]+$/, ''), // filename without extension;
-					name: file.name,
-					size: file.size,
-					lastModified: new Date(file.lastModified),
-					type: file.type
-				};
-
-				// TODO: TEST FOR VALID XML - Error could be returned as HTML doc
-				if (xmlDoc.getElementsByTagNameNS(parsererrorNS, 'parsererror').length > 0) {
-					let errors: string[] = [];
-					const parserErrorArray = Array.from(
-						xmlDoc.getElementsByTagNameNS(parsererrorNS, 'parsererror')
-					);
-					parserErrorArray.forEach((errDoc) => {
-						const divElement = errDoc.querySelector('div');
-						if (divElement?.textContent) errors.push(divElement?.textContent);
-					});
-					error?.({ fileData, xmlDoc: null, metaData, errors });
-				} else {
-					// Dispatch a loaded event with the file details, xml and metadata
-					loaded?.({ fileData, xmlDoc: xmlDoc, metaData, errors: [] });
-				}
-
-				// Clean up
-				fileInput.removeEventListener('change', handleChange);
-				fileInput.remove();
-			};
-			reader.readAsText(file);
-		});
-		fileInput.click();
+		if (errors.length > 0) {
+			error?.({ fileData, xmlDoc: null, metaData, errors });
+		} else {
+			loaded?.({ fileData, xmlDoc, metaData, errors: [] });
+		}
 	}
 </script>
 
