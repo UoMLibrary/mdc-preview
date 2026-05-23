@@ -1,4 +1,9 @@
 type XMLCommentMetadata = Record<string, string | Date>;
+type XMLCommentEntry = [string, string | Date];
+
+const COMMENT_START = '<!--';
+const COMMENT_END = '-->';
+const DATE_KEY_PARTS = ['created', 'modified', 'date'];
 
 // Returns an object for key value pairs in an XML comment
 // Handles some dates
@@ -21,34 +26,43 @@ Becomes
 
 */
 export function parseFirstXMLComment(xmlString: string): XMLCommentMetadata {
-	// Find the start and end positions of the comment
-	const startIndex = xmlString.indexOf('<!--') + 4;
-	const endIndex = xmlString.indexOf('-->');
-	// Extract the comment from the file content
-	const comment = xmlString.substring(startIndex, endIndex);
-	// Split on newlines
-	const lines = comment.split('\n');
-	// Are there any lines to process
-	const result: XMLCommentMetadata = {};
-	if (lines.length > 0) {
-		lines.forEach((line) => {
-			let [key, value] = line.split(':');
-			// Deal with a date separately
-			const isDate = key.includes('created') || key.includes('modified') || key.includes('date');
-			// tidy up the key
-			key = key.replace(/\s/g, '_').toLowerCase();
+	const comment = getFirstXmlComment(xmlString);
+	return Object.fromEntries(comment.split('\n').flatMap(parseCommentLine));
+}
 
-			if (isDate) {
-				// get everything after the first ':'
-				const splitArray = line.split(':');
-				const datePart = splitArray?.slice(1).join(':').trim();
-				if (datePart) result[key] = new Date(Date.parse(datePart));
-			} else if (value) {
-				// tidy the value
-				value = String(value).trim();
-				result[key] = value;
-			}
-		});
-	}
-	return result;
+function getFirstXmlComment(xmlString: string) {
+	const startIndex = xmlString.indexOf(COMMENT_START);
+	const endIndex = xmlString.indexOf(COMMENT_END, startIndex + COMMENT_START.length);
+
+	return hasXmlComment(startIndex, endIndex)
+		? xmlString.substring(startIndex + COMMENT_START.length, endIndex)
+		: '';
+}
+
+function hasXmlComment(startIndex: number, endIndex: number) {
+	return startIndex >= 0 && endIndex > startIndex;
+}
+
+function parseCommentLine(line: string): XMLCommentEntry[] {
+	const separatorIndex = line.indexOf(':');
+	const key = normalizeKey(line.substring(0, separatorIndex));
+	const value = line.substring(separatorIndex + 1).trim();
+
+	return isCommentEntry(separatorIndex, key, value) ? [[key, parseCommentValue(key, value)]] : [];
+}
+
+function normalizeKey(key: string) {
+	return key.replace(/\s/g, '_').toLowerCase();
+}
+
+function isCommentEntry(separatorIndex: number, key: string, value: string) {
+	return separatorIndex > -1 && key !== '' && value !== '';
+}
+
+function parseCommentValue(key: string, value: string) {
+	return isDateKey(key) ? new Date(Date.parse(value)) : value;
+}
+
+function isDateKey(key: string) {
+	return DATE_KEY_PARTS.some((part) => key.includes(part));
 }
