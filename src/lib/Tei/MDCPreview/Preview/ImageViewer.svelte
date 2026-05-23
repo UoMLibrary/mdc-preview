@@ -1,36 +1,55 @@
-<script>
+<script lang="ts">
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import { onMount } from 'svelte';
 
-	// The OpenSeadragon import and viewer instance https://openseadragon.github.io/
-	let OpenSeadragon;
-	let viewer;
+	type OpenSeadragonModule = typeof import('openseadragon');
+	type OpenSeadragonViewer = import('openseadragon').Viewer;
 
-	// params
-	export let pages;
-	export let page;
-	export let showNavigator = true;
-	export let preserveSettings = false;
-
-	let tiles = [];
-
-	$: updateTiles(pages, page);
-	$: if (viewer) viewer.open(tiles, page);
-
-	onMount(async () => {
-		// Dynamically load openseadragon so it doesn't try to run on the server
-		OpenSeadragon = await import('openseadragon');
-		setupOpenSeaDragonViewer();
-		updateTiles(pages, page);
-	});
-
-	function updateTiles(pages, page) {
-		tiles = [];
-		let imageUrl = pages[page - 1];
-		tiles.push(imageUrl);
+	interface Props {
+		pages?: unknown[];
+		page?: number;
+		showNavigator?: boolean;
+		preserveSettings?: boolean;
 	}
 
-	function setupOpenSeaDragonViewer() {
+	// The OpenSeadragon import and viewer instance https://openseadragon.github.io/
+	let OpenSeadragon: OpenSeadragonModule | null = null;
+	let viewer = $state<OpenSeadragonViewer | null>(null);
+
+	let {
+		pages = [],
+		page = 1,
+		showNavigator = true,
+		preserveSettings = $bindable(false)
+	}: Props = $props();
+
+	let tiles = $derived.by(() => {
+		const imageUrl = pages[page - 1];
+		return imageUrl ? [imageUrl] : [];
+	});
+
+	$effect(() => {
+		if (!viewer || !tiles.length) return;
+		viewer.open(tiles, page);
+	});
+
+	onMount(() => {
+		let cancelled = false;
+
+		// Dynamically load openseadragon so it doesn't try to run on the server
+		void import('openseadragon').then((module) => {
+			OpenSeadragon = module;
+			if (!cancelled) setupOpenSeaDragonViewer();
+		});
+
+		return () => {
+			cancelled = true;
+			destroyOpenSeaDragonViewer();
+		};
+	});
+
+	function setupOpenSeaDragonViewer(): void {
+		if (!OpenSeadragon) return;
 		// https://openseadragon.github.io/docs/OpenSeadragon.html#.Options
 		// https://openseadragon.github.io/docs/OpenSeadragon.Viewer.html#goToNextPage
 		viewer = new OpenSeadragon.default({
@@ -55,17 +74,22 @@
 		viewer.addHandler('home', zoomHomeEventHandler);
 	}
 
-	function zoomHomeEventHandler(event) {
+	function zoomHomeEventHandler(): void {
 		// Reset the rotation when zooming to the home position
-		viewer.viewport.setRotation(0);
+		viewer?.viewport.setRotation(0);
+	}
+
+	function destroyOpenSeaDragonViewer(): void {
+		if (!viewer) return;
+		viewer.removeHandler('home', zoomHomeEventHandler);
+		viewer.destroy();
+		viewer = null;
 	}
 
 	// Only way to update preserve viewport is to tear down the viewer and
 	// initialise a new one
-	function updatePreserveViewport() {
-		viewer.removeHandler('home', zoomHomeEventHandler);
-		viewer.destroy();
-		viewer = null;
+	function updatePreserveViewport(): void {
+		destroyOpenSeaDragonViewer();
 		setupOpenSeaDragonViewer();
 	}
 </script>
@@ -102,7 +126,7 @@
 				type="checkbox"
 				id="preserve-viewport"
 				bind:checked={preserveSettings}
-				on:change={(e) => updatePreserveViewport()}
+				onchange={updatePreserveViewport}
 			/>
 			<label for="preserve-viewport" class="ml-2 text-xs text-shadow-xs font-medium text-white"
 				>Preserve state</label
