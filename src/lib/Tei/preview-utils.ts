@@ -50,7 +50,7 @@ export function cleanOutFacsimileElement(xmlString: string) {
 	return xmlString;
 }
 
-export function isValidPreviewConfig(config?: PreviewConfig) {
+export function isValidPreviewConfig(config?: PreviewConfig): config is PreviewConfig {
 	if (!config) return false;
 
 	return TEMPLATE_KEYS.every(

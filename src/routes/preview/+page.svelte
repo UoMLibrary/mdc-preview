@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { browser } from '$app/environment';
 
 	// Tool Panels and Preview
@@ -22,14 +22,16 @@
 
 	// ViewModel processing
 	import { createViewModel } from '$lib/Tei/createViewModel.js';
+	import type { CudlObject, ViewModel } from '$lib/Tei/createViewModel.js';
+	import type { PreviewConfig } from '$lib/Tei/preview-utils.js';
 
 	let page = $state(0);
 	let selectedOrg = $state('manchester');
 	let selectedConfig = $derived(previewConfigData[selectedOrg]);
 
-	let preTransformXmlDocOutput = $state(); // the output of the preTransform (transient)
-	let JSONTransformObjOutput = $state(); // the output of the JSON transform (transient)
-	let ViewModelOutput = $state(); // output of the View model transform (transient)
+	let preTransformXmlDocOutput = $state<XMLDocument | null>(null); // the output of the preTransform (transient)
+	let JSONTransformObjOutput = $state<CudlObject | null>(null); // the output of the JSON transform (transient)
+	let ViewModelOutput = $state<ViewModel | null>(null); // output of the View model transform (transient)
 
 	$effect(() => {
 		runPreTransform($TeiStore.xmlDoc);
@@ -43,7 +45,7 @@
 		runViewModelTransform(JSONTransformObjOutput, selectedConfig);
 	});
 
-	async function runPreTransform(xmlDoc) {
+	async function runPreTransform(xmlDoc: XMLDocument | null | undefined) {
 		// browser check to prevent new XMLSerializer being called during a SSR attempt
 		if (!browser || !xmlDoc || !preTransformSef) return (preTransformXmlDocOutput = null);
 
@@ -56,7 +58,7 @@
 
 		let sefObjCopy = preTransformSef; // TODO: Check if we need to reload each time (see sef store for details)
 
-		let transformConfig = {
+		let transformConfig: SaxonTransformConfig = {
 			sourceText: xmlString,
 			destination: 'serialized',
 			stylesheetInternal: sefObjCopy
@@ -68,14 +70,14 @@
 		preTransformXmlDocOutput = parser.parseFromString(transform.principalResult, 'text/xml');
 	}
 
-	async function runJSONTransform(xmlDoc) {
+	async function runJSONTransform(xmlDoc: XMLDocument | null | undefined) {
 		// browser check to prevent new XMLSerializer being called during a SSR attempt
 		if (!browser || !xmlDoc || !jsonTransformSef) return (JSONTransformObjOutput = null);
 
 		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
 		let sefObjCopy = jsonTransformSef; // TODO: Check if we need to reload each time (see sef store for details)
 
-		let transformConfig = {
+		let transformConfig: SaxonTransformConfig = {
 			sourceText: xmlString,
 			destination: 'serialized',
 			stylesheetInternal: sefObjCopy
@@ -83,24 +85,27 @@
 		let transform = await SaxonJS.transform(transformConfig, 'async');
 
 		// TODO: Handle errors
-		JSONTransformObjOutput = JSON.parse(transform.principalResult);
+		JSONTransformObjOutput = JSON.parse(transform.principalResult) as CudlObject;
 	}
 
-	async function runViewModelTransform(cudlJson, config) {
+	async function runViewModelTransform(
+		cudlJson: CudlObject | null,
+		config: PreviewConfig | undefined
+	) {
 		if (!cudlJson || !isValidPreviewConfig(config)) {
 			return (ViewModelOutput = null);
 		}
 		// Quick hack for new Object, transformation will make a copy
-		let cudlJsonCopy = JSON.parse(JSON.stringify(cudlJson));
+		let cudlJsonCopy = JSON.parse(JSON.stringify(cudlJson)) as CudlObject;
 		ViewModelOutput = createViewModel(cudlJsonCopy, config);
 	}
 
-	function selectConfig(org) {
+	function selectConfig(org: string) {
 		selectedOrg = org;
 	}
 
 	// Handle page navigation from Preview internal components.
-	function changePage(nextPage) {
+	function changePage(nextPage: number) {
 		page = nextPage;
 	}
 </script>

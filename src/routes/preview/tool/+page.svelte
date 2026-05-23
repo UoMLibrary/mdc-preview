@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { browser } from '$app/environment';
 
 	// Stores
@@ -8,7 +8,10 @@
 
 	// ViewModel processing
 	import { createViewModel } from '$lib/Tei/createViewModel.js';
+	import type { CudlObject, ViewModel } from '$lib/Tei/createViewModel.js';
 	import { cleanOutFacsimileElement, isValidPreviewConfig } from '$lib/Tei/preview-utils.js';
+	import type { PreviewConfig } from '$lib/Tei/preview-utils.js';
+	import type { SefItem } from '$lib/stores/sef-store.js';
 
 	// Tool Panels and Preview
 	import SourceTEI from '$lib/Tei/Panels/SourceTEI.svelte';
@@ -21,13 +24,20 @@
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
-	let page = $state(0);
-	let preTransformXmlDocOutput = $state(); // the output of the preTransform (transient)
-	let JSONTransformObjOutput = $state(); // the output of the JSON transform (transient)
-	let ViewModelOutput = $state(); // output of the View model transform (transient)
+	interface TransformDisplayError {
+		name: string;
+		message: string;
+		code?: string | number;
+		stack?: string;
+	}
 
-	let PreTransformError = $state();
-	let JSONtransformError = $state();
+	let page = $state(0);
+	let preTransformXmlDocOutput = $state<XMLDocument | null>(null); // the output of the preTransform (transient)
+	let JSONTransformObjOutput = $state<CudlObject | null>(null); // the output of the JSON transform (transient)
+	let ViewModelOutput = $state<ViewModel | null>(null); // output of the View model transform (transient)
+
+	let PreTransformError = $state<TransformDisplayError | null>(null);
+	let JSONtransformError = $state<TransformDisplayError | null>(null);
 
 	$effect(() => {
 		runPreTransform($TeiStore.xmlDoc, $SefStore?.preTransform);
@@ -41,11 +51,13 @@
 		runViewModelTransform(JSONTransformObjOutput, $ConfigStore);
 	});
 
-	async function runPreTransform(xmlDoc, sefObj) {
+	async function runPreTransform(
+		xmlDoc: XMLDocument | null | undefined,
+		sefObj: SefItem | null | undefined
+	) {
 		PreTransformError = null;
 		// browser check to prevent new XMLSerializer being called during a SSR attempt
-		if (!browser || !xmlDoc || !$SefStore?.preTransform?.sef)
-			return (preTransformXmlDocOutput = null);
+		if (!browser || !xmlDoc || !sefObj?.sef) return (preTransformXmlDocOutput = null);
 
 		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
 
@@ -56,7 +68,7 @@
 
 		let sefObjCopy = SefStore.getKeyCopy('preTransform'); // get a copy (see sef store for details)
 
-		let transformConfig = {
+		let transformConfig: SaxonTransformConfig = {
 			sourceText: xmlString,
 			destination: 'serialized',
 			stylesheetInternal: sefObjCopy
@@ -76,20 +88,22 @@
 			// 	throw new Error(xmlStr);
 			// }
 		} catch (error) {
-			PreTransformError = error;
+			PreTransformError = createDisplayError(error);
 		}
 	}
 
-	async function runJSONTransform(xmlDoc, sefObj) {
+	async function runJSONTransform(
+		xmlDoc: XMLDocument | null | undefined,
+		sefObj: SefItem | null | undefined
+	) {
 		JSONtransformError = null;
 		// browser check to prevent new XMLSerializer being called during a SSR attempt
-		if (!browser || !xmlDoc || !$SefStore?.JSONTransform?.sef)
-			return (JSONTransformObjOutput = null);
+		if (!browser || !xmlDoc || !sefObj?.sef) return (JSONTransformObjOutput = null);
 
 		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
 		let sefObjCopy = SefStore.getKeyCopy('JSONTransform'); // get a copy (see sef store for details)
 
-		let transformConfig = {
+		let transformConfig: SaxonTransformConfig = {
 			sourceText: xmlString,
 			destination: 'serialized',
 			stylesheetInternal: sefObjCopy
@@ -97,24 +111,24 @@
 
 		try {
 			let transform = await SaxonJS.transform(transformConfig, 'async');
-			JSONTransformObjOutput = JSON.parse(transform.principalResult);
+			JSONTransformObjOutput = JSON.parse(transform.principalResult) as CudlObject;
 		} catch (error) {
-			JSONtransformError = error;
+			JSONtransformError = createDisplayError(error);
 		}
 	}
 
-	async function runViewModelTransform(cudlJson, configObj) {
+	async function runViewModelTransform(cudlJson: CudlObject | null, configObj: PreviewConfig) {
 		if (!cudlJson || !isValidPreviewConfig(configObj)) {
 			return (ViewModelOutput = null);
 		}
 		// Quick hack for new Object, transformation will make a copy
-		let cudlJsonCopy = JSON.parse(JSON.stringify(cudlJson));
+		let cudlJsonCopy = JSON.parse(JSON.stringify(cudlJson)) as CudlObject;
 		ViewModelOutput = createViewModel(cudlJsonCopy, configObj);
 	}
 
 	// trying this as DomParser always seems to return valid XML
 	// https://stackoverflow.com/questions/11563554/how-do-i-detect-xml-parsing-errors-when-using-javascripts-domparser-in-a-cross
-	function isParseError(parsedDocument) {
+	function isParseError(parsedDocument: XMLDocument) {
 		// parser and parsererrorNS could be cached on startup for efficiency
 		var parser = new DOMParser(),
 			errorneousParse = parser.parseFromString('<', 'text/xml'),
@@ -125,11 +139,21 @@
 			return parsedDocument.getElementsByTagName('parsererror').length > 0;
 		}
 
-		return parsedDocument.getElementsByTagNameNS(parsererrorNS, 'parsererror').length > 0;
+		return (
+			!!parsererrorNS &&
+			parsedDocument.getElementsByTagNameNS(parsererrorNS, 'parsererror').length > 0
+		);
+	}
+
+	function createDisplayError(error: unknown): TransformDisplayError {
+		if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
+
+		const code = (error as Error & { code?: string | number }).code;
+		return { name: error.name, message: error.message, stack: error.stack, code };
 	}
 
 	// Handle page navigation from Preview internal components.
-	function changePage(nextPage) {
+	function changePage(nextPage: number) {
 		page = nextPage;
 	}
 </script>

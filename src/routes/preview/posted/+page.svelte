@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import PreviewPanel from '$lib/Tei/Panels/PreviewPanel.svelte';
 	import JSONViewer from '$lib/Tei/Panels/JSONViewer.svelte';
 	import { createViewModel } from '$lib/Tei/createViewModel.js';
+	import type { CudlObject, ViewModel } from '$lib/Tei/createViewModel.js';
 	import { cleanOutFacsimileElement, previewConfigData } from '$lib/Tei/preview-utils.js';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
@@ -11,10 +12,16 @@
 	import { sef as preTransformSef } from '../preTransform.sef.json';
 	import { sef as jsonTransformSef } from '../JSONTransform.sef.json';
 
+	interface Props {
+		form?: {
+			teistring?: FormDataEntryValue | null;
+		};
+	}
+
 	// Variables
-	let { form } = $props();
-	let xmlString = $state();
-	let ViewModelOutput = $state();
+	let { form }: Props = $props();
+	let xmlString = $state('');
+	let ViewModelOutput = $state<ViewModel | null>(null);
 	let page = $state(0);
 	let loading = $state(true);
 
@@ -22,10 +29,10 @@
 		loading = true;
 
 		// Bugfix: Clean up supplied XmlString
-		xmlString = cleanOutFacsimileElement(form?.teistring);
+		xmlString = cleanOutFacsimileElement(String(form?.teistring ?? ''));
 
 		// Pre transform
-		let transformConfig = {
+		let transformConfig: SaxonTransformConfig = {
 			sourceText: xmlString,
 			destination: 'serialized',
 			stylesheetInternal: preTransformSef
@@ -40,7 +47,7 @@
 			stylesheetInternal: jsonTransformSef
 		};
 		let JsonTransformObj = await SaxonJS.transform(transformConfig, 'async');
-		let JSONTransformObjOutput = JSON.parse(JsonTransformObj.principalResult);
+		let JSONTransformObjOutput = JSON.parse(JsonTransformObj.principalResult) as CudlObject;
 
 		// Viewmodel creation
 		ViewModelOutput = createViewModel(JSONTransformObjOutput, previewConfigData.manchester);
@@ -49,7 +56,7 @@
 	});
 
 	// Handle page navigation from Preview internal components.
-	function changePage(nextPage) {
+	function changePage(nextPage: number) {
 		page = nextPage;
 	}
 </script>

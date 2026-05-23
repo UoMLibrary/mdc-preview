@@ -3,7 +3,7 @@
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
-	type JsonData = Record<string, unknown> | unknown[];
+	type JsonData = unknown;
 
 	interface Props {
 		jsonData?: JsonData | null;
@@ -23,6 +23,11 @@
 			: 0;
 
 	const maxDepth = $derived(objectDepth(jsonData) || 0);
+	const hasJsonData = $derived(isObjectWithKeys(jsonData));
+
+	function isObjectWithKeys(value: unknown): value is object {
+		return typeof value === 'object' && value !== null && Object.keys(value).length > 0;
+	}
 
 	function increaseDepth() {
 		currentDepth += 1;
@@ -53,7 +58,7 @@
 				>
 			{/if}
 
-			{#if jsonData && Object.keys(jsonData).length}
+			{#if hasJsonData}
 				<SaveJsonFileButton {jsonData} fileName={savefile}>
 					{#snippet children(saveFile)}
 						<button type="button" class="p-1 mr-2" onclick={saveFile}>Save</button>
@@ -65,7 +70,7 @@
 	</div>
 	<!-- Panel Body -->
 	<div class="m-4">
-		{#if jsonData && Object.keys(jsonData).length}
+		{#if hasJsonData}
 			<JsonView depth={currentDepth} json={jsonData} />
 		{:else}
 			<div class="h-4">{message}</div>
