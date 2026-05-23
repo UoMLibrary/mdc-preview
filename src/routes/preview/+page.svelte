@@ -8,8 +8,6 @@
 
 	// Stores
 	import TeiStore from '$lib/stores/tei-store.js';
-	import SefStore from '$lib/stores/sef-store.js';
-	import ConfigStore from '$lib/stores/config-store.js';
 
 	const configData = {
 		cambridge: {
@@ -45,19 +43,25 @@
 	// ViewModel processing
 	import { createViewModel } from '$lib/Tei/createViewModel.js';
 
-	let page;
-	let selectedOrg = 'manchester';
-	let selectedConfig = configData[selectedOrg];
+	let page = $state(0);
+	let selectedOrg = $state('manchester');
+	let selectedConfig = $derived(configData[selectedOrg]);
 
-	let preTransformXmlDocOutput; // the output of the preTransform (transient)
-	let JSONTransformObjOutput; // the output of the JSON transform (transient)
-	let ViewModelOutput; // output of the View model transform (transient)
+	let preTransformXmlDocOutput = $state(); // the output of the preTransform (transient)
+	let JSONTransformObjOutput = $state(); // the output of the JSON transform (transient)
+	let ViewModelOutput = $state(); // output of the View model transform (transient)
 
-	// Reactive statements. Any change to a var/store in the line starting with $:
-	// causes the whole statement to execute
-	$: runPreTransform($TeiStore.xmlDoc);
-	$: runJSONTransform(preTransformXmlDocOutput);
-	$: runViewModelTransform(JSONTransformObjOutput, selectedConfig);
+	$effect(() => {
+		runPreTransform($TeiStore.xmlDoc);
+	});
+
+	$effect(() => {
+		runJSONTransform(preTransformXmlDocOutput);
+	});
+
+	$effect(() => {
+		runViewModelTransform(JSONTransformObjOutput, selectedConfig);
+	});
 
 	function bugFix_cleanOutFacsimileElement(xmlString) {
 		let start = xmlString.indexOf('<facsimile>');
@@ -75,7 +79,7 @@
 		return xmlString;
 	}
 
-	async function runPreTransform(xmlDoc, sefObj) {
+	async function runPreTransform(xmlDoc) {
 		// browser check to prevent new XMLSerializer being called during a SSR attempt
 		if (!browser || !xmlDoc || !preTransformSef) return (preTransformXmlDocOutput = null);
 
@@ -100,7 +104,7 @@
 		preTransformXmlDocOutput = parser.parseFromString(transform.principalResult, 'text/xml');
 	}
 
-	async function runJSONTransform(xmlDoc, sefObj) {
+	async function runJSONTransform(xmlDoc) {
 		// browser check to prevent new XMLSerializer being called during a SSR attempt
 		if (!browser || !xmlDoc || !jsonTransformSef) return (JSONTransformObjOutput = null);
 
@@ -145,7 +149,6 @@
 
 	function selectConfig(org) {
 		selectedOrg = org;
-		selectedConfig = configData[org];
 	}
 
 	// Handle page navigation from Preview internal components.
@@ -162,19 +165,19 @@
 			class="m-2 mr-2 mb-4 p-2 bg-blue-500 rounded text-white {selectedOrg == 'cambridge'
 				? 'bg-red-500'
 				: ''}"
-			on:click={(e) => selectConfig('cambridge')}>Cambridge</button
+			onclick={() => selectConfig('cambridge')}>Cambridge</button
 		>
 		<button
 			class="m-2 mr-2 mb-4 p-2 bg-blue-500 rounded text-white {selectedOrg == 'lancaster'
 				? 'bg-red-500'
 				: ''}"
-			on:click={(e) => selectConfig('lancaster')}>Lancaster</button
+			onclick={() => selectConfig('lancaster')}>Lancaster</button
 		>
 		<button
 			class="m-2 mr-2 mb-4 p-2 bg-blue-500 rounded text-white {selectedOrg == 'manchester'
 				? 'bg-red-500'
 				: ''}"
-			on:click={(e) => selectConfig('manchester')}>Manchester</button
+			onclick={() => selectConfig('manchester')}>Manchester</button
 		>
 	</div>
 

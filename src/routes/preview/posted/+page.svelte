@@ -1,5 +1,4 @@
 <script>
-	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import PreviewPanel from '$lib/Tei/Panels/PreviewPanel.svelte';
 	import JSONViewer from '$lib/Tei/Panels/JSONViewer.svelte';
@@ -38,11 +37,11 @@
 	};
 
 	// Variables
-	export let form;
-	let xmlString;
-	let ViewModelOutput;
-	let page = 0;
-	let loading = true;
+	let { form } = $props();
+	let xmlString = $state();
+	let ViewModelOutput = $state();
+	let page = $state(0);
+	let loading = $state(true);
 
 	onMount(async () => {
 		loading = true;

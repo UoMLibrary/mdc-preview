@@ -72,13 +72,7 @@ let pdf_data = {
 		<div>
 			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
 		</div>
-		<div class="flex py-1">
-			<!-- <div class="">
-				{#if !isBuildingPdf}
-					<button class="mr-2" on:click={(e) => printItem()}>Print</button>
-				{/if}
-			</div> -->
-		</div>
+		<div class="flex py-1"></div>
 	</div>
 	<!-- Panel Body -->
 	<div class="m-4">
