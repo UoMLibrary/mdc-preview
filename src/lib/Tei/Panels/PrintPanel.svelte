@@ -1,23 +1,11 @@
 <script>
-	import Modal from '$lib/UI/MarkdownModal.svelte';
 	import { printpage } from '$lib/Utils/printpage.js';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
-	// Panel vars
 
-	let showModal = false;
-	export let title = '';
-	export let markdownHelp;
+	let { title = '', data } = $props();
 
-	// Printpage vars
-	export let data; // pdf data structure
-	// export let cols = 4;
-
-	let progressText = '';
-	let isBuildingPdf = false;
-
-	function setCols(colNum) {
-		cols = colNum;
-	}
+	let progressText = $state('');
+	let isBuildingPdf = $state(false);
 
 	// PRINT FUNCTIONS AND CALLBACKS
 	async function printItem(cols) {
@@ -90,14 +78,6 @@ let pdf_data = {
 					<button class="mr-2" on:click={(e) => printItem()}>Print</button>
 				{/if}
 			</div> -->
-			<!-- Open help button -->
-
-			{#if markdownHelp}
-				<button
-					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					on:click={(e) => (showModal = true)}>?</button
-				>
-			{/if}
 		</div>
 	</div>
 	<!-- Panel Body -->
@@ -111,16 +91,16 @@ let pdf_data = {
 			</div>
 		{:else if data}
 			<div class="flex justify-between space-x-1">
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(1)}
+				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(1)}
 					><div>1 Column</div></button
 				>
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(2)}
+				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(2)}
 					><div>2 Columns</div></button
 				>
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(3)}
+				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(3)}
 					><div>3 Columns</div></button
 				>
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(4)}
+				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(4)}
 					><div>4 Columns</div></button
 				>
 			</div>
@@ -129,5 +109,3 @@ let pdf_data = {
 		{/if}
 	</div>
 </div>
-
-<Modal bind:showModal {title} markdown={markdownHelp} />

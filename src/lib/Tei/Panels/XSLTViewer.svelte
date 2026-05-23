@@ -3,12 +3,10 @@
 	import OpenXsltFileButton from '$lib/UI/FileButtons/OpenXSLTFileButton.svelte';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
-	import Modal from '$lib/UI/MarkdownModal.svelte';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
-	let showModal = $state(false);
 
-	let { markdownHelp, title = '', sefId = '' } = $props();
+	let { title = '', sefId = '' } = $props();
 	let isLoading = $state(false);
 
 	const sefData = $derived($SefStore?.[sefId]);
@@ -76,13 +74,6 @@
 			{/if}
 
 			<button class="p-1 mr-2" onclick={() => SefStore.clearKeyValue(sefId)}>Clear</button>
-
-			{#if markdownHelp}
-				<button
-					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					onclick={() => (showModal = true)}>?</button
-				>
-			{/if}
 		</div>
 	</div>
 	<!-- Panel Body -->
@@ -122,5 +113,3 @@
 		{/if}
 	</div>
 </div>
-
-<Modal bind:showModal {title} markdown={markdownHelp} />

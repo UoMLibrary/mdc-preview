@@ -4,10 +4,8 @@
 
 	import SaveXMLFileButton from '$lib/UI/FileButtons/SaveXMLFileButton.svelte';
 	import OpenXmlInBrowser from '$lib/UI/FileButtons/OpenXMLInBrowser.svelte';
-	import Modal from '$lib/UI/MarkdownModal.svelte';
-	let showModal = $state(false);
 
-	let { markdownHelp, xmlDoc, title = '', saveFile = 'data.xml', message = '' } = $props();
+	let { xmlDoc, title = '', saveFile = 'data.xml', message = '' } = $props();
 
 	const xmlString = $derived(stringifyXmlDoc(xmlDoc));
 
@@ -37,13 +35,6 @@
 			{/if}
 
 			<!-- <button class="p-1 mr-2" onclick={clear}>Clear</button> -->
-
-			{#if markdownHelp}
-				<button
-					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					onclick={() => (showModal = true)}>?</button
-				>
-			{/if}
 		</div>
 	</div>
 	<!-- Panel Body -->
@@ -55,5 +46,3 @@
 		{/if}
 	</div>
 </div>
-
-<Modal bind:showModal {title} markdown={markdownHelp} />

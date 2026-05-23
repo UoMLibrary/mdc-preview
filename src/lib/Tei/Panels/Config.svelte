@@ -4,10 +4,7 @@
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 
-	import Modal from '$lib/UI/MarkdownModal.svelte';
-	let showModal = $state(false);
-
-	let { title = '', markdownHelp } = $props();
+	let { title = '' } = $props();
 </script>
 
 <div class="rounded-md bg-white mb-4 text-xs pb-1">
@@ -32,14 +29,6 @@
 			<button class="p-1 mr-2" onclick={() => ConfigStore.setDefault()}>Default</button>
 			<button class="p-1 mr-2" onclick={() => ConfigStore.setLocal()}>Localhost</button>
 			<button class="p-1 mr-2" onclick={() => ConfigStore.clear()}>Clear</button>
-
-			<!-- Open help button -->
-			{#if markdownHelp}
-				<button
-					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					onclick={() => (showModal = true)}>?</button
-				>
-			{/if}
 		</div>
 	</div>
 	<!-- Panel Body -->
@@ -58,5 +47,3 @@
 		{/each}
 	</div>
 </div>
-
-<Modal bind:showModal {title} markdown={markdownHelp} />

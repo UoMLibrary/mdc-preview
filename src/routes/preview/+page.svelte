@@ -156,7 +156,7 @@
 
 <div class="p-4 bg-slate-300 pb-32 min-h-screen">
 	<!-- UI to load TEI XML file -->
-	<SourceTEI title="Source TEI Document" markdownHelp="" />
+	<SourceTEI title="Source TEI Document" />
 	<div class="flex text-xs">
 		<button
 			class="m-2 mr-2 mb-4 p-2 bg-blue-500 rounded text-white {selectedOrg == 'cambridge'
@@ -183,7 +183,6 @@
 		 and a styled view for a particular organisation.  -->
 	<PreviewPanel
 		title="Preview"
-		markdownHelp=""
 		message="Preview generation requires a TEI to be loaded"
 		viewModel={ViewModelOutput}
 		{page}
@@ -195,7 +194,6 @@
 		jsonData={ViewModelOutput}
 		title="View Model"
 		savefile="viewmodel.json"
-		markdownHelp=""
 		message="View Model generation requires a TEI to be loaded"
 	/>
 </div>

@@ -1,14 +1,11 @@
 <script>
-	import Modal from '$lib/UI/MarkdownModal.svelte';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	import TeiStore from '$lib/stores/tei-store.js';
 	import OpenXMLFileButton from '$lib/UI/FileButtons/OpenXMLFileButton.svelte';
 	import OpenXmlInBrowser from '$lib/UI/FileButtons/OpenXMLInBrowser.svelte';
 
-	let showModal = $state(false);
-
-	let { title = '', markdownHelp } = $props();
+	let { title = '' } = $props();
 	let isLoading = $state(false);
 
 	// <!-- TODO: Add in TEI SUMMARY e.g Is image section populated, how many images, is basic metatdata complete -->
@@ -60,14 +57,6 @@
 			</OpenXMLFileButton>
 
 			<button class="p-1 mr-2" onclick={() => TeiStore.clear()}>Clear</button>
-
-			<!-- Open help button -->
-			{#if markdownHelp}
-				<button
-					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					onclick={() => (showModal = true)}>?</button
-				>
-			{/if}
 		</div>
 	</div>
 	<!-- Panel Body -->
@@ -107,5 +96,3 @@
 		{/if}
 	</div>
 </div>
-
-<Modal bind:showModal {title} markdown={markdownHelp} />

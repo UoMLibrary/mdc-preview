@@ -103,7 +103,6 @@
 	{#if !loading}
 		<PreviewPanel
 			title="Preview"
-			markdownHelp=""
 			message="Preview generation requires a TEI to be loaded"
 			viewModel={ViewModelOutput}
 			{page}
@@ -115,7 +114,6 @@
 			jsonData={ViewModelOutput}
 			title="View Model"
 			savefile="viewmodel.json"
-			markdownHelp=""
 			message="View Model generation requires a TEI to be loaded"
 		/>
 	{:else}

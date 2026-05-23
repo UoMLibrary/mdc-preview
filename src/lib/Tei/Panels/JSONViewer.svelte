@@ -1,19 +1,9 @@
 <script>
-	import Modal from '$lib/UI/MarkdownModal.svelte';
-	let showModal = $state(false);
-
 	import { JsonView } from '@zerodevx/svelte-json-view';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
-	let {
-		markdownHelp,
-		jsonData,
-		depth = 0,
-		title = '',
-		savefile = 'data.json',
-		message = ''
-	} = $props();
+	let { jsonData, depth = 0, title = '', savefile = 'data.json', message = '' } = $props();
 
 	let currentDepth = $derived(depth);
 
@@ -59,13 +49,6 @@
 				</SaveJsonFileButton>
 			{/if}
 			<!-- <button class="p-1 mr-2" onclick={clear}>Clear</button> -->
-
-			{#if markdownHelp}
-				<button
-					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					onclick={() => (showModal = true)}>?</button
-				>
-			{/if}
 		</div>
 	</div>
 	<!-- Panel Body -->
@@ -77,5 +60,3 @@
 		{/if}
 	</div>
 </div>
-
-<Modal bind:showModal {title} markdown={markdownHelp} />

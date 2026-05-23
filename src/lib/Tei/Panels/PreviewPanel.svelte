@@ -3,17 +3,8 @@
 	// Possibly via a <slot/>
 	// import Preview from '$lib/MDCUI/Preview.svelte';
 	import Preview from '$lib/Tei/MDCPreview/Preview.svelte';
-	import Modal from '$lib/UI/MarkdownModal.svelte';
 
-	// Panel data
-	let showModal = false;
-	export let title = '';
-	export let markdownHelp;
-	export let message = '';
-
-	// Preview data
-	export let viewModel;
-	export let page = 1;
+	let { title = '', message = '', viewModel, page = 1 } = $props();
 </script>
 
 <div class="rounded-md bg-white mb-4 text-xs pb-1">
@@ -21,15 +12,6 @@
 	<div class="flex border-b justify-between">
 		<div>
 			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
-		</div>
-		<div class="p-1">
-			<!-- Open help button -->
-			{#if markdownHelp}
-				<button
-					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					on:click={(e) => (showModal = true)}>?</button
-				>
-			{/if}
 		</div>
 	</div>
 	<!-- Panel Body -->
@@ -42,5 +24,3 @@
 		{/if}
 	</div>
 </div>
-
-<Modal bind:showModal {title} markdown={markdownHelp} />
