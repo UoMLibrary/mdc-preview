@@ -52,8 +52,8 @@
 			{/if}
 
 			{#if jsonData && Object.keys(jsonData).length}
-				<SaveJsonFileButton {jsonData} fileName={savefile}>
-					<button class="p-1 mr-2">Save</button>
+				<SaveJsonFileButton let:saveFile {jsonData} fileName={savefile}>
+					<button type="button" class="p-1 mr-2" on:click={saveFile}>Save</button>
 				</SaveJsonFileButton>
 			{/if}
 			<!-- <button class="p-1 mr-2" on:click={(e) => dispatch('clear')}>Clear</button> -->

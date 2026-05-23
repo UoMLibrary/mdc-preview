@@ -7,10 +7,10 @@
 		
 		The button can be styled by passing in a button to the slot e.g
 
-		<SaveJsonFileButton jsonData={$ConfigStore} fileName="config.json">
-			<button class="p-1 mr-2">Save</button>
-		</SaveJsonFileButton>
-	*/
+	<SaveJsonFileButton let:saveFile jsonData={$ConfigStore} fileName="config.json">
+		<button class="p-1 mr-2" on:click={saveFile}>Save</button>
+	</SaveJsonFileButton>
+*/
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -38,6 +38,6 @@
 	}
 </script>
 
-<button on:click={handleSave}>
-	<slot>Save JSON File</slot>
-</button>
+<slot saveFile={handleSave}>
+	<button type="button" on:click={handleSave}>Save JSON File</button>
+</slot>

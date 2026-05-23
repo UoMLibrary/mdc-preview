@@ -18,12 +18,12 @@
 			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
 		</div>
 		<div>
-			<OpenJsonFileButton on:loaded={(e) => ConfigStore.loadJson(e.detail.json)}
-				><button class="p-1 mr-2">Load</button>
+			<OpenJsonFileButton let:openFile on:loaded={(e) => ConfigStore.loadJson(e.detail.json)}
+				><button type="button" class="p-1 mr-2" on:click={openFile}>Load</button>
 			</OpenJsonFileButton>
 
-			<SaveJsonFileButton jsonData={$ConfigStore} fileName="config.json">
-				<button class="p-1 mr-2">Save</button>
+			<SaveJsonFileButton let:saveFile jsonData={$ConfigStore} fileName="config.json">
+				<button type="button" class="p-1 mr-2" on:click={saveFile}>Save</button>
 			</SaveJsonFileButton>
 
 			<button class="p-1 mr-2" on:click={(e) => ConfigStore.setDefault()}>Default</button>

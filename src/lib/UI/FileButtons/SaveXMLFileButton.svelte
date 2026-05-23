@@ -7,10 +7,10 @@
 		
 		The button can be styled by passing in a button to the slot e.g
 
-		<SaveXMLFileButton xml={$XMLStore} fileName="myfile.xml">
-			<button class="p-1 mr-2">Save</button>
-		</SaveXMLFileButton>
-	*/
+	<SaveXMLFileButton let:saveFile xml={$XMLStore} fileName="myfile.xml">
+		<button class="p-1 mr-2" on:click={saveFile}>Save</button>
+	</SaveXMLFileButton>
+*/
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -38,6 +38,6 @@
 	}
 </script>
 
-<button on:click={handleSave}>
-	<slot>Save XML File</slot>
-</button>
+<slot saveFile={handleSave}>
+	<button type="button" on:click={handleSave}>Save XML File</button>
+</slot>

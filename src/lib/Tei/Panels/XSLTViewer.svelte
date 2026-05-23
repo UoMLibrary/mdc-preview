@@ -40,6 +40,7 @@
 
 		<div class="p-1">
 			<OpenXsltFileButton
+				let:openFile={openXsltFile}
 				on:started={(e) => {
 					SefStore.clearKeyValue(sefId);
 					isLoading = true;
@@ -52,20 +53,23 @@
 					SefStore.setKeyValue(sefId, e.detail);
 					isLoading = false;
 				}}
-				><button class="p-1 mr-2">Load XSLT</button>
+				><button type="button" class="p-1 mr-2" on:click={openXsltFile}>Load XSLT</button>
 			</OpenXsltFileButton>
 
 			<OpenJsonFileButton
+				let:openFile={openSefFile}
 				on:started={(e) => (isLoading = true)}
 				on:loaded={(e) => {
 					SefStore.setKeyValue(sefId, e.detail.json);
 					isLoading = false;
-				}}><button class="p-1 mr-2">Load SEF</button></OpenJsonFileButton
+				}}
+				><button type="button" class="p-1 mr-2" on:click={openSefFile}>Load SEF</button
+				></OpenJsonFileButton
 			>
 
 			{#if sefData?.sef}
-				<SaveJsonFileButton fileName={`${sefId}.sef.json`} jsonData={sefData}>
-					<button class="p-1 mr-2">Save SEF</button>
+				<SaveJsonFileButton let:saveFile fileName={`${sefId}.sef.json`} jsonData={sefData}>
+					<button type="button" class="p-1 mr-2" on:click={saveFile}>Save SEF</button>
 				</SaveJsonFileButton>
 			{/if}
 

@@ -8,10 +8,10 @@
 
 		The button can be styled by passing in a button to the slot e.g
 
-		<OpenJsonFileButton on:loaded={(e) => ConfigStore.loadJson(e.detail.json)}>
-			<button class="p-1 mr-2">Load</button>
-		</OpenJsonFileButton>
-	*/
+	<OpenJsonFileButton let:openFile on:loaded={(e) => ConfigStore.loadJson(e.detail.json)}>
+		<button class="p-1 mr-2" on:click={openFile}>Load</button>
+	</OpenJsonFileButton>
+*/
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -55,6 +55,6 @@
 	}
 </script>
 
-<button on:click={handleFileOpen}>
-	<slot>Open Json File</slot>
-</button>
+<slot openFile={handleFileOpen}>
+	<button type="button" on:click={handleFileOpen}>Open Json File</button>
+</slot>

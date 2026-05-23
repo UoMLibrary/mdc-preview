@@ -12,9 +12,9 @@
 
 		The button can be styled by passing in a button to the slot e.g
 
-		<OpenXSLTFileButton on:loaded={(e) => console.log(e.detail)}>
-			<button class="p-1 mr-2">Load</button>
-		</OpenXSLTFileButton>
+	<OpenXSLTFileButton let:openFile on:loaded={(e) => console.log(e.detail)}>
+		<button class="p-1 mr-2" on:click={openFile}>Load</button>
+	</OpenXSLTFileButton>
 	*/
 	import { parseFirstXMLComment } from '$lib/Utils/xmlutils.js';
 	import { createEventDispatcher } from 'svelte';
@@ -88,6 +88,6 @@
 	}
 </script>
 
-<button on:click={handleFileOpen}>
-	<slot>Open Json File</slot>
-</button>
+<slot openFile={handleFileOpen}>
+	<button type="button" on:click={handleFileOpen}>Open XSLT File</button>
+</slot>

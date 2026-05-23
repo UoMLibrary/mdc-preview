@@ -43,6 +43,7 @@
 			<OpenXmlInBrowser xmlDoc={$TeiStore?.xmlDoc} tabName="teixml" />
 
 			<OpenXMLFileButton
+				let:openFile
 				on:started={(e) => {
 					isLoading = true;
 					TeiStore.clear();
@@ -55,7 +56,7 @@
 					isLoading = false;
 					$TeiStore = e.detail;
 				}}
-				><button class="p-1 mr-2">Load</button>
+				><button type="button" class="p-1 mr-2" on:click={openFile}>Load</button>
 			</OpenXMLFileButton>
 
 			<button class="p-1 mr-2" on:click={(e) => TeiStore.clear()}>Clear</button>

@@ -8,9 +8,9 @@
 
 		The button can be styled by passing in a button to the slot e.g
 
-		<OpenXMLFileButton on:loaded={(e) => console.log(e.detail.xml)}>
-			<button class="p-1 mr-2">Load</button>
-		</OpenXMLFileButton>
+	<OpenXMLFileButton let:openFile on:loaded={(e) => console.log(e.detail.xml)}>
+		<button class="p-1 mr-2" on:click={openFile}>Load</button>
+	</OpenXMLFileButton>
 
 		It passes the xml object, fileData (size,name etc) and parses the first XML
 		comment for key pair values
@@ -76,6 +76,6 @@
 	}
 </script>
 
-<button on:click={handleFileOpen}>
-	<slot>Open Json File</slot>
-</button>
+<slot openFile={handleFileOpen}>
+	<button type="button" on:click={handleFileOpen}>Open XML File</button>
+</slot>
