@@ -50,7 +50,6 @@ FROM node:20-alpine
 # RUN apk add --update nodejs npm@latest
 COPY --from=build /app/package*.json /
 COPY --from=build /app/build /
-COPY --from=build /app/healthcheck.mjs /
 
 # Sveltekit Issues 
 # npm install is included below to fix an issue that arose if the user 
