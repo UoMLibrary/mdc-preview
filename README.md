@@ -1,15 +1,13 @@
 # Digital collection preview tool
 
-# web-tei-preview
-
-**NOTE: PAT for web-tei-preview Needs renewing 05 Aug 2025 and adding back to Secrets in web-tei-preview GitHub Repository**
+# mdc-preview
 
 ## Running in dev mode
 
 ```bash
 git clone <repo>
 cd <repo>
-npm install
+npm ci
 # start the preview app and manually open a browser
 npm run dev
 # or start the server and open the app in a new browser tab
@@ -19,35 +17,32 @@ npm run dev -- --open
 ## Building a docker image
 
 ```bash
-# Build the image and tag it as tei-preview
+# Build the image and tag it locally
 docker build --tag web-tei-preview .
 ```
 
-## Building for Multiplatform
+## Publishing the container image
 
-Run a multiplatform build and push it to dockerhub
+The `.github/workflows/publish-ghcr.yml` workflow builds and pushes a multi-architecture image to GitHub Container Registry when changes are pushed to `main`. It can also be run manually from the GitHub Actions tab.
 
-```bash
-# Requires a login to the docker hub to be pushed to
-docker login
-docker buildx create --use
-docker build --push --platform linux/amd64,linux/arm64/v8 --tag abitofcode/web-tei-preview:1 .
-```
+Images are published to `ghcr.io/<owner>/<repo>` with `latest`, branch, and commit SHA tags.
 
 ## Running the local docker image
 
 ```bash
-# Start a container using the tei-preview image in detached mode and open up port 3000 on the container to the host. By setting a name `preview`
-docker run --rm -p 3000:3000 --name preview -d tei-preview
-# We can stop the container using docker stop preview
+# Start a container using the local image and expose port 3000
+docker run --rm -p 3000:3000 --name preview -d web-tei-preview
+# Stop the container with docker stop preview
 ```
 
-## Running a docker image from dockerhub
+## Manual deployment
 
-The latest version of the tei preview app can be run from dockerhub
+The VM is expected to pull the image from GHCR using Docker Compose. Deployment is currently manual:
 
 ```bash
-docker run --rm -p 127.0.0.1:3000:3000 --name preview -d abitofcode/web-tei-preview:1
+docker compose pull
+docker compose up -d --remove-orphans
+docker image prune -f
 ```
 
 The extras folder contains some example Manchester TEI content and configuration files for Manchester, Lancaster and Cambridge.
