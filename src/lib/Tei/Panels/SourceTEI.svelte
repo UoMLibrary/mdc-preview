@@ -1,6 +1,7 @@
 <script>
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
+	import { getPanelStatus } from '$lib/Tei/panel-status.js';
 	import TeiStore from '$lib/stores/tei-store.js';
 	import OpenXMLFileButton from '$lib/UI/FileButtons/OpenXMLFileButton.svelte';
 	import OpenXmlInBrowser from '$lib/UI/FileButtons/OpenXMLInBrowser.svelte';
@@ -12,16 +13,7 @@
 	// Visual component to allow loading of a TEI XML document
 
 	const noTeiLoaded = $derived(!$TeiStore?.xmlDoc && !$TeiStore?.fileData);
-	const status = $derived(getStatus($TeiStore));
-
-	function getStatus(_teiData) {
-		if (_teiData.xmlDoc && _teiData?.errors?.length == 0) {
-			return 'SUCCESS';
-		} else if (_teiData?.errors?.length > 0) {
-			return 'ERROR';
-		}
-		return '';
-	}
+	const status = $derived(getPanelStatus(!!$TeiStore?.errors?.length, !!$TeiStore?.xmlDoc));
 </script>
 
 <div

@@ -1,5 +1,6 @@
 <script>
 	import SefStore from '$lib/stores/sef-store.js';
+	import { getPanelStatus } from '$lib/Tei/panel-status.js';
 	import OpenXsltFileButton from '$lib/UI/FileButtons/OpenXSLTFileButton.svelte';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
@@ -11,16 +12,7 @@
 
 	const sefData = $derived($SefStore?.[sefId]);
 	const noXSLTLoaded = $derived(!sefData?.sef && !sefData?.fileData);
-	const status = $derived(getStatus(sefData));
-
-	function getStatus(_sefData) {
-		if (_sefData?.sef && _sefData?.errors?.length == 0) {
-			return 'SUCCESS';
-		} else if (_sefData?.errors?.length > 0) {
-			return 'ERROR';
-		}
-		return '';
-	}
+	const status = $derived(getPanelStatus(!!sefData?.errors?.length, !!sefData?.sef));
 </script>
 
 <div
