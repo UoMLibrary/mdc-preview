@@ -8,6 +8,7 @@
 
 	// ViewModel processing
 	import { createViewModel } from '$lib/Tei/createViewModel.js';
+	import { cleanOutFacsimileElement, isValidPreviewConfig } from '$lib/Tei/preview-utils.js';
 
 	// Tool Panels and Preview
 	import SourceTEI from '$lib/Tei/Panels/SourceTEI.svelte';
@@ -20,35 +21,25 @@
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
-	let page;
-	let preTransformXmlDocOutput; // the output of the preTransform (transient)
-	let JSONTransformObjOutput; // the output of the JSON transform (transient)
-	let ViewModelOutput; // output of the View model transform (transient)
+	let page = $state(0);
+	let preTransformXmlDocOutput = $state(); // the output of the preTransform (transient)
+	let JSONTransformObjOutput = $state(); // the output of the JSON transform (transient)
+	let ViewModelOutput = $state(); // output of the View model transform (transient)
 
-	let PreTransformError;
-	let JSONtransformError;
+	let PreTransformError = $state();
+	let JSONtransformError = $state();
 
-	// Reactive statements. Any change to a var/store in the line starting with $:
-	// causes the whole statement to execute
-	$: runPreTransform($TeiStore.xmlDoc, $SefStore?.preTransform);
-	$: runJSONTransform(preTransformXmlDocOutput, $SefStore?.jsonTransform);
-	$: runViewModelTransform(JSONTransformObjOutput, $ConfigStore);
+	$effect(() => {
+		runPreTransform($TeiStore.xmlDoc, $SefStore?.preTransform);
+	});
 
-	function bugFix_cleanOutFacsimileElement(xmlString) {
-		let start = xmlString.indexOf('<facsimile>');
-		let end = xmlString.indexOf('</text>') + 7;
+	$effect(() => {
+		runJSONTransform(preTransformXmlDocOutput, $SefStore?.jsonTransform);
+	});
 
-		if (start > 0 && end > 0) {
-			let facsTextElems = xmlString.substring(start, end);
-			if (!facsTextElems.includes('<graphic')) {
-				xmlString = `${xmlString.substring(
-					0,
-					start
-				)}<facsimile></facsimile><text></text>${xmlString.substring(end)}`;
-			}
-		}
-		return xmlString;
-	}
+	$effect(() => {
+		runViewModelTransform(JSONTransformObjOutput, $ConfigStore);
+	});
 
 	async function runPreTransform(xmlDoc, sefObj) {
 		PreTransformError = null;
@@ -61,7 +52,7 @@
 		// BUGFIX: If there is no graphic data the JSON transformation will fail, we can fix this
 		// by clearing out the <facsimile></facsimile><text></text> elements so they are empty
 		// See Toms script - https://bitbucket.org/unimanlibrarydevs/mdc-metadata-api/src/master/clean.py
-		xmlString = bugFix_cleanOutFacsimileElement(xmlString);
+		xmlString = cleanOutFacsimileElement(xmlString);
 
 		let sefObjCopy = SefStore.getKeyCopy('preTransform'); // get a copy (see sef store for details)
 
@@ -113,27 +104,12 @@
 	}
 
 	async function runViewModelTransform(cudlJson, configObj) {
-		if (!cudlJson || !validateConfig(configObj)) {
+		if (!cudlJson || !isValidPreviewConfig(configObj)) {
 			return (ViewModelOutput = null);
 		}
 		// Quick hack for new Object, transformation will make a copy
 		let cudlJsonCopy = JSON.parse(JSON.stringify(cudlJson));
 		ViewModelOutput = createViewModel(cudlJsonCopy, configObj);
-	}
-
-	function validateConfig(config) {
-		// Check the required template strings are there and that the contain
-		// the substitution strings
-		if (
-			config.printTemplate == '' ||
-			config.thumbnailTemplate == '' ||
-			config.viewerTemplate == '' ||
-			!config.printTemplate.includes('{imagerefwithpage}') ||
-			!config.thumbnailTemplate.includes('{imagerefwithpage}') ||
-			!config.viewerTemplate.includes('{imagerefwithpage}')
-		)
-			return false;
-		else return true;
 	}
 
 	// trying this as DomParser always seems to return valid XML
