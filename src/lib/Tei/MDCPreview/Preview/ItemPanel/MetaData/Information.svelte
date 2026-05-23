@@ -11,7 +11,7 @@
 			<h4 class="m-0 text-uom-purple">Information about this document</h4>
 		</div>
 
-		<div class="pt-2 prose-sm">
+		<div class="metadata-list">
 			<ul>
 				{#each metadata as data (data.label)}
 					<li>
@@ -33,3 +33,27 @@
 		</div>
 	</div>
 {/if}
+
+<style>
+	.metadata-list {
+		padding-top: 0.5rem;
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+
+	.metadata-list ul {
+		margin: 0;
+		padding: 0.5rem 1rem 1rem 1.5rem;
+		list-style: disc;
+	}
+
+	.metadata-list li + li {
+		margin-top: 0.375rem;
+	}
+
+	.metadata-list a {
+		color: #632390;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+</style>
