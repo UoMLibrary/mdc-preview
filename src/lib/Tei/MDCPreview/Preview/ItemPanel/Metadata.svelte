@@ -1,7 +1,7 @@
 <script>
 	import Information from './MetaData/Information.svelte';
 
-	export let metadata;
+	let { metadata } = $props();
 </script>
 
 <div class="m-4">

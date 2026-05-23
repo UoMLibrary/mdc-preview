@@ -6,19 +6,18 @@
 	// Simple version - https://www.digitalcollections.manchester.ac.uk/view/MS-PERSIAN-00013/773
 	// can be nested - see https://stage.digitalcollections.manchester.ac.uk/view/VS-VPH-00023/1
 	// recursion in Svelte - https://svelte.dev/tutorial/svelte-self
-	export let contents;
-	export let page;
+	let { contents, page = 1, updatepage = () => {} } = $props();
 </script>
 
 <div class="">
 	{#if contents?.structure?.data}
 		<div class="m-3 border border-gray-300 rounded-md overflow-hidden text-sm">
-			<Child data={contents.structure.data} on:updatepage clickable="true" {page} />
+			<Child data={contents.structure.data} {updatepage} clickable={true} {page} />
 		</div>
 	{/if}
 
 	{#if contents?.structure?.children?.length > 0}
-		<Children children={contents.structure.children} on:updatepage {page} />
+		<Children children={contents.structure.children} {updatepage} {page} />
 	{/if}
 </div>
 <!-- DEBUGGING -->

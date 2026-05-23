@@ -6,22 +6,21 @@
 	import Metadata from './ItemPanel/Metadata.svelte';
 	import ActionPanel from './ItemPanel/ActionPanel.svelte';
 
-	export let viewModel;
-	export let page;
+	let { viewModel, page = 1, updatepage = () => {} } = $props();
 
 	let tabItems = ['About', 'Contents', 'Thumbnails', 'Metadata', 'More...'];
-	let activeItem = 'About';
+	let activeItem = $state('About');
 </script>
 
 <aside class="flex flex-col min-h-[640px] h-[640px]">
-	<ItemPanelTabs {activeItem} {tabItems} on:tabChange={(e) => (activeItem = e.detail)} />
+	<ItemPanelTabs {activeItem} {tabItems} tabChange={(item) => (activeItem = item)} />
 	<div class="flex-1 bg-white overflow-y-auto">
 		{#if activeItem == 'About'}
 			<About {viewModel} />
 		{:else if activeItem == 'Contents'}
-			<Content contents={viewModel.contentsObj} {page} on:updatepage />
+			<Content contents={viewModel.contentsObj} {page} {updatepage} />
 		{:else if activeItem == 'Thumbnails'}
-			<Thumbnails thumbnails={viewModel.thumbnails} on:updatepage />
+			<Thumbnails thumbnails={viewModel.thumbnails} {updatepage} />
 		{:else if activeItem == 'Metadata'}
 			<Metadata metadata={viewModel.displayMetadata} />
 		{:else}

@@ -1,7 +1,7 @@
 <script>
 	import Information from './MetaData/Information.svelte';
 
-	export let viewModel;
+	let { viewModel } = $props();
 </script>
 
 <div class="">
@@ -10,6 +10,7 @@
 		{#if viewModel?.aboutObj?.shelfLocator}({viewModel.aboutObj.shelfLocator}){/if}
 	</h2>
 	<article class="m-4 prose-sm">
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		{@html viewModel.aboutObj.abstractHTML}
 	</article>
 	<div class="m-4">

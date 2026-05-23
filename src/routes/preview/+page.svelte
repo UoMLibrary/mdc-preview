@@ -149,8 +149,8 @@
 	}
 
 	// Handle page navigation from Preview internal components.
-	function changePage(event) {
-		page = event.detail.page;
+	function changePage(nextPage) {
+		page = nextPage;
 	}
 </script>
 
@@ -186,7 +186,7 @@
 		message="Preview generation requires a TEI to be loaded"
 		viewModel={ViewModelOutput}
 		{page}
-		on:updatepage={changePage}
+		updatepage={changePage}
 	/>
 
 	<!-- JSON Viewer that contains ViewModel output (not part of existing process) -->

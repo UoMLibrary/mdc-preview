@@ -75,8 +75,8 @@
 	});
 
 	// Handle page navigation from Preview internal components.
-	function changePage(event) {
-		page = event.detail.page;
+	function changePage(nextPage) {
+		page = nextPage;
 	}
 
 	// BUGFIX: If there is no graphic data the JSON transformation will fail, we can fix this
@@ -106,7 +106,7 @@
 			message="Preview generation requires a TEI to be loaded"
 			viewModel={ViewModelOutput}
 			{page}
-			on:updatepage={changePage}
+			updatepage={changePage}
 		/>
 
 		<!-- JSON Viewer that contains ViewModel output (not part of existing process) -->

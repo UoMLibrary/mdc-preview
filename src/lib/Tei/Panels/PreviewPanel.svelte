@@ -4,7 +4,7 @@
 	// import Preview from '$lib/MDCUI/Preview.svelte';
 	import Preview from '$lib/Tei/MDCPreview/Preview.svelte';
 
-	let { title = '', message = '', viewModel, page = 1 } = $props();
+	let { title = '', message = '', viewModel, page = 1, updatepage = () => {} } = $props();
 </script>
 
 <div class="rounded-md bg-white mb-4 text-xs pb-1">
@@ -20,7 +20,7 @@
 			<div class="h-4 m-4">{message}</div>
 		{:else}
 			<!-- Pass the update page through to the parent component -->
-			<Preview {viewModel} {page} on:updatepage />
+			<Preview {viewModel} {page} {updatepage} />
 		{/if}
 	</div>
 </div>

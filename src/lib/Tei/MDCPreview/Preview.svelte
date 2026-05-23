@@ -5,13 +5,12 @@
 	import ImageViewer from '$lib/Tei/MDCPreview/Preview/ImageViewer.svelte';
 	import ItemPanel from '$lib/Tei/MDCPreview/Preview/ItemPanel.svelte';
 
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	let { viewModel, page = 1, updatepage = () => {} } = $props();
 
-	export let viewModel;
-	export let page;
-
-	$: (viewModel, (page = 1)); // If the viewModel changes, reset the page to 1
+	$effect(() => {
+		viewModel;
+		page = 1;
+	});
 </script>
 
 <Header />
@@ -20,11 +19,11 @@
 	{page}
 	pageTotal={viewModel?.pages?.length || 0}
 	pdfData={viewModel.pdfObj}
-	on:updatepage
+	{updatepage}
 />
 <div class="flex flex-col md:flex-row">
 	<div class="flex-1 bg-black">
 		<ImageViewer pages={viewModel.pages} {page} showNavigator={true} />
 	</div>
-	<div class="flex-1"><ItemPanel {viewModel} {page} on:updatepage /></div>
+	<div class="flex-1"><ItemPanel {viewModel} {page} {updatepage} /></div>
 </div>

@@ -1,13 +1,7 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	let { page = 1, data, clickable = false, updatepage = () => {} } = $props();
 
-	export let page;
-
-	export let data;
-	export let clickable = false;
-
-	$: isCurrentPage = data.startPagePosition == page;
+	let isCurrentPage = $derived(data.startPagePosition == page);
 </script>
 
 {#if clickable}
@@ -15,7 +9,7 @@
 		class=" w-full text-left py-1 px-2 {isCurrentPage
 			? 'bg-purple-500 text-white'
 			: 'bg-zinc-200 hover:bg-zinc-100'}"
-		on:click={(e) => dispatch('updatepage', { page: data.startPagePosition })}
+		onclick={() => updatepage(data.startPagePosition)}
 	>
 		<!-- {page} -->
 		{data.label}

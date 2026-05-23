@@ -153,8 +153,8 @@
 	}
 
 	// Handle page navigation from Preview internal components.
-	function changePage(event) {
-		page = event.detail.page;
+	function changePage(nextPage) {
+		page = nextPage;
 	}
 </script>
 
@@ -268,7 +268,7 @@
 		message="Preview generation requires a ViewModel to be set"
 		viewModel={ViewModelOutput}
 		{page}
-		on:updatepage={changePage}
+		updatepage={changePage}
 	/>
 
 	<!-- Transcriptions/translations XSLT -->
