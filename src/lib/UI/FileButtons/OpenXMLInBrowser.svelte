@@ -1,10 +1,14 @@
-<script>
+<script lang="ts">
 	// Open XML Doc button in a new browser tab. Defaults to hidden if there is no
 	// valid xml doc
-	export let tabName = '_blank';
-	export let xmlDoc;
+	interface Props {
+		tabName?: string;
+		xmlDoc?: XMLDocument;
+	}
 
-	function openXMLInBrowser(xmlDoc, tabName) {
+	let { tabName = '_blank', xmlDoc }: Props = $props();
+
+	function openXMLInBrowser(xmlDoc: XMLDocument | undefined, tabName: string) {
 		if (!xmlDoc?.documentElement) return;
 		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
 		// Create a Blob URL from the XML content
@@ -15,5 +19,5 @@
 </script>
 
 {#if xmlDoc?.documentElement}
-	<button class="p-1 mr-2" on:click={(e) => openXMLInBrowser(xmlDoc, tabName)}>View XML</button>
+	<button class="p-1 mr-2" onclick={() => openXMLInBrowser(xmlDoc, tabName)}>View XML</button>
 {/if}

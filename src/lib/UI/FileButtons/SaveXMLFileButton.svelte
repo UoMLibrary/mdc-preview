@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	/* 
 		A button component that takes an XML object and fileName
 		as attributes. When clicked the XML object is stringified
@@ -7,20 +7,32 @@
 		
 		The button can be styled by passing in a button to the slot e.g
 
-	<SaveXMLFileButton let:saveFile xml={$XMLStore} fileName="myfile.xml">
-		<button class="p-1 mr-2" on:click={saveFile}>Save</button>
+	<SaveXMLFileButton xmlDoc={$XMLStore} fileName="myfile.xml">
+		{#snippet children(saveFile)}
+			<button class="p-1 mr-2" onclick={saveFile}>Save</button>
+		{/snippet}
 	</SaveXMLFileButton>
 */
 
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	import type { Snippet } from 'svelte';
 
-	export let xmlDoc;
-	export let fileName = 'data.xml';
+	type SaveFile = () => void;
+
+	interface Props {
+		xmlDoc?: XMLDocument;
+		fileName?: string;
+		children?: Snippet<[SaveFile]>;
+		started?: () => void;
+		saved?: (payload: { fileName: string }) => void;
+	}
+
+	let { xmlDoc, fileName = 'data.xml', children, started, saved }: Props = $props();
 
 	// Download to users device
 	function handleSave() {
-		dispatch('started');
+		if (!xmlDoc?.documentElement) return;
+
+		started?.();
 		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
 		const blob = new Blob([xmlString], { type: 'text/xml' });
 		const url = URL.createObjectURL(blob);
@@ -30,7 +42,7 @@
 		link.click();
 
 		// TODO: Check for errors
-		dispatch('saved', { fileName });
+		saved?.({ fileName });
 
 		// Clean up
 		URL.revokeObjectURL(url);
@@ -38,6 +50,8 @@
 	}
 </script>
 
-<slot saveFile={handleSave}>
-	<button type="button" on:click={handleSave}>Save XML File</button>
-</slot>
+{#if children}
+	{@render children(handleSave)}
+{:else}
+	<button type="button" onclick={handleSave}>Save XML File</button>
+{/if}

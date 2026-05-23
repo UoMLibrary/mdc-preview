@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	/*
 		A button component that provides a filepicker restricted to JSON
 		files. Selection of the file by the user triggers the file to be
@@ -8,13 +8,33 @@
 
 		The button can be styled by passing in a button to the slot e.g
 
-	<OpenJsonFileButton let:openFile on:loaded={(e) => ConfigStore.loadJson(e.detail.json)}>
-		<button class="p-1 mr-2" on:click={openFile}>Load</button>
+	<OpenJsonFileButton loaded={(payload) => ConfigStore.loadJson(payload.json)}>
+		{#snippet children(openFile)}
+			<button class="p-1 mr-2" onclick={openFile}>Load</button>
+		{/snippet}
 	</OpenJsonFileButton>
 */
 
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	import type { Snippet } from 'svelte';
+
+	interface FileData {
+		basename: string;
+		name: string;
+		size: number;
+		lastModified: Date;
+		type: string;
+	}
+
+	type OpenFile = () => void;
+	type LoadedPayload = { fileData: FileData; json: unknown };
+
+	interface Props {
+		children?: Snippet<[OpenFile]>;
+		started?: () => void;
+		loaded?: (payload: LoadedPayload) => void;
+	}
+
+	let { children, started, loaded }: Props = $props();
 
 	function handleFileOpen() {
 		let fileContents = '';
@@ -23,13 +43,15 @@
 		fileInput.type = 'file';
 		fileInput.accept = '.json';
 
-		fileInput.addEventListener('change', function handleChange(event) {
-			dispatch('started');
-			const file = event.target.files[0];
+		fileInput.addEventListener('change', function handleChange(event: Event) {
+			started?.();
+			const file = (event.currentTarget as HTMLInputElement).files?.[0];
+			if (!file) return;
+
 			const reader = new FileReader();
 
 			reader.onload = function () {
-				fileContents = reader.result;
+				fileContents = String(reader.result ?? '');
 				let json = JSON.parse(fileContents);
 
 				// TODO: Deal with errors by dispatching an error event
@@ -43,7 +65,7 @@
 				};
 
 				// Dispatch a loaded event with the file details
-				dispatch('loaded', { fileData, json });
+				loaded?.({ fileData, json });
 
 				// Clean up
 				fileInput.removeEventListener('change', handleChange);
@@ -55,6 +77,8 @@
 	}
 </script>
 
-<slot openFile={handleFileOpen}>
-	<button type="button" on:click={handleFileOpen}>Open Json File</button>
-</slot>
+{#if children}
+	{@render children(handleFileOpen)}
+{:else}
+	<button type="button" onclick={handleFileOpen}>Open Json File</button>
+{/if}

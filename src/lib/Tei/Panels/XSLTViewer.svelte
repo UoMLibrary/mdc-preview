@@ -6,25 +6,22 @@
 	import Modal from '$lib/UI/MarkdownModal.svelte';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
-	let showModal = false;
+	let showModal = $state(false);
 
-	export let markdownHelp;
-	export let title = '';
-	export let sefId = '';
-	let isLoading = false;
+	let { markdownHelp, title = '', sefId = '' } = $props();
+	let isLoading = $state(false);
 
-	$: sefData = $SefStore?.[sefId];
-	$: noXSLTLoaded = !sefData?.sef && !sefData?.fileData;
-	$: status = getStatus(sefData);
+	const sefData = $derived($SefStore?.[sefId]);
+	const noXSLTLoaded = $derived(!sefData?.sef && !sefData?.fileData);
+	const status = $derived(getStatus(sefData));
 
 	function getStatus(_sefData) {
 		if (_sefData?.sef && _sefData?.errors?.length == 0) {
-			status = 'SUCCESS';
+			return 'SUCCESS';
 		} else if (_sefData?.errors?.length > 0) {
-			status = 'ERROR';
-		} else status = '';
-
-		return status;
+			return 'ERROR';
+		}
+		return '';
 	}
 </script>
 
@@ -40,45 +37,50 @@
 
 		<div class="p-1">
 			<OpenXsltFileButton
-				let:openFile={openXsltFile}
-				on:started={(e) => {
+				started={() => {
 					SefStore.clearKeyValue(sefId);
 					isLoading = true;
 				}}
-				on:loaded={(e) => {
-					SefStore.setKeyValue(sefId, e.detail);
+				loaded={(payload) => {
+					SefStore.setKeyValue(sefId, payload);
 					isLoading = false;
 				}}
-				on:error={(e) => {
-					SefStore.setKeyValue(sefId, e.detail);
+				error={(payload) => {
+					SefStore.setKeyValue(sefId, payload);
 					isLoading = false;
 				}}
-				><button type="button" class="p-1 mr-2" on:click={openXsltFile}>Load XSLT</button>
+			>
+				{#snippet children(openXsltFile)}
+					<button type="button" class="p-1 mr-2" onclick={openXsltFile}>Load XSLT</button>
+				{/snippet}
 			</OpenXsltFileButton>
 
 			<OpenJsonFileButton
-				let:openFile={openSefFile}
-				on:started={(e) => (isLoading = true)}
-				on:loaded={(e) => {
-					SefStore.setKeyValue(sefId, e.detail.json);
+				started={() => (isLoading = true)}
+				loaded={(payload) => {
+					SefStore.setKeyValue(sefId, payload.json);
 					isLoading = false;
 				}}
-				><button type="button" class="p-1 mr-2" on:click={openSefFile}>Load SEF</button
-				></OpenJsonFileButton
 			>
+				{#snippet children(openSefFile)}
+					<button type="button" class="p-1 mr-2" onclick={openSefFile}>Load SEF</button>
+				{/snippet}
+			</OpenJsonFileButton>
 
 			{#if sefData?.sef}
-				<SaveJsonFileButton let:saveFile fileName={`${sefId}.sef.json`} jsonData={sefData}>
-					<button type="button" class="p-1 mr-2" on:click={saveFile}>Save SEF</button>
+				<SaveJsonFileButton fileName={`${sefId}.sef.json`} jsonData={sefData}>
+					{#snippet children(saveFile)}
+						<button type="button" class="p-1 mr-2" onclick={saveFile}>Save SEF</button>
+					{/snippet}
 				</SaveJsonFileButton>
 			{/if}
 
-			<button class="p-1 mr-2" on:click={(e) => SefStore.clearKeyValue(sefId)}>Clear</button>
+			<button class="p-1 mr-2" onclick={() => SefStore.clearKeyValue(sefId)}>Clear</button>
 
 			{#if markdownHelp}
 				<button
 					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					on:click={(e) => (showModal = true)}>?</button
+					onclick={() => (showModal = true)}>?</button
 				>
 			{/if}
 		</div>
@@ -96,7 +98,7 @@
 			{#if sefData?.fileData && Object.keys(sefData?.fileData).length > 1}
 				<p class="text-sm font-bold p-1">File details</p>
 				<div class="mb-2 px-2">
-					{#each Object.entries(sefData?.fileData) as [key, value]}
+					{#each Object.entries(sefData?.fileData) as [key, value] (key)}
 						<p><span class="font-bold">{key}</span>: {value}</p>
 					{/each}
 				</div>
@@ -104,7 +106,7 @@
 			{#if sefData?.metaData && Object.keys(sefData.metaData).length > 1}
 				<p class="text-sm font-bold p-1">Metadata</p>
 				<div class="mb-2 px-2">
-					{#each Object.entries(sefData.metaData) as [key, value]}
+					{#each Object.entries(sefData.metaData) as [key, value] (key)}
 						<p><span class="font-bold">{key}</span>: {value}</p>
 					{/each}
 				</div>
@@ -112,7 +114,7 @@
 			{#if sefData?.errors && sefData.errors.length > 0}
 				<p class="text-sm font-bold p-1 text-red-800">Parsing errors</p>
 				<div class="mb-2 px-2 text-red-800 font-mono">
-					{#each sefData.errors as error}
+					{#each sefData.errors as error, index (index)}
 						<p>{error}</p>
 					{/each}
 				</div>

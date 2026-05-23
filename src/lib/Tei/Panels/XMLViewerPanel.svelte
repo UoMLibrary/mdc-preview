@@ -5,15 +5,11 @@
 	import SaveXMLFileButton from '$lib/UI/FileButtons/SaveXMLFileButton.svelte';
 	import OpenXmlInBrowser from '$lib/UI/FileButtons/OpenXMLInBrowser.svelte';
 	import Modal from '$lib/UI/MarkdownModal.svelte';
-	let showModal = false;
+	let showModal = $state(false);
 
-	export let markdownHelp;
-	export let xmlDoc;
-	export let title = '';
-	export let saveFile = 'data.xml';
-	export let message = '';
+	let { markdownHelp, xmlDoc, title = '', saveFile = 'data.xml', message = '' } = $props();
 
-	$: xmlString = stringifyXmlDoc(xmlDoc);
+	const xmlString = $derived(stringifyXmlDoc(xmlDoc));
 
 	function stringifyXmlDoc(_xmlDoc) {
 		if (browser && _xmlDoc) {
@@ -34,16 +30,18 @@
 
 			{#if xmlDoc}
 				<SaveXMLFileButton {xmlDoc} fileName={saveFile}>
-					<button class="p-1 mr-2">Save</button>
+					{#snippet children(saveFile)}
+						<button type="button" class="p-1 mr-2" onclick={saveFile}>Save</button>
+					{/snippet}
 				</SaveXMLFileButton>
 			{/if}
 
-			<!-- <button class="p-1 mr-2" on:click={(e) => dispatch('clear')}>Clear</button> -->
+			<!-- <button class="p-1 mr-2" onclick={clear}>Clear</button> -->
 
 			{#if markdownHelp}
 				<button
 					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					on:click={(e) => (showModal = true)}>?</button
+					onclick={() => (showModal = true)}>?</button
 				>
 			{/if}
 		</div>

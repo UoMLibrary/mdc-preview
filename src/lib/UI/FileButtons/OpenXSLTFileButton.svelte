@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	/*
 		A button component that provides a filepicker restricted to XSLT
 		files. Selection of the file by the user triggers the file to be
@@ -12,13 +12,38 @@
 
 		The button can be styled by passing in a button to the slot e.g
 
-	<OpenXSLTFileButton let:openFile on:loaded={(e) => console.log(e.detail)}>
-		<button class="p-1 mr-2" on:click={openFile}>Load</button>
+	<OpenXSLTFileButton loaded={(payload) => console.log(payload)}>
+		{#snippet children(openFile)}
+			<button class="p-1 mr-2" onclick={openFile}>Load</button>
+		{/snippet}
 	</OpenXSLTFileButton>
 	*/
 	import { parseFirstXMLComment } from '$lib/Utils/xmlutils.js';
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	import type { Snippet } from 'svelte';
+	import type { parseFirstXMLComment as ParseFirstXMLComment } from '$lib/Utils/xmlutils.js';
+
+	type MetaData = ReturnType<typeof ParseFirstXMLComment>;
+
+	interface FileData {
+		basename: string;
+		name: string;
+		size: number;
+		lastModified: Date;
+		type: string;
+	}
+
+	type OpenFile = () => void;
+	type ErrorPayload = { fileData: FileData; sef: null; metaData: MetaData; errors: string[] };
+	type LoadedPayload = { fileData: FileData; sef: unknown; metaData: MetaData; errors: string[] };
+
+	interface Props {
+		children?: Snippet<[OpenFile]>;
+		started?: () => void;
+		error?: (payload: ErrorPayload) => void;
+		loaded?: (payload: LoadedPayload) => void;
+	}
+
+	let { children, started, error, loaded }: Props = $props();
 
 	function handleFileOpen() {
 		let xmlString = '';
@@ -27,18 +52,21 @@
 		fileInput.type = 'file';
 		fileInput.accept = '.xsl, .xslt';
 
-		fileInput.addEventListener('change', function handleChange(event) {
-			dispatch('started');
-			const file = event.target.files[0];
+		fileInput.addEventListener('change', function handleChange(event: Event) {
+			started?.();
+			const file = (event.currentTarget as HTMLInputElement).files?.[0];
+			if (!file) return;
+
 			const reader = new FileReader();
 
 			reader.onload = async function () {
-				xmlString = reader.result;
+				xmlString = String(reader.result ?? '');
 
 				let parser = new DOMParser();
-				let parsererrorNS = parser
-					.parseFromString('INVALID', 'application/xml')
-					.getElementsByTagName('parsererror')[0].namespaceURI;
+				let parsererrorNS =
+					parser
+						.parseFromString('INVALID', 'application/xml')
+						.getElementsByTagName('parsererror')[0].namespaceURI ?? '';
 				let xmlDoc = parser.parseFromString(xmlString, 'text/xml');
 
 				// Get any metadata and filedata
@@ -53,7 +81,7 @@
 
 				// TODO: TEST FOR VALID XML - Error could be returned as HTML doc
 				if (xmlDoc.getElementsByTagNameNS(parsererrorNS, 'parsererror').length > 0) {
-					let errors = [];
+					let errors: string[] = [];
 					const parserErrorArray = Array.from(
 						xmlDoc.getElementsByTagNameNS(parsererrorNS, 'parsererror')
 					);
@@ -61,7 +89,7 @@
 						const divElement = errDoc.querySelector('div');
 						if (divElement?.textContent) errors.push(divElement?.textContent);
 					});
-					dispatch('error', { fileData, sef: null, metaData, errors });
+					error?.({ fileData, sef: null, metaData, errors });
 				} else {
 					// POST xmlString to api to convert to sef file used by SaxtonJS
 					// send the xsl string to be processed into a sef file
@@ -75,7 +103,7 @@
 					// TODO: Capture errors from sef transform here and dispatch as error
 					let json = await resp.json();
 					// Dispatch a loaded event with the file details, xml and metadata
-					dispatch('loaded', { fileData, sef: json.sef, metaData, errors: [] });
+					loaded?.({ fileData, sef: json.sef, metaData, errors: [] });
 				}
 
 				// Clean up
@@ -88,6 +116,8 @@
 	}
 </script>
 
-<slot openFile={handleFileOpen}>
-	<button type="button" on:click={handleFileOpen}>Open XSLT File</button>
-</slot>
+{#if children}
+	{@render children(handleFileOpen)}
+{:else}
+	<button type="button" onclick={handleFileOpen}>Open XSLT File</button>
+{/if}

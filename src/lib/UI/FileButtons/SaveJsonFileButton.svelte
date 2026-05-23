@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	/* 
 		A button component that takes a Javascript object and fileName
 		as attributes. When clicked the JavaScript object is stringified
@@ -7,20 +7,30 @@
 		
 		The button can be styled by passing in a button to the slot e.g
 
-	<SaveJsonFileButton let:saveFile jsonData={$ConfigStore} fileName="config.json">
-		<button class="p-1 mr-2" on:click={saveFile}>Save</button>
+	<SaveJsonFileButton jsonData={$ConfigStore} fileName="config.json">
+		{#snippet children(saveFile)}
+			<button class="p-1 mr-2" onclick={saveFile}>Save</button>
+		{/snippet}
 	</SaveJsonFileButton>
 */
 
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	import type { Snippet } from 'svelte';
 
-	export let jsonData;
-	export let fileName = 'data.json';
+	type SaveFile = () => void;
+
+	interface Props {
+		jsonData: unknown;
+		fileName?: string;
+		children?: Snippet<[SaveFile]>;
+		started?: () => void;
+		saved?: (payload: { fileName: string }) => void;
+	}
+
+	let { jsonData, fileName = 'data.json', children, started, saved }: Props = $props();
 
 	// Download to users device
 	function handleSave() {
-		dispatch('started');
+		started?.();
 		const jsonDataString = JSON.stringify(jsonData, null, 2);
 		const blob = new Blob([jsonDataString], { type: 'application/json' });
 		const url = URL.createObjectURL(blob);
@@ -30,7 +40,7 @@
 		link.click();
 
 		// TODO: Check for errors
-		dispatch('saved', { fileName });
+		saved?.({ fileName });
 
 		// Clean up
 		URL.revokeObjectURL(url);
@@ -38,6 +48,8 @@
 	}
 </script>
 
-<slot saveFile={handleSave}>
-	<button type="button" on:click={handleSave}>Save JSON File</button>
-</slot>
+{#if children}
+	{@render children(handleSave)}
+{:else}
+	<button type="button" onclick={handleSave}>Save JSON File</button>
+{/if}

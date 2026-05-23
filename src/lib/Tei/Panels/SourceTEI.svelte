@@ -6,26 +6,24 @@
 	import OpenXMLFileButton from '$lib/UI/FileButtons/OpenXMLFileButton.svelte';
 	import OpenXmlInBrowser from '$lib/UI/FileButtons/OpenXMLInBrowser.svelte';
 
-	let showModal = false;
+	let showModal = $state(false);
 
-	export let title = '';
-	export let markdownHelp;
-	let isLoading = false;
+	let { title = '', markdownHelp } = $props();
+	let isLoading = $state(false);
 
 	// <!-- TODO: Add in TEI SUMMARY e.g Is image section populated, how many images, is basic metatdata complete -->
 	// Visual component to allow loading of a TEI XML document
 
-	$: noTeiLoaded = !$TeiStore?.xmlDoc && !$TeiStore?.fileData;
-	$: status = getStatus($TeiStore);
+	const noTeiLoaded = $derived(!$TeiStore?.xmlDoc && !$TeiStore?.fileData);
+	const status = $derived(getStatus($TeiStore));
 
 	function getStatus(_teiData) {
 		if (_teiData.xmlDoc && _teiData?.errors?.length == 0) {
-			status = 'SUCCESS';
+			return 'SUCCESS';
 		} else if (_teiData?.errors?.length > 0) {
-			status = 'ERROR';
-		} else status = '';
-
-		return status;
+			return 'ERROR';
+		}
+		return '';
 	}
 </script>
 
@@ -43,29 +41,31 @@
 			<OpenXmlInBrowser xmlDoc={$TeiStore?.xmlDoc} tabName="teixml" />
 
 			<OpenXMLFileButton
-				let:openFile
-				on:started={(e) => {
+				started={() => {
 					isLoading = true;
 					TeiStore.clear();
 				}}
-				on:loaded={(e) => {
+				loaded={(payload) => {
 					isLoading = false;
-					$TeiStore = e.detail;
+					$TeiStore = payload;
 				}}
-				on:error={(e) => {
+				error={(payload) => {
 					isLoading = false;
-					$TeiStore = e.detail;
+					$TeiStore = payload;
 				}}
-				><button type="button" class="p-1 mr-2" on:click={openFile}>Load</button>
+			>
+				{#snippet children(openFile)}
+					<button type="button" class="p-1 mr-2" onclick={openFile}>Load</button>
+				{/snippet}
 			</OpenXMLFileButton>
 
-			<button class="p-1 mr-2" on:click={(e) => TeiStore.clear()}>Clear</button>
+			<button class="p-1 mr-2" onclick={() => TeiStore.clear()}>Clear</button>
 
 			<!-- Open help button -->
 			{#if markdownHelp}
 				<button
 					class="w-4 h-4 mr-2 bg-gray-400 rounded-full text-white text-center text-xs"
-					on:click={(e) => (showModal = true)}>?</button
+					onclick={() => (showModal = true)}>?</button
 				>
 			{/if}
 		</div>
@@ -83,7 +83,7 @@
 			{#if $TeiStore?.fileData && Object.keys($TeiStore?.fileData).length > 1}
 				<p class="text-sm font-bold p-1">File details</p>
 				<div class="mb-2 px-2">
-					{#each Object.entries($TeiStore?.fileData) as [key, value]}
+					{#each Object.entries($TeiStore?.fileData) as [key, value] (key)}
 						<p><span class="font-bold">{key}</span>: {value}</p>
 					{/each}
 				</div>
@@ -91,7 +91,7 @@
 			{#if $TeiStore?.metaData && Object.keys($TeiStore?.metaData).length > 1}
 				<p class="text-sm font-bold p-1">Metadata</p>
 				<div class="mb-2 px-2">
-					{#each Object.entries($TeiStore?.metaData) as [key, value]}
+					{#each Object.entries($TeiStore?.metaData) as [key, value] (key)}
 						<p><span class="font-bold">{key}</span>: {value}</p>
 					{/each}
 				</div>
@@ -99,7 +99,7 @@
 			{#if $TeiStore?.errors && $TeiStore?.errors.length > 0}
 				<p class="text-sm font-bold p-1 text-red-800">Parsing errors</p>
 				<div class="mb-2 px-2 text-red-800 font-mono">
-					{#each $TeiStore?.errors as error}
+					{#each $TeiStore?.errors as error, index (index)}
 						<p>{error}</p>
 					{/each}
 				</div>
