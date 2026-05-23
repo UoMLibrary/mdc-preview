@@ -2,16 +2,18 @@
 	import { printpage } from '$lib/Utils/printpage.js';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
-	export let showModal; // boolean
+	let { showModal = $bindable(false), title = '', pdfData } = $props();
 
-	let dialog; // HTMLDialogElement
-	export let title = '';
-	export let pdfData;
+	let dialog = $state();
 
-	let progressText = '';
-	let isBuildingPdf = false;
+	let progressText = $state('');
+	let isBuildingPdf = $state(false);
 
-	$: if (dialog && showModal) dialog.showModal();
+	$effect(() => {
+		if (!dialog) return;
+
+		showModal ? openDialog() : closeDialog();
+	});
 
 	// PRINT FUNCTIONS AND CALLBACKS
 	async function printItem(cols) {
@@ -23,6 +25,7 @@
 			await printpage(pdfData, progressCallback, completedCallback);
 		} catch (error) {
 			console.error(error);
+			isBuildingPdf = false;
 		}
 	}
 
@@ -37,25 +40,33 @@
 		// console.log('pdf build complete');
 		if (missing_images.length > 0) console.log(missing_images);
 		// TODO: REPORT THESE BACK FOR TOOL
-		dialog.close();
+		closeDialog();
+	}
+
+	function openDialog() {
+		if (!dialog?.open) dialog?.showModal();
+	}
+
+	function closeDialog() {
+		if (dialog?.open) dialog.close();
+	}
+
+	function closeOnBackdrop(event) {
+		if (event.target === dialog) closeDialog();
 	}
 </script>
 
 <div>
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<dialog
 		class="max-w-full w-full sm:w-3/4 lg:w-[800px] p-0 md:rounded-md"
 		bind:this={dialog}
-		on:close={() => (showModal = false)}
-		on:click|self={() => dialog.close()}
+		onclose={() => (showModal = false)}
+		onclick={closeOnBackdrop}
 	>
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div on:click|stopPropagation>
+		<div>
 			<div class="flex justify-between">
 				<h2 class="p-2 px-4 text-base lg:text-lg">{title}</h2>
-				<!-- svelte-ignore a11y-autofocus -->
-				<button class="px-4 py-2 text-sm" autofocus on:click={() => dialog.close()}>Close</button>
+				<button type="button" class="px-4 py-2 text-sm" onclick={closeDialog}>Close</button>
 			</div>
 			<hr />
 			<!-- Print Modal Body -->
@@ -69,17 +80,25 @@
 					</div>
 				{:else}
 					<div class="flex justify-around space-x-1">
-						<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(1)}
-							><div>1 Column</div></button
+						<button
+							type="button"
+							class="p-4 sm:p-8 bg-slate-300 rounded"
+							onclick={() => printItem(1)}><div>1 Column</div></button
 						>
-						<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(2)}
-							><div>2 Columns</div></button
+						<button
+							type="button"
+							class="p-4 sm:p-8 bg-slate-300 rounded"
+							onclick={() => printItem(2)}><div>2 Columns</div></button
 						>
-						<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(3)}
-							><div>3 Columns</div></button
+						<button
+							type="button"
+							class="p-4 sm:p-8 bg-slate-300 rounded"
+							onclick={() => printItem(3)}><div>3 Columns</div></button
 						>
-						<button class="p-4 sm:p-8 bg-slate-300 rounded" on:click={(e) => printItem(4)}
-							><div>4 Columns</div></button
+						<button
+							type="button"
+							class="p-4 sm:p-8 bg-slate-300 rounded"
+							onclick={() => printItem(4)}><div>4 Columns</div></button
 						>
 					</div>
 				{/if}
