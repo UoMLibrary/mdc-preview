@@ -1,5 +1,11 @@
-<script>
-	let { tabItems = [], activeItem, tabChange = () => {} } = $props();
+<script lang="ts">
+	interface Props {
+		tabItems?: string[];
+		activeItem: string;
+		tabChange?: (item: string) => void;
+	}
+
+	let { tabItems = [], activeItem, tabChange = () => {} }: Props = $props();
 </script>
 
 <nav class="bg-zinc-100">

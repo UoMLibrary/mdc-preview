@@ -1,5 +1,16 @@
-<script>
-	let { page = 1, data, clickable = false, updatepage = () => {} } = $props();
+<script lang="ts">
+	import type { CudlRecord } from '$lib/Tei/createViewModel.js';
+
+	type UpdatePage = (page: number) => void;
+
+	interface Props {
+		page?: number;
+		data: CudlRecord;
+		clickable?: boolean;
+		updatepage?: UpdatePage;
+	}
+
+	let { page = 1, data, clickable = false, updatepage = () => {} }: Props = $props();
 
 	let isCurrentPage = $derived(data.startPagePosition == page);
 </script>

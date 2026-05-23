@@ -1,5 +1,14 @@
-<script>
-	let { thumbnails = [], updatepage = () => {} } = $props();
+<script lang="ts">
+	import type { ThumbnailItem } from '$lib/Tei/createViewModel.js';
+
+	type UpdatePage = (page: number) => void;
+
+	interface Props {
+		thumbnails?: ThumbnailItem[];
+		updatepage?: UpdatePage;
+	}
+
+	let { thumbnails = [], updatepage = () => {} }: Props = $props();
 </script>
 
 <div class="p-4">

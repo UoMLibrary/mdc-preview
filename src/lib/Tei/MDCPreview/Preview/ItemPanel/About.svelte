@@ -1,7 +1,12 @@
-<script>
+<script lang="ts">
 	import Information from './MetaData/Information.svelte';
+	import type { ViewModel } from '$lib/Tei/createViewModel.js';
 
-	let { viewModel } = $props();
+	interface Props {
+		viewModel: ViewModel;
+	}
+
+	let { viewModel }: Props = $props();
 </script>
 
 <div class="">

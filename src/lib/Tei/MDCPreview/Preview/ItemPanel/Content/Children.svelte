@@ -1,8 +1,17 @@
-<script>
+<script lang="ts">
 	import Child from './Child.svelte';
 	import Children from './Children.svelte';
+	import type { ContentsStructure } from '$lib/Tei/createViewModel.js';
 
-	let { children: structureChildren = [], page = 1, updatepage = () => {} } = $props();
+	type UpdatePage = (page: number) => void;
+
+	interface Props {
+		children?: ContentsStructure[];
+		page?: number;
+		updatepage?: UpdatePage;
+	}
+
+	let { children: structureChildren = [], page = 1, updatepage = () => {} }: Props = $props();
 </script>
 
 <div class="m-3 border border-gray-300 rounded-md overflow-hidden text-sm">

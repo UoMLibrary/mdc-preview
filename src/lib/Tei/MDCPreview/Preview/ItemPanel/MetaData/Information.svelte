@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
 	import { resolve } from '$app/paths';
+	import type { DisplayMetadataItem } from '$lib/Tei/createViewModel.js';
 
 	// display the metadata key pairs
-	let { metadata = [] } = $props();
+	interface Props {
+		metadata?: DisplayMetadataItem[];
+	}
+
+	let { metadata = [] }: Props = $props();
 </script>
 
 {#if metadata?.length > 0}
@@ -18,7 +23,7 @@
 						<b>{data.label}: </b>
 						{#each data.value as value, idx (idx)}
 							{#if value?.link}
-								<a href={resolve(value.link)} class="cudLink">
+								<a href={resolve(value.link as Parameters<typeof resolve>[0])} class="cudLink">
 									<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 									{@html value.text}</a
 								>{#if idx < data.value.length - 1};&nbsp;{/if}

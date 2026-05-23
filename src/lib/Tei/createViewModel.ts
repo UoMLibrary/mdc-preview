@@ -1,64 +1,74 @@
 // Convert a Cudl JSON object with a configuration object to a ViewModel
-type CudlRecord = Record<string, any>;
+export type CudlRecord = Record<string, any>;
 
-interface CudlPage {
+export interface CudlPage {
 	IIIFImageURL: string;
 	label?: string;
 	imageHeight: number;
 	imageWidth: number;
 }
 
-interface CudlObject extends CudlRecord {
+export interface CudlObject extends CudlRecord {
 	pages: CudlPage[];
 	descriptiveMetadata?: CudlRecord[];
 	logicalStructures?: CudlRecord[];
 }
 
-interface ViewModelConfig {
+export interface ViewModelConfig {
 	viewerTemplate: string;
 	thumbnailTemplate: string;
 	printTemplate: string;
 }
 
-interface AboutObject {
+export interface AboutObject {
 	title: string;
 	abstractHTML: string;
 	shelfLocator: string;
 	displayImageRights: string;
 }
 
-interface ThumbnailItem {
+export interface ThumbnailItem {
 	url: string;
 	label: string;
 }
 
-interface PdfItem {
+export interface PdfItem {
 	height: number;
 	width: number;
 	image_url: string;
 	image_text: string;
 }
 
-interface PdfObject {
+export interface PdfObject {
 	filename: string;
 	header_text: string;
 	footer_text: string;
 	items: PdfItem[];
 }
 
-interface ContentsStructure {
+export interface ContentsStructure {
 	data: CudlRecord;
 	children?: ContentsStructure[];
 }
 
-interface ContentsObject {
+export interface ContentsObject {
 	structure: ContentsStructure;
 }
 
-interface ViewModel {
+export interface DisplayMetadataValue {
+	text: string;
+	link?: string;
+}
+
+export interface DisplayMetadataItem {
+	label: string;
+	value: DisplayMetadataValue[];
+}
+
+export interface ViewModel {
 	aboutObj: AboutObject;
 	metadata: Record<string, string>;
-	displayMetadata: CudlRecord[];
+	displayMetadata: DisplayMetadataItem[];
 	pdfObj: PdfObject;
 	pages: string[];
 	thumbnails: ThumbnailItem[];
@@ -172,7 +182,7 @@ function createMetadataObj(cudlObj: CudlObject): Record<string, string> {
 }
 
 // Returns an array of display metadata in the form of key pair values.
-function createDisplayMetadataArray(cudlObj: CudlObject): CudlRecord[] {
+function createDisplayMetadataArray(cudlObj: CudlObject): DisplayMetadataItem[] {
 	let descriptiveMetadata = cudlObj.descriptiveMetadata?.[0] ?? {};
 	let displayMetadataArray: CudlRecord[] = [];
 
@@ -188,7 +198,7 @@ function createDisplayMetadataArray(cudlObj: CudlObject): CudlRecord[] {
 
 	// Remove any empty values
 	let filteredDisplayMetadataArray = formattedDisplayMetadataArray.filter(
-		(item): item is CudlRecord => {
+		(item): item is DisplayMetadataItem => {
 			return !!item && item.value?.[0]?.text != '';
 		}
 	);
@@ -216,7 +226,7 @@ function processDescriptiveMetadataRecursively(obj: CudlRecord, metadataArray: C
 
 function formatDisplayMetadataArray(
 	displayMetadataArray: CudlRecord[]
-): Array<CudlRecord | undefined> {
+): Array<DisplayMetadataItem | undefined> {
 	return displayMetadataArray.map((item) => {
 		if (item.label && item.displayForm) {
 			if (item.linktype) {
