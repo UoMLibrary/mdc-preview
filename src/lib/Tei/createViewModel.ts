@@ -1,5 +1,71 @@
 // Convert a Cudl JSON object with a configuration object to a ViewModel
-export function createViewModel(cudlObj, configObj) {
+type CudlRecord = Record<string, any>;
+
+interface CudlPage {
+	IIIFImageURL: string;
+	label?: string;
+	imageHeight: number;
+	imageWidth: number;
+}
+
+interface CudlObject extends CudlRecord {
+	pages: CudlPage[];
+	descriptiveMetadata?: CudlRecord[];
+	logicalStructures?: CudlRecord[];
+}
+
+interface ViewModelConfig {
+	viewerTemplate: string;
+	thumbnailTemplate: string;
+	printTemplate: string;
+}
+
+interface AboutObject {
+	title: string;
+	abstractHTML: string;
+	shelfLocator: string;
+	displayImageRights: string;
+}
+
+interface ThumbnailItem {
+	url: string;
+	label: string;
+}
+
+interface PdfItem {
+	height: number;
+	width: number;
+	image_url: string;
+	image_text: string;
+}
+
+interface PdfObject {
+	filename: string;
+	header_text: string;
+	footer_text: string;
+	items: PdfItem[];
+}
+
+interface ContentsStructure {
+	data: CudlRecord;
+	children?: ContentsStructure[];
+}
+
+interface ContentsObject {
+	structure: ContentsStructure;
+}
+
+interface ViewModel {
+	aboutObj: AboutObject;
+	metadata: Record<string, string>;
+	displayMetadata: CudlRecord[];
+	pdfObj: PdfObject;
+	pages: string[];
+	thumbnails: ThumbnailItem[];
+	contentsObj: ContentsObject;
+}
+
+export function createViewModel(cudlObj: CudlObject, configObj: ViewModelConfig): ViewModel {
 	let pdfObj = createPdfObject(cudlObj, configObj);
 	let pages = createPagesArray(cudlObj.pages, configObj);
 	let thumbnails = createThumbnailsArray(cudlObj.pages, configObj);
@@ -19,8 +85,13 @@ export function createViewModel(cudlObj, configObj) {
 	return viewModel;
 }
 
-function createAboutObj(cudlObj) {
-	let aboutObj = {};
+function createAboutObj(cudlObj: CudlObject): AboutObject {
+	let aboutObj = {
+		title: '',
+		abstractHTML: '',
+		shelfLocator: '',
+		displayImageRights: ''
+	};
 	aboutObj.title = cudlObj?.descriptiveMetadata?.[0]?.title?.displayForm ?? '';
 	aboutObj.abstractHTML = cudlObj?.descriptiveMetadata?.[0]?.abstract?.displayForm ?? '';
 	aboutObj.shelfLocator = cudlObj?.descriptiveMetadata?.[0]?.shelfLocator?.displayForm ?? '';
@@ -29,9 +100,9 @@ function createAboutObj(cudlObj) {
 	return aboutObj;
 }
 
-function createPagesArray(pagesArray, configObj) {
-	let items = [];
-	pagesArray.forEach((page, index) => {
+function createPagesArray(pagesArray: CudlPage[], configObj: ViewModelConfig): string[] {
+	let items: string[] = [];
+	pagesArray.forEach((page) => {
 		// console.log(page);
 		let item = configObj.viewerTemplate.replace('{imagerefwithpage}', page.IIIFImageURL);
 		items.push(item);
@@ -39,9 +110,12 @@ function createPagesArray(pagesArray, configObj) {
 	return items;
 }
 
-function createThumbnailsArray(pagesArray, configObj) {
-	let items = [];
-	pagesArray.forEach((page, index) => {
+function createThumbnailsArray(
+	pagesArray: CudlPage[],
+	configObj: ViewModelConfig
+): ThumbnailItem[] {
+	let items: ThumbnailItem[] = [];
+	pagesArray.forEach((page) => {
 		// console.log(page);
 		let url = configObj.thumbnailTemplate.replace('{imagerefwithpage}', page.IIIFImageURL);
 		let label = page.label ?? '';
@@ -50,10 +124,9 @@ function createThumbnailsArray(pagesArray, configObj) {
 	return items;
 }
 
-function createPdfObject(cudlObj, configObj) {
+function createPdfObject(cudlObj: CudlObject, configObj: ViewModelConfig): PdfObject {
 	let pagesArray = cudlObj.pages;
 	// TODO: PASS IN ITEM REFERENCE FROM CONFIG OR CUDL JSON?
-	let pdfObj = {};
 	// TODO: PASS IN ITEM REF FROM CUDL BUT OFFER OVERRIDE ON CONFIG OBJECT
 	//let downloadImageRights = tei?.raw?.descriptiveMetadata?.[0]?.downloadImageRights;
 	let itemid = 'TESTID';
@@ -62,12 +135,13 @@ function createPdfObject(cudlObj, configObj) {
 
 	// TODO: This should live elsewhere or in the tei JSON data structure
 	// update print data structure
-	pdfObj = {
+	let pdfObj: PdfObject = {
 		filename: `${itemid}.pdf`,
 		header_text: `${itemid}`,
-		footer_text: downloadImageRights
+		footer_text: downloadImageRights,
+		items: []
 	};
-	let items = [];
+	let items: PdfItem[] = [];
 	pagesArray.forEach((page, index) => {
 		// console.log(page);
 		let item = {
@@ -85,9 +159,9 @@ function createPdfObject(cudlObj, configObj) {
 }
 
 // TODO: thumbnailUrl needs string replacement from ConfigUrl
-function createMetadataObj(cudlObj) {
+function createMetadataObj(cudlObj: CudlObject): Record<string, string> {
 	let descriptiveMetadata = cudlObj.descriptiveMetadata?.[0] ?? {};
-	let metadata = {};
+	let metadata: Record<string, string> = {};
 	for (const [key, value] of Object.entries(descriptiveMetadata)) {
 		if (typeof key == 'string' && typeof value == 'string') {
 			metadata[key] = value;
@@ -98,9 +172,9 @@ function createMetadataObj(cudlObj) {
 }
 
 // Returns an array of display metadata in the form of key pair values.
-function createDisplayMetadataArray(cudlObj) {
+function createDisplayMetadataArray(cudlObj: CudlObject): CudlRecord[] {
 	let descriptiveMetadata = cudlObj.descriptiveMetadata?.[0] ?? {};
-	let displayMetadataArray = [];
+	let displayMetadataArray: CudlRecord[] = [];
 
 	// process the descriptive Metadata recursively
 	processDescriptiveMetadataRecursively(descriptiveMetadata, displayMetadataArray);
@@ -113,13 +187,15 @@ function createDisplayMetadataArray(cudlObj) {
 	let formattedDisplayMetadataArray = formatDisplayMetadataArray(displayMetadataArray);
 
 	// Remove any empty values
-	let filteredDisplayMetadataArray = formattedDisplayMetadataArray.filter((item) => {
-		return item && item.value?.[0]?.text != '';
-	});
+	let filteredDisplayMetadataArray = formattedDisplayMetadataArray.filter(
+		(item): item is CudlRecord => {
+			return !!item && item.value?.[0]?.text != '';
+		}
+	);
 	return filteredDisplayMetadataArray;
 }
 
-function processDescriptiveMetadataRecursively(obj, metadataArray) {
+function processDescriptiveMetadataRecursively(obj: CudlRecord, metadataArray: CudlRecord[]) {
 	for (const [key, value] of Object.entries(obj)) {
 		// console.log(typeof value, key, value);
 		if (value?.label && value?.displayForm && value?.seq) {
@@ -130,7 +206,7 @@ function processDescriptiveMetadataRecursively(obj, metadataArray) {
 			//delete obj[key]; // Remove items during development so we can see what we're missing
 		} else if (value?.value && value?.seq) {
 			// loop through the value Array and pass each value back into the recursive function
-			value.value.forEach((itemInArray) => {
+			value.value.forEach((itemInArray: CudlRecord) => {
 				processDescriptiveMetadataRecursively(itemInArray, metadataArray);
 			});
 			//delete obj[key]; // Remove items during development so we can see what we're missing
@@ -138,7 +214,9 @@ function processDescriptiveMetadataRecursively(obj, metadataArray) {
 	}
 }
 
-function formatDisplayMetadataArray(displayMetadataArray) {
+function formatDisplayMetadataArray(
+	displayMetadataArray: CudlRecord[]
+): Array<CudlRecord | undefined> {
 	return displayMetadataArray.map((item) => {
 		if (item.label && item.displayForm) {
 			if (item.linktype) {
@@ -149,7 +227,7 @@ function formatDisplayMetadataArray(displayMetadataArray) {
 			}
 		} else if (item.label && item.value) {
 			if (item.value.length > 1) {
-				let list = item.value.map((listItem) => {
+				let list = item.value.map((listItem: CudlRecord) => {
 					if (listItem.linktype) {
 						let link = createSearchLink(listItem.displayForm);
 						return { text: listItem.displayForm, link };
@@ -165,12 +243,12 @@ function formatDisplayMetadataArray(displayMetadataArray) {
 	});
 }
 
-function createSearchLink(text) {
+function createSearchLink(text: string) {
 	return `/search?keyword=${encodeURIComponent(text)}`;
 }
 
 // Takes the cudl structure and returns cleaned up contents panel data
-function createContentsObj(cudlObj) {
+function createContentsObj(cudlObj: CudlObject): ContentsObject {
 	// Shelf locator is used in content section titles
 	let shelfLocator = cudlObj.descriptiveMetadata?.[0]?.shelfLocator?.displayForm ?? '';
 
@@ -182,8 +260,11 @@ function createContentsObj(cudlObj) {
 
 // Cleans up the contents panel data structure and passes the shelflocator down the
 // nested children structure to fill in any empty labels (recursive)
-function tidyUpContentsStructure(rawStructure, shelfLocator) {
-	let structure = {};
+function tidyUpContentsStructure(
+	rawStructure: CudlRecord,
+	shelfLocator: string
+): ContentsStructure {
+	let structure: ContentsStructure = { data: {} };
 
 	// destructure the loose fields that are not 'children' into a single field 'data'
 	let { children, ...data } = rawStructure;
@@ -191,8 +272,8 @@ function tidyUpContentsStructure(rawStructure, shelfLocator) {
 	if (!data.label) data.label = shelfLocator;
 
 	if (children?.length > 0) {
-		let tempChildren = [];
-		children.forEach((item) => {
+		let tempChildren: ContentsStructure[] = [];
+		children.forEach((item: CudlRecord) => {
 			// recursion
 			let childStruct = tidyUpContentsStructure(item, shelfLocator);
 			tempChildren.push(childStruct);
