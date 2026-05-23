@@ -34,36 +34,50 @@ export default class ProcessQueue {
 
 	// Runs a job when it can, doesn't enforce the order
 	async checkQueue() {
-		if (this.queue.length > 0 && this.activeJobCount < this.jobLimit) {
-			// console.log("this.activeJobCount < this.jobLimit", this.activeJobCount < this.jobLimit);
-			// console.log("Run next job");
-			const promiseJob = this.queue.shift(); // remove from the queue ready to process it
-			if (!promiseJob) return;
+		if (!this.canRunNextJob()) return;
 
-			this.activeJobCount++;
+		const promiseJob = this.queue.shift(); // remove from the queue ready to process it
+		if (!promiseJob) return;
 
-			await promiseJob();
+		this.startJob();
+		await promiseJob();
+		this.finishJob();
 
-			this.completedCount++;
-			this.activeJobCount--;
-
-			if (this.progressCallback && this.totalCount) {
-				//console.log(this.completedCount, this.totalCount, this.completedCount / this.totalCount);
-				this.progressCallback(
-					this.label,
-					Math.round((this.completedCount / this.totalCount) * 100)
-				);
-			}
-
-			// Are all the jobs complete
-			//console.log(this.totalCount, this.completedCount);
-			if (this.totalCount && this.completeCallback && this.totalCount === this.completedCount) {
-				this.activeJobCount = 0;
-				this.completedCount = 0;
-				this.completeCallback();
-			} else {
-				void this.checkQueue();
-			}
+		if (this.isComplete()) {
+			await this.complete();
+			return;
 		}
+
+		void this.checkQueue();
+	}
+
+	private canRunNextJob() {
+		return this.queue.length > 0 && this.activeJobCount < this.jobLimit;
+	}
+
+	private startJob() {
+		this.activeJobCount++;
+	}
+
+	private finishJob() {
+		this.completedCount++;
+		this.activeJobCount--;
+		this.reportProgress();
+	}
+
+	private reportProgress() {
+		if (!this.progressCallback || !this.totalCount) return;
+
+		this.progressCallback(this.label, Math.round((this.completedCount / this.totalCount) * 100));
+	}
+
+	private isComplete() {
+		return !!this.totalCount && !!this.completeCallback && this.totalCount === this.completedCount;
+	}
+
+	private async complete() {
+		this.activeJobCount = 0;
+		this.completedCount = 0;
+		await this.completeCallback?.();
 	}
 }
