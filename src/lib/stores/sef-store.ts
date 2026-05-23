@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { get, writable } from 'svelte/store';
 
-export interface SefItem {
+interface SefItem {
 	metadata: unknown;
 	sef: unknown;
 	filename: string | null;
@@ -9,7 +9,7 @@ export interface SefItem {
 	[key: string]: unknown;
 }
 
-export type SefStoreValue = Record<string, SefItem | null | undefined>;
+type SefStoreValue = Record<string, SefItem | null | undefined>;
 
 const emptyStore: SefStoreValue = {};
 // Structure. Key is the sefId

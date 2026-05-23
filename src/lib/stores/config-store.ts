@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-export interface ConfigStoreValue {
+interface ConfigStoreValue {
 	viewerTemplate: string;
 	thumbnailTemplate: string;
 	printTemplate: string;

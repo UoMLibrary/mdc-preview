@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-export interface TeiStoreValue {
+interface TeiStoreValue {
 	xmlDoc: XMLDocument | null;
 	fileData: Record<string, unknown> | null;
 	metaData: Record<string, unknown> | null;
