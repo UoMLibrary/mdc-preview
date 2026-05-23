@@ -1,8 +1,7 @@
 <script>
-	import Icon from 'svelte-awesome';
-	import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 </script>
 
 <button on:click>
-	<Icon data={faFilePdf} class="text-white" scale="1.0" />
+	<SvgIcon name="file-pdf" class="text-white" scale="1.0" />
 </button>

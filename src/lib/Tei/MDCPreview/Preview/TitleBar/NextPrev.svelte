@@ -1,13 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	import Icon from 'svelte-awesome';
-	import {
-		faAngleRight,
-		faAnglesRight,
-		faAngleLeft,
-		faAnglesLeft
-	} from '@fortawesome/free-solid-svg-icons';
+	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
 	export let current = 0;
 	export let min = 0;
@@ -67,13 +61,13 @@
 		class="w-8 disabled:opacity-50 text-white font-bold rounded-l-md text-xs"
 		disabled={current == min}
 		on:click={(e) => decreaseCounter(1)}
-		><Icon data={faAngleLeft} style="color: white" scale="1.0" /></button
+		><SvgIcon name="angle-left" color="white" scale="1.0" /></button
 	>
 	<button
 		class="w-6 disabled:opacity-50 text-white font-bold text-xs"
 		disabled={current == min}
 		on:click={(e) => decreaseCounter(10)}
-		><Icon data={faAnglesLeft} style="color: white" scale="1.0" /></button
+		><SvgIcon name="angles-left" color="white" scale="1.0" /></button
 	>
 	<div class="flex items-center">
 		<!-- The following hides the up and down arrows which are duplicated here
@@ -95,13 +89,13 @@
 		class="w-6 disabled:opacity-50 text-white font-bold text-xs"
 		disabled={current == max}
 		on:click={(e) => increaseCounter(10)}
-		><Icon data={faAnglesRight} style="color: white" scale="1.0" /></button
+		><SvgIcon name="angles-right" color="white" scale="1.0" /></button
 	>
 
 	<button
 		class="w-8 disabled:opacity-50 text-white font-bold rounded-r-md text-xs"
 		disabled={current == max}
 		on:click={(e) => increaseCounter(1)}
-		><Icon data={faAngleRight} style="color: white" scale="1.0" /></button
+		><SvgIcon name="angle-right" color="white" scale="1.0" /></button
 	>
 </div>

@@ -31,8 +31,7 @@
 
 	// UI
 	import Modal from '$lib/UI/MarkdownModal.svelte';
-	import Icon from 'svelte-awesome';
-	import { faPlus, faChevronDown, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
 	let showModal = false;
@@ -188,7 +187,7 @@
 
 	<!-- + symbol (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faPlus} style="color: #666666" scale="1.0" />
+		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
 	<!-- UI to load preFilter XSLT doc and formats it to a form used by SaxtonJS -->
@@ -196,7 +195,7 @@
 
 	<!-- down arrow (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faArrowDown} style="color: #666666" scale="1.2" />
+		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
 	{#if PreTransformError}
@@ -221,7 +220,7 @@
 
 	<!-- + symbol (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faPlus} style="color: #666666" scale="1.0" />
+		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
 	<!-- UI to load JSONTransform XSLT doc and formats it to a form used by SaxtonJS -->
@@ -233,7 +232,7 @@
 
 	<!-- down arrow (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faArrowDown} style="color: #666666" scale="1.2" />
+		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
 	{#if JSONtransformError}
@@ -258,7 +257,7 @@
 
 	<!-- + symbol (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faPlus} style="color: #666666" scale="1.0" />
+		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
 	<!-- UI to specify url paths etc for transform into final JSON ViewModel -->
@@ -266,7 +265,7 @@
 
 	<!-- down arrow (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faArrowDown} style="color: #666666" scale="1.2" />
+		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
 	<!-- JSON Viewer that contains ViewModel output (not part of existing process) -->
@@ -280,7 +279,7 @@
 
 	<!-- down arrow (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faArrowDown} style="color: #666666" scale="1.2" />
+		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
 	<!-- Print panel to give option of downloading a pdf of available images -->
@@ -288,7 +287,7 @@
 
 	<!-- down arrow (decorative) -->
 	<div class="flex justify-center mb-4">
-		<Icon data={faArrowDown} style="color: #666666" scale="1.2" />
+		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
 	<!-- Preview panel showing an example of the final viewer output, contains an embedded

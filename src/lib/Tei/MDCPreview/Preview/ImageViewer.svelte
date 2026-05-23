@@ -1,13 +1,5 @@
 <script>
-	import Icon from 'svelte-awesome';
-	import {
-		faHouse,
-		faMagnifyingGlassPlus,
-		faMagnifyingGlassMinus,
-		faRotateLeft,
-		faRotateRight,
-		faUpRightAndDownLeftFromCenter
-	} from '@fortawesome/free-solid-svg-icons';
+	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import { onMount } from 'svelte';
 
 	// The OpenSeadragon import and viewer instance https://openseadragon.github.io/
@@ -83,25 +75,25 @@
 
 	<div class="absolute top-0 right-0 m-2">
 		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="fullscreen"
-			><Icon data={faUpRightAndDownLeftFromCenter} style="color: white" scale="1.0" /></button
+			><SvgIcon name="expand" color="white" scale="1.0" /></button
 		>
 	</div>
 
 	<div class="flex gap-x-2 absolute bottom-0 left-0 m-2">
 		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="zoomHome"
-			><Icon data={faHouse} style="color: white" scale="1.0" /></button
+			><SvgIcon name="home" color="white" scale="1.0" /></button
 		>
 		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="zoomIn"
-			><Icon data={faMagnifyingGlassPlus} style="color: white" scale="1.0" /></button
+			><SvgIcon name="magnifying-glass-plus" color="white" scale="1.0" /></button
 		>
 		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="zoomOut"
-			><Icon data={faMagnifyingGlassMinus} style="color: white" scale="1.0" /></button
+			><SvgIcon name="magnifying-glass-minus" color="white" scale="1.0" /></button
 		>
 		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="rotateLeft"
-			><Icon data={faRotateLeft} style="color: white" scale="1.0" /></button
+			><SvgIcon name="rotate-left" color="white" scale="1.0" /></button
 		>
 		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="rotateRight"
-			><Icon data={faRotateRight} style="color: white" scale="1.0" /></button
+			><SvgIcon name="rotate-right" color="white" scale="1.0" /></button
 		>
 
 		<div class="flex py-1">

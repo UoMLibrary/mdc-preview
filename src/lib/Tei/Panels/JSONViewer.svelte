@@ -4,8 +4,7 @@
 
 	import { JsonView } from '@zerodevx/svelte-json-view';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
-	import Icon from 'svelte-awesome';
-	import { faSquarePlus, faSquareMinus } from '@fortawesome/free-regular-svg-icons';
+	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
 	let {
 		markdownHelp,
@@ -44,11 +43,11 @@
 				<!-- only show depth tools if there is any depth -->
 				<span class="py-2 mr-2">Depth: </span>
 				<button class="" onclick={decreaseDepth}
-					><Icon data={faSquareMinus} style="color: #666666" scale="1.0" /></button
+					><SvgIcon name="square-minus" color="#666666" scale="1.0" /></button
 				>
 				<span class="py-2">{currentDepth + 1}</span>
 				<button class="mr-2" onclick={increaseDepth}
-					><Icon data={faSquarePlus} style="color: #666666" scale="1.0" /></button
+					><SvgIcon name="square-plus" color="#666666" scale="1.0" /></button
 				>
 			{/if}
 

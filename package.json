@@ -32,15 +32,12 @@
 		"vite": "^8.0.14"
 	},
 	"dependencies": {
-		"@fortawesome/free-regular-svg-icons": "^6.4.0",
-		"@fortawesome/free-solid-svg-icons": "^6.4.0",
 		"@zerodevx/svelte-json-view": "^1.0.7",
 		"idb-keyval": "^6.2.1",
 		"jspdf": "^4.2.1",
 		"marked": "^5.1.0",
 		"openseadragon": "^4.1.0",
-		"saxon-js": "^2.5.0",
-		"svelte-awesome": "^3.2.1"
+		"saxon-js": "^2.5.0"
 	},
 	"overrides": {
 		"cookie": "0.7.2"
