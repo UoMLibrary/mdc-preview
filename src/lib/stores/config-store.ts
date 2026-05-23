@@ -1,13 +1,20 @@
-import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import { writable } from 'svelte/store';
 
-let emptyConfig = {
+export interface ConfigStoreValue {
+	viewerTemplate: string;
+	thumbnailTemplate: string;
+	printTemplate: string;
+	[key: string]: string;
+}
+
+const emptyConfig: ConfigStoreValue = {
 	viewerTemplate: '',
 	thumbnailTemplate: '',
 	printTemplate: ''
 };
 
-let defaultConfig = {
+const defaultConfig: ConfigStoreValue = {
 	viewerTemplate:
 		'https://image.digitalcollections.manchester.ac.uk/iiif/{imagerefwithpage}/info.json',
 	thumbnailTemplate:
@@ -17,14 +24,14 @@ let defaultConfig = {
 };
 
 // Used for testing with local IIIF server
-let localConfig = {
+const localConfig: ConfigStoreValue = {
 	viewerTemplate: 'http://localhost:8008/{imagerefwithpage}/info.json',
 	thumbnailTemplate: 'http://localhost:8008/{imagerefwithpage}/full/,150/0/default.jpg',
 	printTemplate: 'http://localhost:8008/{imagerefwithpage}/full/,600/0/default.jpg'
 };
 
 function createConfigStore() {
-	const configStore = writable(emptyConfig);
+	const configStore = writable<ConfigStoreValue>(emptyConfig);
 
 	// If this is running in a browser check to see if there was any config
 	// left over from last time/page
@@ -56,18 +63,18 @@ function createConfigStore() {
 		configStore.set({ ...localConfig });
 	}
 
-	function setKeyValue(key, value) {
+	function setKeyValue(key: string, value: string) {
 		configStore.update((items) => {
 			items[key] = value;
 			return { ...items };
 		});
 	}
 
-	function loadJson(jsonObj) {
+	function loadJson(jsonObj: ConfigStoreValue) {
 		configStore.set(jsonObj);
 	}
 
-	function saveLocal(value) {
+	function saveLocal(value: ConfigStoreValue) {
 		localStorage.setItem('stringifiedConfigStore', JSON.stringify(value));
 	}
 
@@ -75,7 +82,7 @@ function createConfigStore() {
 		// Check for undefined
 		if (!localStorage.getItem('stringifiedConfigStore')) return clear();
 
-		let localStoredValue = localStorage.getItem('stringifiedConfigStore');
+		const localStoredValue = localStorage.getItem('stringifiedConfigStore');
 		let localStoredObj = { ...emptyConfig };
 		if (localStoredValue) localStoredObj = JSON.parse(localStoredValue);
 		configStore.set(localStoredObj);

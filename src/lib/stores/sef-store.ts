@@ -1,25 +1,27 @@
-/**
- * @typedef {Object} SefObject
- * @property {Object} metadata
- * @property {Object} sef
- * @property {String} filename
- * @property {Array<String>} errors
- */
-
-import { writable, get } from 'svelte/store';
 import { browser } from '$app/environment';
+import { get, writable } from 'svelte/store';
 
-let emptyStore = {};
+export interface SefItem {
+	metadata: unknown;
+	sef: unknown;
+	filename: string | null;
+	errors: string[] | null;
+	[key: string]: unknown;
+}
+
+export type SefStoreValue = Record<string, SefItem | null | undefined>;
+
+const emptyStore: SefStoreValue = {};
 // Structure. Key is the sefId
 // {
 // 	  preTransform: { metadata: null, sef: null, filename: null, errors: null },
 // 	  JSONTransform: { metadata: null, sef: null, filename: null, errors: null }
 // };
 
-let emptyItem = { metadata: null, sef: null, filename: null, errors: null };
+const emptyItem: SefItem = { metadata: null, sef: null, filename: null, errors: null };
 
 function createSefStore() {
-	const sefStore = writable(emptyStore);
+	const sefStore = writable<SefStoreValue>(emptyStore);
 
 	// If this is running in a browser check to see if there was any config
 	// left over from last time/page
@@ -42,20 +44,11 @@ function createSefStore() {
 		sefStore.set({ ...emptyStore });
 	}
 
-	/**
-	 * Clears the value of a key.
-	 * @param {string} key - The key to clear.
-	 */
-	function clearKeyValue(key) {
+	function clearKeyValue(key: string) {
 		setKeyValue(key, { ...emptyItem });
 	}
 
-	/**
-	 * Sets the value of a key.
-	 * @param {string} key - The key to set.
-	 * @param {Object} value - The value to set for the key.
-	 */
-	function setKeyValue(key, value) {
+	function setKeyValue(key: string, value: SefItem) {
 		sefStore.update((items) => {
 			if (items[key]) items[key] = null;
 			items[key] = value;
@@ -66,27 +59,19 @@ function createSefStore() {
 	// Hack to get around circular issue from sef file being updated
 	// during its use which triggers the store update which triggers etc...
 	// Makes a copy of the object
-	/**
-	 * gets a copy of the value for the specified key
-	 * @param {string} key - The key to retrieve a copy of the value
-	 */
-	function getKeyCopy(key) {
-		let store = get(sefStore);
-		let sefForKey = store?.[key]?.sef;
-		let sefCopy = JSON.stringify(sefForKey);
-		return JSON.parse(sefCopy);
+	function getKeyCopy(key: string) {
+		const store = get(sefStore);
+		const sefForKey = store[key]?.sef;
+		const sefCopy = JSON.stringify(sefForKey);
+		return sefCopy === undefined ? undefined : JSON.parse(sefCopy);
 	}
 
-	/**
-	 * Save a copy of all the sef data in localstorage
-	 * @param {Object} value - The value to save
-	 */
-	function saveLocal(value) {
+	function saveLocal(value: SefStoreValue) {
 		localStorage.setItem('stringifiedSefStore', JSON.stringify(value));
 	}
 
 	function loadLocal() {
-		let localStoredValue = localStorage.getItem('stringifiedSefStore');
+		const localStoredValue = localStorage.getItem('stringifiedSefStore');
 		let localStoredObj = { ...emptyStore };
 		if (localStoredValue) localStoredObj = JSON.parse(localStoredValue);
 		sefStore.set(localStoredObj);
