@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import SefStore from '$lib/stores/sef-store.js';
 	import { getPanelStatus } from '$lib/Tei/panel-status.js';
 	import OpenXsltFileButton from '$lib/UI/FileButtons/OpenXSLTFileButton.svelte';
@@ -6,8 +6,14 @@
 
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
+	import type { SefItem } from '$lib/stores/sef-store.js';
 
-	let { title = '', sefId = '' } = $props();
+	interface Props {
+		title?: string;
+		sefId?: string;
+	}
+
+	let { title = '', sefId = '' }: Props = $props();
 	let isLoading = $state(false);
 
 	const sefData = $derived($SefStore?.[sefId]);
@@ -32,11 +38,11 @@
 					isLoading = true;
 				}}
 				loaded={(payload) => {
-					SefStore.setKeyValue(sefId, payload);
+					SefStore.setKeyValue(sefId, payload as SefItem);
 					isLoading = false;
 				}}
 				error={(payload) => {
-					SefStore.setKeyValue(sefId, payload);
+					SefStore.setKeyValue(sefId, payload as SefItem);
 					isLoading = false;
 				}}
 			>
@@ -46,9 +52,11 @@
 			</OpenXsltFileButton>
 
 			<OpenJsonFileButton
-				started={() => (isLoading = true)}
+				started={() => {
+					isLoading = true;
+				}}
 				loaded={(payload) => {
-					SefStore.setKeyValue(sefId, payload.json);
+					SefStore.setKeyValue(sefId, payload.json as SefItem);
 					isLoading = false;
 				}}
 			>

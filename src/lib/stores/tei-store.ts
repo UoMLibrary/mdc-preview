@@ -1,11 +1,12 @@
 import { browser } from '$app/environment';
+import type { FileData, XmlMetaData } from '$lib/UI/FileButtons/file-button-utils.js';
 import { writable } from 'svelte/store';
 
 interface TeiStoreValue {
 	xmlDoc: XMLDocument | null;
-	fileData: Record<string, unknown> | null;
-	metaData: Record<string, unknown> | null;
-	errors: unknown[] | null;
+	fileData: FileData | null;
+	metaData: XmlMetaData | null;
+	errors: string[] | null;
 	xmlString?: string | null;
 }
 

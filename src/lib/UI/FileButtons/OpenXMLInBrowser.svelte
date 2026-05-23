@@ -3,12 +3,12 @@
 	// valid xml doc
 	interface Props {
 		tabName?: string;
-		xmlDoc?: XMLDocument;
+		xmlDoc?: XMLDocument | null;
 	}
 
 	let { tabName = '_blank', xmlDoc }: Props = $props();
 
-	function openXMLInBrowser(xmlDoc: XMLDocument | undefined, tabName: string) {
+	function openXMLInBrowser(xmlDoc: XMLDocument | null | undefined, tabName: string) {
 		if (!xmlDoc?.documentElement) return;
 		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
 		// Create a Blob URL from the XML content

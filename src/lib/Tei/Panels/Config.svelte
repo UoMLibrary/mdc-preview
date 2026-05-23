@@ -1,10 +1,15 @@
-<script>
+<script lang="ts">
 	// Visual component to allow loading/saving and editing of the config store
 	import ConfigStore from '$lib/stores/config-store.js';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
+	import type { ConfigStoreValue } from '$lib/stores/config-store.js';
 
-	let { title = '' } = $props();
+	interface Props {
+		title?: string;
+	}
+
+	let { title = '' }: Props = $props();
 </script>
 
 <div class="rounded-md bg-white mb-4 text-xs pb-1">
@@ -14,7 +19,9 @@
 			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
 		</div>
 		<div>
-			<OpenJsonFileButton loaded={(payload) => ConfigStore.loadJson(payload.json)}>
+			<OpenJsonFileButton
+				loaded={(payload) => ConfigStore.loadJson(payload.json as ConfigStoreValue)}
+			>
 				{#snippet children(openFile)}
 					<button type="button" class="p-1 mr-2" onclick={openFile}>Load</button>
 				{/snippet}

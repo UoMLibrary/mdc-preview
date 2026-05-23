@@ -1,11 +1,14 @@
 import { browser } from '$app/environment';
+import type { FileData, XmlMetaData } from '$lib/UI/FileButtons/file-button-utils.js';
 import { get, writable } from 'svelte/store';
 
-interface SefItem {
-	metadata: unknown;
-	sef: unknown;
-	filename: string | null;
-	errors: string[] | null;
+export interface SefItem {
+	metadata?: unknown;
+	metaData?: XmlMetaData;
+	sef?: unknown;
+	filename?: string | null;
+	fileData?: FileData;
+	errors?: string[] | null;
 	[key: string]: unknown;
 }
 

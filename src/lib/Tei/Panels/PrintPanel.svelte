@@ -1,37 +1,13 @@
-<script>
-	import { printpage } from '$lib/Utils/printpage.js';
-	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
+<script lang="ts">
+	import PdfColumnPrintControls from '$lib/UI/PdfColumnPrintControls.svelte';
+	import type { PdfObject } from '$lib/Tei/createViewModel.js';
 
-	let { title = '', data } = $props();
-
-	let progressText = $state('');
-	let isBuildingPdf = $state(false);
-
-	// PRINT FUNCTIONS AND CALLBACKS
-	async function printItem(cols) {
-		if (!data || data.items.length === 0) return;
-
-		try {
-			isBuildingPdf = true;
-			data.cols = cols;
-			await printpage(data, progressCallback, completedCallback);
-		} catch (error) {
-			console.error(error);
-		}
+	interface Props {
+		title?: string;
+		data?: PdfObject | null;
 	}
 
-	// declare callbacks for build progress and completion
-	function progressCallback(label, progress) {
-		// console.log(label, progress);
-		progressText = `${label} ${progress}%`;
-	}
-
-	function completedCallback(missing_images) {
-		isBuildingPdf = false;
-		// console.log('pdf build complete');
-		if (missing_images.length > 0) console.log(missing_images);
-		// TODO: REPORT THESE BACK FOR TOOL
-	}
+	let { title = '', data }: Props = $props();
 
 	/*EXAMPLE DATA STRUCTURE
 
@@ -76,30 +52,6 @@ let pdf_data = {
 	</div>
 	<!-- Panel Body -->
 	<div class="m-4">
-		{#if isBuildingPdf}
-			<div class="flex justify-center">
-				<div class="flex flex-col items-center">
-					<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
-					<p class="p-2 text-xs">{progressText}</p>
-				</div>
-			</div>
-		{:else if data}
-			<div class="flex justify-between space-x-1">
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(1)}
-					><div>1 Column</div></button
-				>
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(2)}
-					><div>2 Columns</div></button
-				>
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(3)}
-					><div>3 Columns</div></button
-				>
-				<button class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(4)}
-					><div>4 Columns</div></button
-				>
-			</div>
-		{:else}
-			<div class="h-4">Print pdf requires a ViewModel</div>
-		{/if}
+		<PdfColumnPrintControls {data} emptyMessage="Print pdf requires a ViewModel" />
 	</div>
 </div>

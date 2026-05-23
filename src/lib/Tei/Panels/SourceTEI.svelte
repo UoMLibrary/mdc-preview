@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	import { getPanelStatus } from '$lib/Tei/panel-status.js';
@@ -6,7 +6,11 @@
 	import OpenXMLFileButton from '$lib/UI/FileButtons/OpenXMLFileButton.svelte';
 	import OpenXmlInBrowser from '$lib/UI/FileButtons/OpenXMLInBrowser.svelte';
 
-	let { title = '' } = $props();
+	interface Props {
+		title?: string;
+	}
+
+	let { title = '' }: Props = $props();
 	let isLoading = $state(false);
 
 	// <!-- TODO: Add in TEI SUMMARY e.g Is image section populated, how many images, is basic metatdata complete -->

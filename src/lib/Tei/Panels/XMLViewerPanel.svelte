@@ -1,15 +1,22 @@
-<script>
+<script lang="ts">
 	// Visual component to allow handling XML (save, view, open in new window)
 	import { browser } from '$app/environment';
 
 	import SaveXMLFileButton from '$lib/UI/FileButtons/SaveXMLFileButton.svelte';
 	import OpenXmlInBrowser from '$lib/UI/FileButtons/OpenXMLInBrowser.svelte';
 
-	let { xmlDoc, title = '', saveFile = 'data.xml', message = '' } = $props();
+	interface Props {
+		xmlDoc?: XMLDocument | null;
+		title?: string;
+		saveFile?: string;
+		message?: string;
+	}
+
+	let { xmlDoc, title = '', saveFile = 'data.xml', message = '' }: Props = $props();
 
 	const xmlString = $derived(stringifyXmlDoc(xmlDoc));
 
-	function stringifyXmlDoc(_xmlDoc) {
+	function stringifyXmlDoc(_xmlDoc?: XMLDocument | null) {
 		if (browser && _xmlDoc) {
 			let xmlString = new XMLSerializer().serializeToString(_xmlDoc.documentElement);
 			return xmlString;

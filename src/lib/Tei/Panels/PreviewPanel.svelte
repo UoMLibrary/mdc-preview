@@ -1,10 +1,21 @@
-<script>
+<script lang="ts">
 	// TODO: currently using a hardwired Preview, ideally pass in which one to use
 	// Possibly via a <slot/>
 	// import Preview from '$lib/MDCUI/Preview.svelte';
 	import Preview from '$lib/Tei/MDCPreview/Preview.svelte';
+	import type { ViewModel } from '$lib/Tei/createViewModel.js';
 
-	let { title = '', message = '', viewModel, page = 1, updatepage = () => {} } = $props();
+	type UpdatePage = (page: number) => void;
+
+	interface Props {
+		title?: string;
+		message?: string;
+		viewModel?: ViewModel | null;
+		page?: number;
+		updatepage?: UpdatePage;
+	}
+
+	let { title = '', message = '', viewModel, page = 1, updatepage = () => {} }: Props = $props();
 </script>
 
 <div class="rounded-md bg-white mb-4 text-xs pb-1">

@@ -1,14 +1,26 @@
-<script>
+<script lang="ts">
 	import { JsonView } from '@zerodevx/svelte-json-view';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
-	let { jsonData, depth = 0, title = '', savefile = 'data.json', message = '' } = $props();
+	type JsonData = Record<string, unknown> | unknown[];
+
+	interface Props {
+		jsonData?: JsonData | null;
+		depth?: number;
+		title?: string;
+		savefile?: string;
+		message?: string;
+	}
+
+	let { jsonData, depth = 0, title = '', savefile = 'data.json', message = '' }: Props = $props();
 
 	let currentDepth = $derived(depth);
 
-	const objectDepth = (o) =>
-		Object(o) === o ? 1 + Math.max(-1, ...Object.values(o).map(objectDepth)) : 0;
+	const objectDepth = (value: unknown): number =>
+		Object(value) === value
+			? 1 + Math.max(-1, ...Object.values(value as Record<string, unknown>).map(objectDepth))
+			: 0;
 
 	const maxDepth = $derived(objectDepth(jsonData) || 0);
 
