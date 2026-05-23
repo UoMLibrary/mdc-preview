@@ -1,28 +1,39 @@
-// ProcessQueue.js
-'use strict';
+type ProcessQueueJob = () => Promise<void> | void;
+type ProgressCallback = (label: string, progress: number) => void;
+type CompleteCallback = () => Promise<void> | void;
+
+interface ProcessQueueOptions {
+	queue?: ProcessQueueJob[];
+	activeJobCount?: number;
+	jobLimit?: number;
+	completedCount?: number;
+	label?: string;
+	totalCount?: number;
+	progressCallback?: ProgressCallback;
+	completeCallback?: CompleteCallback;
+}
 
 export default class ProcessQueue {
-	constructor(options = {}) {
-		Object.assign(
-			this,
-			{
-				queue: [],
-				activeJobCount: 0,
-				jobLimit: 10,
-				completedCount: 0,
-				label: 'ProcessQueue'
-			},
-			options
-		);
+	queue: ProcessQueueJob[] = [];
+	activeJobCount = 0;
+	jobLimit = 10;
+	completedCount = 0;
+	label = 'ProcessQueue';
+	totalCount?: number;
+	progressCallback?: ProgressCallback;
+	completeCallback?: CompleteCallback;
+
+	constructor(options: ProcessQueueOptions = {}) {
+		Object.assign(this, options);
 	}
 
 	print() {
 		return this;
 	}
 
-	addJob(jobData) {
+	addJob(jobData: ProcessQueueJob) {
 		this.queue.push(jobData);
-		this.checkQueue();
+		void this.checkQueue();
 	}
 
 	// Runs a job when it can, doesn't enforce the order
@@ -30,11 +41,12 @@ export default class ProcessQueue {
 		if (this.queue.length > 0 && this.activeJobCount < this.jobLimit) {
 			// console.log("this.activeJobCount < this.jobLimit", this.activeJobCount < this.jobLimit);
 			// console.log("Run next job");
-			let promise_job = this.queue.shift(); // remove from the queue ready to process it
+			const promiseJob = this.queue.shift(); // remove from the queue ready to process it
+			if (!promiseJob) return;
 
 			this.activeJobCount++;
 
-			await promise_job();
+			await promiseJob();
 
 			this.completedCount++;
 			this.activeJobCount--;
@@ -54,7 +66,7 @@ export default class ProcessQueue {
 				this.completedCount = 0;
 				this.completeCallback();
 			} else {
-				this.checkQueue();
+				void this.checkQueue();
 			}
 		}
 	}

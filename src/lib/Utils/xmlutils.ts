@@ -1,10 +1,12 @@
+type XMLCommentMetadata = Record<string, string | Date>;
+
 // Returns an object for key value pairs in an XML comment
 // Handles some dates
 // Does not handle comments that span lines
 /*
 
-<!-- 
-Version: 0.1 
+<!--
+Version: 0.1
 Author: Chris Wilson
 created: 2023-06-21T09:50
 -->
@@ -18,16 +20,16 @@ Becomes
 }
 
 */
-export function parseFirstXMLComment(xmlString) {
+export function parseFirstXMLComment(xmlString: string): XMLCommentMetadata {
 	// Find the start and end positions of the comment
 	const startIndex = xmlString.indexOf('<!--') + 4;
 	const endIndex = xmlString.indexOf('-->');
 	// Extract the comment from the file content
 	const comment = xmlString.substring(startIndex, endIndex);
 	// Split on newlines
-	let lines = comment.split('\n');
+	const lines = comment.split('\n');
 	// Are there any lines to process
-	let result = {};
+	const result: XMLCommentMetadata = {};
 	if (lines.length > 0) {
 		lines.forEach((line) => {
 			let [key, value] = line.split(':');
