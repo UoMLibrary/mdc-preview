@@ -11,14 +11,14 @@
 	export let viewModel;
 	export let page;
 
-	$: viewModel, (page = 1); // If the viewModel changes, reset the page to 1
+	$: (viewModel, (page = 1)); // If the viewModel changes, reset the page to 1
 </script>
 
 <Header />
 <TitleBar
 	title="My Item"
 	{page}
-	pageTotal={viewModel?.pages?.length ||0}
+	pageTotal={viewModel?.pages?.length || 0}
 	pdfData={viewModel.pdfObj}
 	on:updatepage
 />

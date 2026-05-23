@@ -1,5 +1,5 @@
 {
-  "viewerTemplate": "https://iiif.digitalcollections.lancaster.ac.uk/iiif/2/{imagerefwithpage}.jp2/info.json",
-  "thumbnailTemplate": "https://iiif.digitalcollections.lancaster.ac.uk/iiif/2/{imagerefwithpage}.jp2/full/,150/0/default.jpg",
-  "printTemplate": "https://iiif.digitalcollections.lancaster.ac.uk/iiif/2/{imagerefwithpage}.jp2/full/,600/0/default.jpg"
+	"viewerTemplate": "https://iiif.digitalcollections.lancaster.ac.uk/iiif/2/{imagerefwithpage}.jp2/info.json",
+	"thumbnailTemplate": "https://iiif.digitalcollections.lancaster.ac.uk/iiif/2/{imagerefwithpage}.jp2/full/,150/0/default.jpg",
+	"printTemplate": "https://iiif.digitalcollections.lancaster.ac.uk/iiif/2/{imagerefwithpage}.jp2/full/,600/0/default.jpg"
 }

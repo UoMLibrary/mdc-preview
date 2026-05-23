@@ -1,5 +1,5 @@
 {
-  "viewerTemplate": "https://images.lib.cam.ac.uk/iiif/{imagerefwithpage}.jp2/info.json",
-  "thumbnailTemplate": "https://images.lib.cam.ac.uk/content/images/{imagerefwithpage}_files/8/0_0.jpg",
-  "printTemplate": "https://images.lib.cam.ac.uk/iiif/{imagerefwithpage}.jp2/full/!400,400/0/default.jpg"
+	"viewerTemplate": "https://images.lib.cam.ac.uk/iiif/{imagerefwithpage}.jp2/info.json",
+	"thumbnailTemplate": "https://images.lib.cam.ac.uk/content/images/{imagerefwithpage}_files/8/0_0.jpg",
+	"printTemplate": "https://images.lib.cam.ac.uk/iiif/{imagerefwithpage}.jp2/full/!400,400/0/default.jpg"
 }
