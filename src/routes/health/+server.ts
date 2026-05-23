@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-/** @type {import('./$types').RequestHandler} */
-export function GET() {
+export const GET: RequestHandler = () => {
 	return json({ ok: true, service: 'compare-annotate' });
-}
+};
