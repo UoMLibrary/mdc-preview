@@ -27,10 +27,6 @@ export default class ProcessQueue {
 		Object.assign(this, options);
 	}
 
-	print() {
-		return this;
-	}
-
 	addJob(jobData: ProcessQueueJob) {
 		this.queue.push(jobData);
 		void this.checkQueue();
