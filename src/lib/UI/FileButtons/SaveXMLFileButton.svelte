@@ -14,16 +14,10 @@
 	</SaveXMLFileButton>
 */
 
-	import type { Snippet } from 'svelte';
+	import { downloadTextFile, type SaveFileButtonProps } from './file-button-utils.js';
 
-	type SaveFile = () => void;
-
-	interface Props {
+	interface Props extends SaveFileButtonProps {
 		xmlDoc?: XMLDocument;
-		fileName?: string;
-		children?: Snippet<[SaveFile]>;
-		started?: () => void;
-		saved?: (payload: { fileName: string }) => void;
 	}
 
 	let { xmlDoc, fileName = 'data.xml', children, started, saved }: Props = $props();
@@ -34,19 +28,10 @@
 
 		started?.();
 		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
-		const blob = new Blob([xmlString], { type: 'text/xml' });
-		const url = URL.createObjectURL(blob);
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = fileName;
-		link.click();
+		downloadTextFile(xmlString, fileName, 'text/xml');
 
 		// TODO: Check for errors
 		saved?.({ fileName });
-
-		// Clean up
-		URL.revokeObjectURL(url);
-		link.remove();
 	}
 </script>
 

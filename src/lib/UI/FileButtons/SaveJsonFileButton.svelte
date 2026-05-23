@@ -14,16 +14,10 @@
 	</SaveJsonFileButton>
 */
 
-	import type { Snippet } from 'svelte';
+	import { downloadTextFile, type SaveFileButtonProps } from './file-button-utils.js';
 
-	type SaveFile = () => void;
-
-	interface Props {
+	interface Props extends SaveFileButtonProps {
 		jsonData: unknown;
-		fileName?: string;
-		children?: Snippet<[SaveFile]>;
-		started?: () => void;
-		saved?: (payload: { fileName: string }) => void;
 	}
 
 	let { jsonData, fileName = 'data.json', children, started, saved }: Props = $props();
@@ -32,19 +26,10 @@
 	function handleSave() {
 		started?.();
 		const jsonDataString = JSON.stringify(jsonData, null, 2);
-		const blob = new Blob([jsonDataString], { type: 'application/json' });
-		const url = URL.createObjectURL(blob);
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = fileName;
-		link.click();
+		downloadTextFile(jsonDataString, fileName, 'application/json');
 
 		// TODO: Check for errors
 		saved?.({ fileName });
-
-		// Clean up
-		URL.revokeObjectURL(url);
-		link.remove();
 	}
 </script>
 

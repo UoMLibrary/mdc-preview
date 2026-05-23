@@ -18,6 +18,8 @@ export interface TextFileResult {
 
 export type OpenFile = () => void;
 export type FileButtonChildren = Snippet<[OpenFile]>;
+export type SaveFile = () => void;
+export type SaveFileButtonChildren = Snippet<[SaveFile]>;
 
 export interface FileButtonProps<TLoaded> {
 	children?: FileButtonChildren;
@@ -27,6 +29,13 @@ export interface FileButtonProps<TLoaded> {
 
 export interface FileButtonWithErrorProps<TLoaded, TError> extends FileButtonProps<TLoaded> {
 	error?: (payload: TError) => void;
+}
+
+export interface SaveFileButtonProps {
+	fileName?: string;
+	children?: SaveFileButtonChildren;
+	started?: () => void;
+	saved?: (payload: { fileName: string }) => void;
 }
 
 interface ParsedXmlText {
@@ -90,6 +99,19 @@ export function selectTextFile({
 
 		fileInput.click();
 	});
+}
+
+export function downloadTextFile(contents: string, fileName: string, type: string) {
+	const blob = new Blob([contents], { type });
+	const url = URL.createObjectURL(blob);
+	const link = document.createElement('a');
+
+	link.href = url;
+	link.download = fileName;
+	link.click();
+
+	URL.revokeObjectURL(url);
+	link.remove();
 }
 
 export async function selectParsedXmlFile(
