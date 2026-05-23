@@ -4,12 +4,55 @@ import { get, set, clear } from 'idb-keyval';
 
 const MAX_COLUMNS = 4;
 
-let loading_errors = [];
-let progressCallback;
-let completedCallback;
+type PdfDocument = InstanceType<typeof jsPDF>;
+type ProgressCallback = (label: string, progress: number) => void;
+type CompletedCallback = (missingImages: string[]) => void | Promise<void>;
+
+interface PrintPageItem {
+	image_url: string;
+	image_text: string;
+	width: number;
+	height: number;
+}
+
+interface PrintPageData {
+	filename: string;
+	cols: number | string;
+	header_text: string;
+	footer_text: string;
+	items: PrintPageItem[];
+}
+
+interface PageItem extends PrintPageItem {
+	is_portrait: boolean;
+}
+
+interface PdfPage {
+	page: number;
+	header_text: string;
+	footer_text: string;
+	items: PageItem[];
+}
+
+interface PdfLayout {
+	top_offset: number;
+	border: number;
+	gap: number;
+	info_height: number;
+	header_font_size: number;
+	footer_font_size: number;
+	page_font_size: number;
+	item_font_size: number;
+	number_of_cols: number;
+	items_per_page: number;
+}
+
+let loading_errors: string[] = [];
+let progressCallback: ProgressCallback | undefined;
+let completedCallback: CompletedCallback | undefined;
 let progress = 0;
-let pdf_data;
-let layout = {
+let pdf_data: PrintPageData;
+let layout: PdfLayout = {
 	top_offset: 25, // gap from top of page to first box
 	border: 15, // border at side of each page
 	gap: 5, // gap between image items
@@ -17,7 +60,9 @@ let layout = {
 	header_font_size: 12,
 	footer_font_size: 7,
 	page_font_size: 10, // page number font size
-	item_font_size: 7
+	item_font_size: 7,
+	number_of_cols: MAX_COLUMNS,
+	items_per_page: 16
 };
 
 /* DATA STRUCTURE 
@@ -51,7 +96,11 @@ let layout = {
       ],
     };
 */
-export async function printpage(_pdf_data, _progressCallback, _completedCallback) {
+export async function printpage(
+	_pdf_data: PrintPageData,
+	_progressCallback?: ProgressCallback,
+	_completedCallback?: CompletedCallback
+): Promise<void> {
 	progressCallback = _progressCallback;
 	completedCallback = _completedCallback;
 	pdf_data = _pdf_data;
@@ -61,7 +110,7 @@ export async function printpage(_pdf_data, _progressCallback, _completedCallback
 }
 
 // TODO: set font sizes here
-function setupLayout(cols) {
+function setupLayout(cols: number | string) {
 	cols = Number(cols);
 	// Check it is a valid number of columns (1,2,3 or 4)
 	if (!Number.isInteger(cols) || cols <= 0 || cols > MAX_COLUMNS) {
@@ -76,8 +125,8 @@ function setupLayout(cols) {
 	layout.items_per_page = pageitems[layout.number_of_cols];
 }
 
-function preloadImages(pdf_data) {
-	return new Promise(async (resolve, reject) => {
+function preloadImages(pdf_data: PrintPageData): Promise<void> {
+	return new Promise(async (resolve) => {
 		// To determine if the queue has finished we need to know how many items are in the queue
 		let imageQueue = new ProcessQueue({
 			jobLimit: 5,
@@ -87,7 +136,7 @@ function preloadImages(pdf_data) {
 			completeCallback: imagesLoadedCallback
 		});
 		// Loop through the images
-		pdf_data.items.forEach(async (item, index) => {
+		pdf_data.items.forEach(async (item) => {
 			let image_url = item.image_url;
 			imageQueue.addJob(() => preloadImage(image_url));
 		});
@@ -95,8 +144,8 @@ function preloadImages(pdf_data) {
 	});
 }
 
-function preloadImage(image_url) {
-	return new Promise((resolve, reject) => {
+function preloadImage(image_url: string): Promise<void> {
+	return new Promise((resolve) => {
 		return fetchAsBlob(image_url)
 			.then(convertBlobToBase64)
 			.then((image_data) => {
@@ -113,14 +162,14 @@ function preloadImage(image_url) {
 	});
 }
 
-const fetchAsBlob = (url) => fetch(url).then((response) => response.blob());
+const fetchAsBlob = (url: string): Promise<Blob> => fetch(url).then((response) => response.blob());
 
-const convertBlobToBase64 = (blob) =>
+const convertBlobToBase64 = (blob: Blob): Promise<string> =>
 	new Promise((resolve, reject) => {
 		const reader = new FileReader();
 		reader.onerror = reject;
 		reader.onload = () => {
-			resolve(reader.result);
+			resolve(reader.result as string);
 		};
 		reader.readAsDataURL(blob);
 	});
@@ -130,20 +179,20 @@ async function imagesLoadedCallback() {
 }
 
 // One of two stages so we'll cheat a bit and divide each by 2
-function imagesProgressCallback(label, _progress) {
+function imagesProgressCallback(label: string, _progress: number) {
 	progress = Math.round(_progress / 2);
 	if (progressCallback) progressCallback(label, progress);
 }
 
 // One of two stage so we'll cheat a bit and divide each by 2
 // As this is the second and final stage we need to start adding onto 50%
-function pdfBuildCallback(label, _progress) {
+function pdfBuildCallback(label: string, _progress: number) {
 	progress = 50 + Math.round(_progress / 2);
 	if (progressCallback) progressCallback(label, progress);
 }
 
 // After the images have preloaded into indexedDb, build the pdf
-async function buildPdf(pdf_data) {
+async function buildPdf(pdf_data: PrintPageData) {
 	// Take the list of image items and group them into pages based
 	// on the number of columns
 	let page_array = buildPageArray(pdf_data);
@@ -162,8 +211,8 @@ async function buildPdf(pdf_data) {
 	if (completedCallback) completedCallback(loading_errors);
 }
 
-function buildPage(pdf, _page) {
-	return new Promise(async (resolve, reject) => {
+function buildPage(pdf: PdfDocument, _page: PdfPage): Promise<void> {
+	return new Promise(async (resolve) => {
 		// get the dimensions of the pdf
 		const pdf_width = pdf.internal.pageSize.getWidth();
 		const pdf_height = pdf.internal.pageSize.getHeight();
@@ -200,9 +249,9 @@ function buildPage(pdf, _page) {
 		});
 
 		// Create an array of promises to retrieve the image back for this page from indexeddb
-		let promise_images = [];
+		let promise_images: Array<string | undefined> = [];
 		for (let i = 0; i < _page.items.length; i++) {
-			promise_images.push(await get(_page.items[i].image_url));
+			promise_images.push(await get<string>(_page.items[i].image_url));
 		}
 
 		// Once all the images are loaded lay them out on the page
@@ -240,7 +289,8 @@ function buildPage(pdf, _page) {
 					image_y_offset = (box_height - image_height) / 2;
 				}
 
-				if (images[index] === '') {
+				const image_data = images[index] ?? '';
+				if (image_data === '') {
 					pdf.text(
 						`Image is missing`,
 						box_x + image_x_offset + box_width * 0.5,
@@ -250,7 +300,7 @@ function buildPage(pdf, _page) {
 				} else {
 					// draw the image (from indexeddb store) into the border area
 					pdf.addImage(
-						images[index],
+						image_data,
 						'JPEG',
 						box_x + image_x_offset,
 						box_y + image_y_offset,
@@ -265,9 +315,9 @@ function buildPage(pdf, _page) {
 }
 
 // Build an array of pages containing page items, header and footer text
-function buildPageArray(pdf_data) {
-	let pages = [];
-	let page_items = [];
+function buildPageArray(pdf_data: PrintPageData): PdfPage[] {
+	let pages: PdfPage[] = [];
+	let page_items: PageItem[] = [];
 	pdf_data.items.forEach((item, index) => {
 		let image_url = item.image_url;
 		page_items.push({
