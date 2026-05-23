@@ -1,9 +1,20 @@
-<script>
+<script lang="ts">
 	import PDFButton from './TitleBar/PDFButton.svelte';
 	import PrintModal from '$lib/UI/PrintModal.svelte';
 	import NextPrev from './TitleBar/NextPrev.svelte';
+	import type { PdfObject } from '$lib/Tei/createViewModel.js';
 
-	let { title = '', page = 1, pdfData, pageTotal = 0, updatepage = () => {} } = $props();
+	type UpdatePage = (page: number) => void;
+
+	interface Props {
+		title?: string;
+		page?: number;
+		pdfData?: PdfObject;
+		pageTotal?: number;
+		updatepage?: UpdatePage;
+	}
+
+	let { title = '', page = 1, pdfData, pageTotal = 0, updatepage = () => {} }: Props = $props();
 	let showModal = $state(false);
 </script>
 

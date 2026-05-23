@@ -1,10 +1,18 @@
-<script>
+<script lang="ts">
 	import { printpage } from '$lib/Utils/printpage.js';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
+	import type { PdfObject } from '$lib/Tei/createViewModel.js';
+	import type { PrintPageData } from '$lib/Utils/printpage.js';
 
-	let { showModal = $bindable(false), title = '', pdfData } = $props();
+	interface Props {
+		showModal?: boolean;
+		title?: string;
+		pdfData?: PdfObject;
+	}
 
-	let dialog = $state();
+	let { showModal = $bindable(false), title = '', pdfData }: Props = $props();
+
+	let dialog = $state<HTMLDialogElement>();
 
 	let progressText = $state('');
 	let isBuildingPdf = $state(false);
@@ -16,13 +24,13 @@
 	});
 
 	// PRINT FUNCTIONS AND CALLBACKS
-	async function printItem(cols) {
+	async function printItem(cols: number) {
 		if (!pdfData || pdfData.items.length === 0) return;
 
 		try {
 			isBuildingPdf = true;
-			pdfData.cols = cols;
-			await printpage(pdfData, progressCallback, completedCallback);
+			const printData: PrintPageData = { ...pdfData, cols };
+			await printpage(printData, progressCallback, completedCallback);
 		} catch (error) {
 			console.error(error);
 			isBuildingPdf = false;
@@ -30,12 +38,12 @@
 	}
 
 	// declare callbacks for build progress and completion
-	function progressCallback(label, progress) {
+	function progressCallback(label: string, progress: number) {
 		// console.log(label, progress);
 		progressText = `${label} ${progress}%`;
 	}
 
-	function completedCallback(missing_images) {
+	function completedCallback(missing_images: string[]) {
 		isBuildingPdf = false;
 		// console.log('pdf build complete');
 		if (missing_images.length > 0) console.log(missing_images);
@@ -51,7 +59,7 @@
 		if (dialog?.open) dialog.close();
 	}
 
-	function closeOnBackdrop(event) {
+	function closeOnBackdrop(event: MouseEvent) {
 		if (event.target === dialog) closeDialog();
 	}
 </script>

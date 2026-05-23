@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
-	let { onclick = () => {} } = $props();
+	interface Props {
+		onclick?: () => void;
+	}
+
+	let { onclick = () => {} }: Props = $props();
 </script>
 
 <button {onclick}>

@@ -1,37 +1,48 @@
-<script>
+<script lang="ts">
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
-	let { current = 0, min = 0, max = 0, update = () => {} } = $props();
+	type UpdatePage = (page: number) => void;
 
-	function setCurrent(value) {
+	interface Props {
+		current?: number;
+		min?: number;
+		max?: number;
+		update?: UpdatePage;
+	}
+
+	let { current = 0, min = 0, max = 0, update = () => {} }: Props = $props();
+
+	function setCurrent(value: number) {
 		current = value;
 		update(current);
 	}
 
-	function decreaseCounter(amount) {
+	function decreaseCounter(amount: number) {
 		let newPos = Number(current) - amount;
 		if (newPos > min) {
 			setCurrent(newPos);
 		} else setCurrent(min);
 	}
 
-	function increaseCounter(amount) {
+	function increaseCounter(amount: number) {
 		let newPos = Number(current) + amount;
 		if (newPos < max) {
 			setCurrent(newPos);
 		} else setCurrent(max);
 	}
 
-	function blur(e) {
-		let val = parseInt(e.target.value);
+	function blur(event: Event) {
+		const input = event.currentTarget as HTMLInputElement;
+		let val = parseInt(input.value);
 		if (isNaN(val)) {
-			e.currentTarget.value = Number(current);
+			input.value = String(Number(current));
 			setCurrent(Number(current));
 		}
 	}
 
-	function changeInput(e) {
-		let newValue = parseInt(e.target.value);
+	function changeInput(event: Event) {
+		const input = event.currentTarget as HTMLInputElement;
+		let newValue = parseInt(input.value);
 		if (isNaN(newValue)) {
 			setCurrent(Number(current));
 		} else if (newValue > max) {

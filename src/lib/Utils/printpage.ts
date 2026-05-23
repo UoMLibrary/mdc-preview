@@ -15,7 +15,7 @@ interface PrintPageItem {
 	height: number;
 }
 
-interface PrintPageData {
+export interface PrintPageData {
 	filename: string;
 	cols: number | string;
 	header_text: string;

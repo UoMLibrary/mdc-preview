@@ -1,11 +1,20 @@
-<script>
+<script lang="ts">
 	// Preview UI Components
 	import Header from '$lib/Tei/MDCPreview/Preview/Header.svelte';
 	import TitleBar from '$lib/Tei/MDCPreview/Preview/TitleBar.svelte';
 	import ImageViewer from '$lib/Tei/MDCPreview/Preview/ImageViewer.svelte';
 	import ItemPanel from '$lib/Tei/MDCPreview/Preview/ItemPanel.svelte';
+	import type { ViewModel } from '$lib/Tei/createViewModel.js';
 
-	let { viewModel, page = 1, updatepage = () => {} } = $props();
+	type UpdatePage = (page: number) => void;
+
+	interface Props {
+		viewModel: ViewModel;
+		page?: number;
+		updatepage?: UpdatePage;
+	}
+
+	let { viewModel, page = 1, updatepage = () => {} }: Props = $props();
 
 	$effect(() => {
 		viewModel;
