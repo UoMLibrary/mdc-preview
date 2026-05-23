@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 
+/** @type {import('./$types').RequestHandler} */
 export function GET() {
-	let obj = { status: 'success', data: { created: new Date(), version: '1.0.1' } };
-	return json(obj);
+	return json({ ok: true, service: 'compare-annotate' });
 }
