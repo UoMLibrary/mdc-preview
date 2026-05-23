@@ -1,9 +1,12 @@
-const markdown = `Marked - Markdown Parser
+const markdown: string = `Marked - Markdown Parser
 ========================
 
-CONFIG lets you convert [Markdown](https://www.markdownguide.org/basic-syntax/) into HTML. Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML. This demo page will let you type anything you like and see how it gets converted. Live. No more waiting around.
+[Marked] lets you convert [Markdown](https://www.markdownguide.org/basic-syntax/) into HTML. Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML. This demo page will let you type anything you like and see how it gets converted. Live. No more waiting around.
 
-## How To Use The Demo - config
+![The overview](/docs/test.svg)
+
+![The overview](/docs/test.png)
+## How To Use The Demo
 
 1. Type in stuff on the left.
 2. See the live updates on the right.
