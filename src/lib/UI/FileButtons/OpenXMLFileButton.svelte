@@ -18,6 +18,7 @@
 		comment for key pair values
 	*/
 	import {
+		noop,
 		selectParsedXmlFile,
 		type FileButtonWithErrorProps,
 		type XmlFilePayloadBase
@@ -31,8 +32,12 @@
 		xmlDoc: XMLDocument;
 	}
 
-	let { children, started, error, loaded }: FileButtonWithErrorProps<LoadedPayload, ErrorPayload> =
-		$props();
+	let {
+		children,
+		started = noop,
+		error = noop,
+		loaded = noop
+	}: FileButtonWithErrorProps<LoadedPayload, ErrorPayload> = $props();
 
 	async function handleFileOpen() {
 		const xmlFile = await selectParsedXmlFile({ accept: '.xml', started });
@@ -41,9 +46,9 @@
 		const { fileData, xmlDoc, metaData, errors } = xmlFile;
 
 		if (errors.length > 0) {
-			error?.({ fileData, xmlDoc: null, metaData, errors });
+			error({ fileData, xmlDoc: null, metaData, errors });
 		} else {
-			loaded?.({ fileData, xmlDoc, metaData, errors: [] });
+			loaded({ fileData, xmlDoc, metaData, errors: [] });
 		}
 	}
 </script>

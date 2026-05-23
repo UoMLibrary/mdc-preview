@@ -38,6 +38,8 @@ export interface SaveFileButtonProps {
 	saved?: (payload: { fileName: string }) => void;
 }
 
+export function noop() {}
+
 interface ParsedXmlText {
 	xmlDoc: XMLDocument;
 	metaData: XmlMetaData;

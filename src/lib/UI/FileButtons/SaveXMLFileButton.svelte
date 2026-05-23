@@ -14,24 +14,25 @@
 	</SaveXMLFileButton>
 */
 
-	import { downloadTextFile, type SaveFileButtonProps } from './file-button-utils.js';
+	import { downloadTextFile, noop, type SaveFileButtonProps } from './file-button-utils.js';
 
 	interface Props extends SaveFileButtonProps {
 		xmlDoc?: XMLDocument;
 	}
 
-	let { xmlDoc, fileName = 'data.xml', children, started, saved }: Props = $props();
+	let { xmlDoc, fileName = 'data.xml', children, started = noop, saved = noop }: Props = $props();
 
 	// Download to users device
 	function handleSave() {
-		if (!xmlDoc?.documentElement) return;
+		const documentElement = xmlDoc?.documentElement;
+		if (!documentElement) return;
 
-		started?.();
-		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+		started();
+		let xmlString = new XMLSerializer().serializeToString(documentElement);
 		downloadTextFile(xmlString, fileName, 'text/xml');
 
 		// TODO: Check for errors
-		saved?.({ fileName });
+		saved({ fileName });
 	}
 </script>
 

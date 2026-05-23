@@ -19,6 +19,7 @@
 	</OpenXSLTFileButton>
 	*/
 	import {
+		noop,
 		selectParsedXmlFile,
 		type FileButtonWithErrorProps,
 		type XmlFilePayloadBase
@@ -32,8 +33,12 @@
 		sef: unknown;
 	}
 
-	let { children, started, error, loaded }: FileButtonWithErrorProps<LoadedPayload, ErrorPayload> =
-		$props();
+	let {
+		children,
+		started = noop,
+		error = noop,
+		loaded = noop
+	}: FileButtonWithErrorProps<LoadedPayload, ErrorPayload> = $props();
 
 	async function handleFileOpen() {
 		const xmlFile = await selectParsedXmlFile({ accept: '.xsl, .xslt', started });
@@ -42,7 +47,7 @@
 		const { fileData, contents, metaData, errors } = xmlFile;
 
 		if (errors.length > 0) {
-			error?.({ fileData, sef: null, metaData, errors });
+			error({ fileData, sef: null, metaData, errors });
 			return;
 		}
 
@@ -56,7 +61,7 @@
 		});
 		// TODO: Capture errors from sef transform here and dispatch as error
 		const json = await resp.json();
-		loaded?.({ fileData, sef: json.sef, metaData, errors: [] });
+		loaded({ fileData, sef: json.sef, metaData, errors: [] });
 	}
 </script>
 
