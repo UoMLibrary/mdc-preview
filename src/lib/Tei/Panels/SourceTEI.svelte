@@ -35,12 +35,12 @@
 					TeiStore.clear();
 				}}
 				loaded={(payload) => {
-					isLoading = false;
 					$TeiStore = payload;
+					isLoading = false;
 				}}
 				error={(payload) => {
-					isLoading = false;
 					$TeiStore = payload;
+					isLoading = false;
 				}}
 			>
 				{#snippet children(openFile)}

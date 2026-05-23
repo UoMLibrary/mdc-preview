@@ -8,7 +8,15 @@
 
 	let { size = 30, unit = 'px', duration = '2s', color = 'currentColor' }: Props = $props();
 
-	const sizeValue = $derived(typeof size === 'number' ? `${size}${unit}` : size);
+	const sizeValue = $derived(getSizeValue(size, unit));
+
+	function getSizeValue(size: string | number, unit: string) {
+		return isNumericSize(size) ? `${size}${unit}` : String(size);
+	}
+
+	function isNumericSize(size: string | number) {
+		return typeof size === 'number' || /^\d+(\.\d+)?$/.test(size);
+	}
 </script>
 
 <span
@@ -25,9 +33,9 @@
 		display: inline-block;
 		width: var(--spinner-size);
 		height: var(--spinner-size);
-		border: calc(var(--spinner-size) / 8) solid
-			color-mix(in srgb, var(--spinner-color), transparent 75%);
+		border: calc(var(--spinner-size) / 8) solid transparent;
 		border-top-color: var(--spinner-color);
+		border-right-color: var(--spinner-color);
 		border-radius: 50%;
 		animation: spin var(--spinner-duration) linear infinite;
 	}

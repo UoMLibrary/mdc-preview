@@ -1,4 +1,5 @@
 import { parseFirstXMLComment } from '$lib/Utils/xmlutils.js';
+import { tick } from 'svelte';
 import type { Snippet } from 'svelte';
 
 export interface FileData {
@@ -23,7 +24,7 @@ export type SaveFileButtonChildren = Snippet<[SaveFile]>;
 
 export interface FileButtonProps<TLoaded> {
 	children?: FileButtonChildren;
-	started?: () => void;
+	started?: () => Promise<void> | void;
 	loaded?: (payload: TLoaded) => void;
 }
 
@@ -34,7 +35,7 @@ export interface FileButtonWithErrorProps<TLoaded, TError> extends FileButtonPro
 export interface SaveFileButtonProps {
 	fileName?: string;
 	children?: SaveFileButtonChildren;
-	started?: () => void;
+	started?: () => Promise<void> | void;
 	saved?: (payload: { fileName: string }) => void;
 }
 
@@ -58,7 +59,7 @@ export interface ParsedXmlFileResult extends TextFileResult, XmlFilePayloadBase 
 
 export interface SelectTextFileOptions {
 	accept: string;
-	started?: () => void;
+	started?: () => Promise<void> | void;
 }
 
 export function selectTextFile({
@@ -72,8 +73,7 @@ export function selectTextFile({
 
 		fileInput.addEventListener(
 			'change',
-			(event: Event) => {
-				started?.();
+			async (event: Event) => {
 				const file = (event.currentTarget as HTMLInputElement).files?.[0];
 
 				if (!file) {
@@ -81,6 +81,9 @@ export function selectTextFile({
 					resolve(null);
 					return;
 				}
+
+				await started?.();
+				await waitForUiUpdate();
 
 				const reader = new FileReader();
 				reader.onerror = () => {
@@ -100,6 +103,22 @@ export function selectTextFile({
 		);
 
 		fileInput.click();
+	});
+}
+
+async function waitForUiUpdate() {
+	await tick();
+	await nextAnimationFrame();
+}
+
+function nextAnimationFrame() {
+	return new Promise<void>((resolve) => {
+		if (typeof requestAnimationFrame === 'function') {
+			requestAnimationFrame(() => resolve());
+			return;
+		}
+
+		setTimeout(resolve, 0);
 	});
 }
 
