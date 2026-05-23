@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-
 	// Tool Panels and Preview
 	import SourceTEI from '$lib/Tei/Panels/SourceTEI.svelte';
 	import PreviewPanel from '$lib/Tei/Panels/PreviewPanel.svelte';
@@ -9,11 +7,8 @@
 	// Stores
 	import TeiStore from '$lib/stores/tei-store.js';
 
-	import {
-		cleanOutFacsimileElement,
-		isValidPreviewConfig,
-		previewConfigData
-	} from '$lib/Tei/preview-utils.js';
+	import { isValidPreviewConfig, previewConfigData } from '$lib/Tei/preview-utils.js';
+	import { transformXmlDocToJson, transformXmlDocToXml } from '$lib/Tei/preview-transform.js';
 
 	// We load the sef when the page is loaded, this preview page doen't need to react to
 	// live updates in the sef files
@@ -46,46 +41,13 @@
 	});
 
 	async function runPreTransform(xmlDoc: XMLDocument | null | undefined) {
-		// browser check to prevent new XMLSerializer being called during a SSR attempt
-		if (!browser || !xmlDoc || !preTransformSef) return (preTransformXmlDocOutput = null);
-
-		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
-
-		// BUGFIX: If there is no graphic data the JSON transformation will fail, we can fix this
-		// by clearing out the <facsimile></facsimile><text></text> elements so they are empty
-		// See Toms script - https://bitbucket.org/unimanlibrarydevs/mdc-metadata-api/src/master/clean.py
-		xmlString = cleanOutFacsimileElement(xmlString);
-
-		let sefObjCopy = preTransformSef; // TODO: Check if we need to reload each time (see sef store for details)
-
-		let transformConfig: SaxonTransformConfig = {
-			sourceText: xmlString,
-			destination: 'serialized',
-			stylesheetInternal: sefObjCopy
-		};
-		let transform = await SaxonJS.transform(transformConfig, 'async');
-
-		// TODO: Handle errors
-		let parser = new DOMParser();
-		preTransformXmlDocOutput = parser.parseFromString(transform.principalResult, 'text/xml');
+		const result = await transformXmlDocToXml(xmlDoc, preTransformSef, { cleanFacsimile: true });
+		preTransformXmlDocOutput = result.value;
 	}
 
 	async function runJSONTransform(xmlDoc: XMLDocument | null | undefined) {
-		// browser check to prevent new XMLSerializer being called during a SSR attempt
-		if (!browser || !xmlDoc || !jsonTransformSef) return (JSONTransformObjOutput = null);
-
-		let xmlString = new XMLSerializer().serializeToString(xmlDoc.documentElement);
-		let sefObjCopy = jsonTransformSef; // TODO: Check if we need to reload each time (see sef store for details)
-
-		let transformConfig: SaxonTransformConfig = {
-			sourceText: xmlString,
-			destination: 'serialized',
-			stylesheetInternal: sefObjCopy
-		};
-		let transform = await SaxonJS.transform(transformConfig, 'async');
-
-		// TODO: Handle errors
-		JSONTransformObjOutput = JSON.parse(transform.principalResult) as CudlObject;
+		const result = await transformXmlDocToJson(xmlDoc, jsonTransformSef);
+		JSONTransformObjOutput = result.value;
 	}
 
 	async function runViewModelTransform(

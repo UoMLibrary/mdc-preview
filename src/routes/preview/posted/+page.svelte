@@ -3,8 +3,9 @@
 	import PreviewPanel from '$lib/Tei/Panels/PreviewPanel.svelte';
 	import JSONViewer from '$lib/Tei/Panels/JSONViewer.svelte';
 	import { createViewModel } from '$lib/Tei/createViewModel.js';
-	import type { CudlObject, ViewModel } from '$lib/Tei/createViewModel.js';
-	import { cleanOutFacsimileElement, previewConfigData } from '$lib/Tei/preview-utils.js';
+	import type { ViewModel } from '$lib/Tei/createViewModel.js';
+	import { previewConfigData } from '$lib/Tei/preview-utils.js';
+	import { transformXmlDocToJson, transformXmlStringToXml } from '$lib/Tei/preview-transform.js';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	// We load the sef when the page is loaded, this preview page doen't need to react to
@@ -20,7 +21,6 @@
 
 	// Variables
 	let { form }: Props = $props();
-	let xmlString = $state('');
 	let ViewModelOutput = $state<ViewModel | null>(null);
 	let page = $state(0);
 	let loading = $state(true);
@@ -28,29 +28,19 @@
 	onMount(async () => {
 		loading = true;
 
-		// Bugfix: Clean up supplied XmlString
-		xmlString = cleanOutFacsimileElement(String(form?.teistring ?? ''));
-
-		// Pre transform
-		let transformConfig: SaxonTransformConfig = {
-			sourceText: xmlString,
-			destination: 'serialized',
-			stylesheetInternal: preTransformSef
-		};
-		let preTransformObj = await SaxonJS.transform(transformConfig, 'async');
-		let preTransformXmlString = preTransformObj.principalResult;
-
-		// JsonTransform
-		transformConfig = {
-			sourceText: preTransformXmlString,
-			destination: 'serialized',
-			stylesheetInternal: jsonTransformSef
-		};
-		let JsonTransformObj = await SaxonJS.transform(transformConfig, 'async');
-		let JSONTransformObjOutput = JSON.parse(JsonTransformObj.principalResult) as CudlObject;
+		const preTransform = await transformXmlStringToXml(
+			String(form?.teistring ?? ''),
+			preTransformSef,
+			{
+				cleanFacsimile: true
+			}
+		);
+		const jsonTransform = await transformXmlDocToJson(preTransform.value, jsonTransformSef);
 
 		// Viewmodel creation
-		ViewModelOutput = createViewModel(JSONTransformObjOutput, previewConfigData.manchester);
+		ViewModelOutput = jsonTransform.value
+			? createViewModel(jsonTransform.value, previewConfigData.manchester)
+			: null;
 
 		loading = false;
 	});
