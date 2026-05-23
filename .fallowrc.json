@@ -1,0 +1,18 @@
+{
+	"$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/fallow.schema.json",
+	"dynamicallyLoaded": ["static/**"],
+	"duplicates": {
+		"ignore": ["static/**"]
+	},
+	"health": {
+		"ignore": ["static/**"]
+	},
+	"overrides": [
+		{
+			"files": ["src/app.html"],
+			"rules": {
+				"unresolved-imports": "off"
+			}
+		}
+	]
+}
