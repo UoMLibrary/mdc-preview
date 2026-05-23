@@ -42,16 +42,16 @@ let pdf_data = {
 };*/
 </script>
 
-<div class="rounded-md bg-white mb-4 text-xs pb-1">
+<div class="tool-panel">
 	<!-- Panel Header -->
-	<div class="flex border-b justify-between">
+	<div class="tool-panel__header">
 		<div>
-			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
+			{#if title}<p class="tool-panel__title">{title}</p>{/if}
 		</div>
-		<div class="flex py-1"></div>
+		<div class="tool-panel__header-spacer"></div>
 	</div>
 	<!-- Panel Body -->
-	<div class="m-4">
+	<div class="tool-panel__body">
 		<PdfColumnPrintControls {data} emptyMessage="Print pdf requires a ViewModel" />
 	</div>
 </div>

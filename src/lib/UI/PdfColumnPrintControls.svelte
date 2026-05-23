@@ -39,27 +39,27 @@
 </script>
 
 {#if isBuildingPdf}
-	<div class="flex justify-center">
-		<div class="flex flex-col items-center">
+	<div class="pdf-print-controls__loading">
+		<div class="pdf-print-controls__loading-content">
 			<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
-			<p class="p-2 text-xs">{progressText}</p>
+			<p class="pdf-print-controls__progress">{progressText}</p>
 		</div>
 	</div>
 {:else if data}
-	<div class="flex justify-around space-x-1">
-		<button type="button" class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(1)}
+	<div class="pdf-print-controls__buttons">
+		<button type="button" class="pdf-print-controls__button" onclick={() => printItem(1)}
 			><div>1 Column</div></button
 		>
-		<button type="button" class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(2)}
+		<button type="button" class="pdf-print-controls__button" onclick={() => printItem(2)}
 			><div>2 Columns</div></button
 		>
-		<button type="button" class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(3)}
+		<button type="button" class="pdf-print-controls__button" onclick={() => printItem(3)}
 			><div>3 Columns</div></button
 		>
-		<button type="button" class="p-4 sm:p-8 bg-slate-300 rounded" onclick={() => printItem(4)}
+		<button type="button" class="pdf-print-controls__button" onclick={() => printItem(4)}
 			><div>4 Columns</div></button
 		>
 	</div>
 {:else if emptyMessage}
-	<div class="h-4">{emptyMessage}</div>
+	<div class="pdf-print-controls__empty">{emptyMessage}</div>
 {/if}

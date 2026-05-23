@@ -22,16 +22,17 @@
 </script>
 
 <div
-	class="rounded-md bg-white mb-4 text-xs {status == 'ERROR' ? `border-4 border-red-400` : ''} 
-	{status == 'SUCCESS' ? `border-4 border-green-600` : ''}"
+	class="tool-panel {status == 'ERROR' ? 'tool-panel--error' : ''} {status == 'SUCCESS'
+		? 'tool-panel--success'
+		: ''}"
 >
 	<!-- Panel Header -->
-	<div class="flex border-b justify-between">
-		<p class="p-1 px-2 text-sm w-1/2">
-			<span class="font-bold">{title}: </span>{sefData?.fileData?.basename || ''}
+	<div class="tool-panel__header">
+		<p class="tool-panel__title tool-panel__title--file">
+			<span class="tool-panel__details-label">{title}: </span>{sefData?.fileData?.basename || ''}
 		</p>
 
-		<div class="p-1">
+		<div class="tool-panel__actions">
 			<OpenXsltFileButton
 				started={() => {
 					SefStore.clearKeyValue(sefId);
@@ -47,7 +48,7 @@
 				}}
 			>
 				{#snippet children(openXsltFile)}
-					<button type="button" class="p-1 mr-2" onclick={openXsltFile}>Load XSLT</button>
+					<button type="button" class="tool-panel__button" onclick={openXsltFile}>Load XSLT</button>
 				{/snippet}
 			</OpenXsltFileButton>
 
@@ -61,50 +62,51 @@
 				}}
 			>
 				{#snippet children(openSefFile)}
-					<button type="button" class="p-1 mr-2" onclick={openSefFile}>Load SEF</button>
+					<button type="button" class="tool-panel__button" onclick={openSefFile}>Load SEF</button>
 				{/snippet}
 			</OpenJsonFileButton>
 
 			{#if sefData?.sef}
 				<SaveJsonFileButton fileName={`${sefId}.sef.json`} jsonData={sefData}>
 					{#snippet children(saveFile)}
-						<button type="button" class="p-1 mr-2" onclick={saveFile}>Save SEF</button>
+						<button type="button" class="tool-panel__button" onclick={saveFile}>Save SEF</button>
 					{/snippet}
 				</SaveJsonFileButton>
 			{/if}
 
-			<button class="p-1 mr-2" onclick={() => SefStore.clearKeyValue(sefId)}>Clear</button>
+			<button class="tool-panel__button" onclick={() => SefStore.clearKeyValue(sefId)}>Clear</button
+			>
 		</div>
 	</div>
 	<!-- Panel Body -->
-	<div class="m-4 text-xs pb-2">
+	<div class="tool-panel__body tool-panel__body--text">
 		{#if isLoading}
-			<div class="flex justify-center">
+			<div class="tool-panel__loading">
 				<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 			</div>
 		{:else}
 			{#if noXSLTLoaded}
-				<p class="p-1">No TEI XML loaded</p>
+				<p class="tool-panel__empty">No TEI XML loaded</p>
 			{/if}
 			{#if sefData?.fileData && Object.keys(sefData?.fileData).length > 1}
-				<p class="text-sm font-bold p-1">File details</p>
-				<div class="mb-2 px-2">
+				<p class="tool-panel__section-title">File details</p>
+				<div class="tool-panel__details">
 					{#each Object.entries(sefData?.fileData) as [key, value] (key)}
-						<p><span class="font-bold">{key}</span>: {value}</p>
+						<p><span class="tool-panel__details-label">{key}</span>: {value}</p>
 					{/each}
 				</div>
 			{/if}
 			{#if sefData?.metaData && Object.keys(sefData.metaData).length > 1}
-				<p class="text-sm font-bold p-1">Metadata</p>
-				<div class="mb-2 px-2">
+				<p class="tool-panel__section-title">Metadata</p>
+				<div class="tool-panel__details">
 					{#each Object.entries(sefData.metaData) as [key, value] (key)}
-						<p><span class="font-bold">{key}</span>: {value}</p>
+						<p><span class="tool-panel__details-label">{key}</span>: {value}</p>
 					{/each}
 				</div>
 			{/if}
 			{#if sefData?.errors && sefData.errors.length > 0}
-				<p class="text-sm font-bold p-1 text-red-800">Parsing errors</p>
-				<div class="mb-2 px-2 text-red-800 font-mono">
+				<p class="tool-panel__section-title tool-panel__section-title--error">Parsing errors</p>
+				<div class="tool-panel__error-details">
 					{#each sefData.errors as error, index (index)}
 						<p>{error}</p>
 					{/each}

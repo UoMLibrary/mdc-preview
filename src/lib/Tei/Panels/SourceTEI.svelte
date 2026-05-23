@@ -21,14 +21,15 @@
 </script>
 
 <div
-	class="rounded-md bg-white mb-4 text-xs pb-1 {status == 'ERROR' ? `border-4 border-red-400` : ''} 
-	{status == 'SUCCESS' ? `border-4 border-green-600` : ''}"
+	class="tool-panel {status == 'ERROR' ? 'tool-panel--error' : ''} {status == 'SUCCESS'
+		? 'tool-panel--success'
+		: ''}"
 >
 	<!-- Panel Header -->
-	<div class="flex border-b justify-between">
-		<p class="p-1 px-2 text-sm w-1/2">
-			{#if title}<span class="font-bold">{`${title}: `}</span>{/if}{$TeiStore?.fileData?.basename ||
-				''}
+	<div class="tool-panel__header">
+		<p class="tool-panel__title tool-panel__title--file">
+			{#if title}<span class="tool-panel__details-label">{`${title}: `}</span>{/if}{$TeiStore
+				?.fileData?.basename || ''}
 		</p>
 		<div>
 			<OpenXmlInBrowser xmlDoc={$TeiStore?.xmlDoc} tabName="teixml" />
@@ -48,42 +49,42 @@
 				}}
 			>
 				{#snippet children(openFile)}
-					<button type="button" class="p-1 mr-2" onclick={openFile}>Load</button>
+					<button type="button" class="tool-panel__button" onclick={openFile}>Load</button>
 				{/snippet}
 			</OpenXMLFileButton>
 
-			<button class="p-1 mr-2" onclick={() => TeiStore.clear()}>Clear</button>
+			<button class="tool-panel__button" onclick={() => TeiStore.clear()}>Clear</button>
 		</div>
 	</div>
 	<!-- Panel Body -->
-	<div class="m-4 text-xs">
+	<div class="tool-panel__body tool-panel__body--text">
 		{#if isLoading}
-			<div class="flex justify-center">
+			<div class="tool-panel__loading">
 				<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 			</div>
 		{:else}
 			{#if noTeiLoaded}
-				<p class="  p-1">No TEI XML loaded</p>
+				<p class="tool-panel__empty">No TEI XML loaded</p>
 			{/if}
 			{#if $TeiStore?.fileData && Object.keys($TeiStore?.fileData).length > 1}
-				<p class="text-sm font-bold p-1">File details</p>
-				<div class="mb-2 px-2">
+				<p class="tool-panel__section-title">File details</p>
+				<div class="tool-panel__details">
 					{#each Object.entries($TeiStore?.fileData) as [key, value] (key)}
-						<p><span class="font-bold">{key}</span>: {value}</p>
+						<p><span class="tool-panel__details-label">{key}</span>: {value}</p>
 					{/each}
 				</div>
 			{/if}
 			{#if $TeiStore?.metaData && Object.keys($TeiStore?.metaData).length > 1}
-				<p class="text-sm font-bold p-1">Metadata</p>
-				<div class="mb-2 px-2">
+				<p class="tool-panel__section-title">Metadata</p>
+				<div class="tool-panel__details">
 					{#each Object.entries($TeiStore?.metaData) as [key, value] (key)}
-						<p><span class="font-bold">{key}</span>: {value}</p>
+						<p><span class="tool-panel__details-label">{key}</span>: {value}</p>
 					{/each}
 				</div>
 			{/if}
 			{#if $TeiStore?.errors && $TeiStore?.errors.length > 0}
-				<p class="text-sm font-bold p-1 text-red-800">Parsing errors</p>
-				<div class="mb-2 px-2 text-red-800 font-mono">
+				<p class="tool-panel__section-title tool-panel__section-title--error">Parsing errors</p>
+				<div class="tool-panel__error-details">
 					{#each $TeiStore?.errors as error, index (index)}
 						<p>{error}</p>
 					{/each}

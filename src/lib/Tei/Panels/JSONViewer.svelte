@@ -39,21 +39,21 @@
 	}
 </script>
 
-<div class="rounded-md bg-white mb-4 text-xs pb-1">
+<div class="tool-panel">
 	<!-- Panel Header -->
-	<div class="flex border-b justify-between">
+	<div class="tool-panel__header">
 		<div>
-			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
+			{#if title}<p class="tool-panel__title">{title}</p>{/if}
 		</div>
 		<div>
 			{#if maxDepth > 1}
 				<!-- only show depth tools if there is any depth -->
-				<span class="py-2 mr-2">Depth: </span>
-				<button class="" onclick={decreaseDepth}
+				<span class="tool-panel__json-depth-label">Depth: </span>
+				<button onclick={decreaseDepth}
 					><SvgIcon name="square-minus" color="#666666" scale="1.0" /></button
 				>
-				<span class="py-2">{currentDepth + 1}</span>
-				<button class="mr-2" onclick={increaseDepth}
+				<span class="tool-panel__json-depth-value">{currentDepth + 1}</span>
+				<button class="tool-panel__json-depth-button" onclick={increaseDepth}
 					><SvgIcon name="square-plus" color="#666666" scale="1.0" /></button
 				>
 			{/if}
@@ -61,19 +61,19 @@
 			{#if hasJsonData}
 				<SaveJsonFileButton {jsonData} fileName={savefile}>
 					{#snippet children(saveFile)}
-						<button type="button" class="p-1 mr-2" onclick={saveFile}>Save</button>
+						<button type="button" class="tool-panel__button" onclick={saveFile}>Save</button>
 					{/snippet}
 				</SaveJsonFileButton>
 			{/if}
-			<!-- <button class="p-1 mr-2" onclick={clear}>Clear</button> -->
+			<!-- <button class="tool-panel__button" onclick={clear}>Clear</button> -->
 		</div>
 	</div>
 	<!-- Panel Body -->
-	<div class="m-4">
+	<div class="tool-panel__body">
 		{#if hasJsonData}
 			<JsonView depth={currentDepth} json={jsonData} />
 		{:else}
-			<div class="h-4">{message}</div>
+			<div class="tool-panel__message">{message}</div>
 		{/if}
 	</div>
 </div>

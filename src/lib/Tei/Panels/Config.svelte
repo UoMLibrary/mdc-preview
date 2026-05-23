@@ -12,41 +12,41 @@
 	let { title = '' }: Props = $props();
 </script>
 
-<div class="rounded-md bg-white mb-4 text-xs pb-1">
+<div class="tool-panel">
 	<!-- Panel Header -->
-	<div class="flex border-b justify-between">
+	<div class="tool-panel__header">
 		<div>
-			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
+			{#if title}<p class="tool-panel__title">{title}</p>{/if}
 		</div>
 		<div>
 			<OpenJsonFileButton
 				loaded={(payload) => ConfigStore.loadJson(payload.json as ConfigStoreValue)}
 			>
 				{#snippet children(openFile)}
-					<button type="button" class="p-1 mr-2" onclick={openFile}>Load</button>
+					<button type="button" class="tool-panel__button" onclick={openFile}>Load</button>
 				{/snippet}
 			</OpenJsonFileButton>
 
 			<SaveJsonFileButton jsonData={$ConfigStore} fileName="config.json">
 				{#snippet children(saveFile)}
-					<button type="button" class="p-1 mr-2" onclick={saveFile}>Save</button>
+					<button type="button" class="tool-panel__button" onclick={saveFile}>Save</button>
 				{/snippet}
 			</SaveJsonFileButton>
 
-			<button class="p-1 mr-2" onclick={() => ConfigStore.setDefault()}>Default</button>
-			<button class="p-1 mr-2" onclick={() => ConfigStore.setLocal()}>Localhost</button>
-			<button class="p-1 mr-2" onclick={() => ConfigStore.clear()}>Clear</button>
+			<button class="tool-panel__button" onclick={() => ConfigStore.setDefault()}>Default</button>
+			<button class="tool-panel__button" onclick={() => ConfigStore.setLocal()}>Localhost</button>
+			<button class="tool-panel__button" onclick={() => ConfigStore.clear()}>Clear</button>
 		</div>
 	</div>
 	<!-- Panel Body -->
-	<div class="m-4">
+	<div class="tool-panel__body">
 		{#each Object.entries($ConfigStore) as [key, itemValue] (key)}
 			<!-- Show each key value pair -->
-			<div class="mb-2 flex items-center border rounded-md text-left text-xs">
-				<div class="px-4 w-64 font-bold">{key}:</div>
+			<div class="tool-panel__config-row">
+				<div class="tool-panel__config-key">{key}:</div>
 				<input
 					type="text"
-					class="px-2 bg-zinc-100 text-sm py-1 w-full"
+					class="tool-panel__config-input"
 					value={itemValue}
 					onchange={(e) => ConfigStore.setKeyValue(key, e.currentTarget.value)}
 				/>

@@ -24,11 +24,11 @@
 	}
 </script>
 
-<div class="rounded-md bg-white mb-4 text-xs pb-2">
+<div class="tool-panel">
 	<!-- Panel Header -->
-	<div class="flex border-b justify-between">
+	<div class="tool-panel__header">
 		<div>
-			{#if title}<p class="p-1 px-2 font-bold text-sm">{title}</p>{/if}
+			{#if title}<p class="tool-panel__title">{title}</p>{/if}
 		</div>
 		<div>
 			<OpenXmlInBrowser {xmlDoc} tabName="preoutput" />
@@ -36,20 +36,20 @@
 			{#if xmlDoc}
 				<SaveXMLFileButton {xmlDoc} fileName={saveFile}>
 					{#snippet children(saveFile)}
-						<button type="button" class="p-1 mr-2" onclick={saveFile}>Save</button>
+						<button type="button" class="tool-panel__button" onclick={saveFile}>Save</button>
 					{/snippet}
 				</SaveXMLFileButton>
 			{/if}
 
-			<!-- <button class="p-1 mr-2" onclick={clear}>Clear</button> -->
+			<!-- <button class="tool-panel__button" onclick={clear}>Clear</button> -->
 		</div>
 	</div>
 	<!-- Panel Body -->
-	<div class="m-4">
+	<div class="tool-panel__body">
 		{#if xmlString}
-			<pre class="text-xs h-40 overflow-hidden overflow-y-auto">{xmlString}</pre>
+			<pre class="tool-panel__xml-output">{xmlString}</pre>
 		{:else}
-			<div class="h-4">{message}</div>
+			<div class="tool-panel__message">{message}</div>
 		{/if}
 	</div>
 </div>

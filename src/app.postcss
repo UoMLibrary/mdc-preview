@@ -2,3 +2,184 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tool-panel {
+	margin-bottom: 1rem;
+	padding-bottom: 0.25rem;
+	border-radius: 0.375rem;
+	background: #fff;
+	font-size: 0.75rem;
+}
+
+.tool-panel--error {
+	border: 4px solid #f87171;
+}
+
+.tool-panel--success {
+	border: 4px solid #16a34a;
+}
+
+.tool-panel__header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #e5e7eb;
+}
+
+.tool-panel__title {
+	margin: 0;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	font-weight: 700;
+}
+
+.tool-panel__title--file {
+	width: 50%;
+	font-weight: 400;
+}
+
+.tool-panel__actions {
+	padding: 0.25rem;
+}
+
+.tool-panel__button {
+	margin-right: 0.5rem;
+	padding: 0.25rem;
+}
+
+.tool-panel__body {
+	margin: 1rem;
+}
+
+.tool-panel__body--text {
+	font-size: 0.75rem;
+}
+
+.tool-panel__loading {
+	display: flex;
+	justify-content: center;
+}
+
+.tool-panel__empty {
+	margin: 0;
+	padding: 0.25rem;
+}
+
+.tool-panel__section-title {
+	margin: 0;
+	padding: 0.25rem;
+	font-size: 0.875rem;
+	font-weight: 700;
+}
+
+.tool-panel__section-title--error,
+.tool-panel__error-details {
+	color: #991b1b;
+}
+
+.tool-panel__details {
+	margin-bottom: 0.5rem;
+	padding: 0 0.5rem;
+}
+
+.tool-panel__details-label {
+	font-weight: 700;
+}
+
+.tool-panel__error-details {
+	margin-bottom: 0.5rem;
+	padding: 0 0.5rem;
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace;
+}
+
+.tool-panel__message {
+	height: 1rem;
+}
+
+.tool-panel__message--inset {
+	margin: 1rem;
+}
+
+.tool-panel__config-row {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.5rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 0.375rem;
+	text-align: left;
+	font-size: 0.75rem;
+}
+
+.tool-panel__config-key {
+	width: 16rem;
+	padding: 0 1rem;
+	font-weight: 700;
+}
+
+.tool-panel__config-input {
+	width: 100%;
+	padding: 0.25rem 0.5rem;
+	background: #f4f4f5;
+	font-size: 0.875rem;
+}
+
+.tool-panel__json-depth-label,
+.tool-panel__json-depth-value {
+	padding: 0.5rem 0;
+}
+
+.tool-panel__json-depth-label,
+.tool-panel__json-depth-button {
+	margin-right: 0.5rem;
+}
+
+.tool-panel__xml-output {
+	height: 10rem;
+	overflow: hidden auto;
+	font-size: 0.75rem;
+}
+
+.tool-panel__header-spacer {
+	display: flex;
+	padding: 0.25rem 0;
+}
+
+.pdf-print-controls__loading {
+	display: flex;
+	justify-content: center;
+}
+
+.pdf-print-controls__loading-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.pdf-print-controls__progress {
+	margin: 0;
+	padding: 0.5rem;
+	font-size: 0.75rem;
+}
+
+.pdf-print-controls__buttons {
+	display: flex;
+	justify-content: space-around;
+	gap: 0.25rem;
+}
+
+.pdf-print-controls__button {
+	border-radius: 0.25rem;
+	background: #cbd5e1;
+	padding: 1rem;
+}
+
+.pdf-print-controls__empty {
+	height: 1rem;
+}
+
+@media (min-width: 640px) {
+	.pdf-print-controls__button {
+		padding: 2rem;
+	}
+}
