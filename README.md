@@ -30,6 +30,11 @@ The preview flow is:
 
 `/preview` does this with bundled transforms from `src/routes/preview/*.sef.json`.
 
+SEF means Stylesheet Export File. It is Saxon's compiled JSON form of an XSLT
+stylesheet. The browser runtime executes SEF files rather than compiling full
+XSLT itself, so this project compiles loaded XSLT into SEF before running the
+preview transforms.
+
 `/preview/tool` lets you inspect or replace the TEI, XSLT, generated SEF, and configuration at each stage.
 
 The XSLT used for the production TEI-to-JSON transformation is managed in
