@@ -1,16 +1,66 @@
 declare module 'saxon-js' {
-	interface SaxonDocument {
+	export interface SaxonDocument {
 		_saxonBaseUri?: string;
+		_saxonDocUri?: string;
+		firstChild: SaxonDocument;
 		[key: string]: unknown;
 	}
 
-	interface SaxonPlatform {
+	export interface SaxonPlatform {
 		parseXmlFromString(xml: string): SaxonDocument;
+		resource(name: 'compiler'): SaxonSefNode;
 	}
 
-	interface SaxonModule {
+	export interface SaxonSefNode {
+		N: string;
+		C?: SaxonSefNode[];
+		parentNode?: SaxonSefNode;
+		[key: string]: unknown;
+	}
+
+	export interface SaxonTransformResult {
+		principalResult: SaxonDocument | SaxonDocument[];
+	}
+
+	export interface SaxonCheckedCompileOptions {
+		resultPromise: Promise<SaxonTransformResult>;
+	}
+
+	export interface SaxonCompileOptions {
+		destination: 'application';
+		initialMode: 'compile-complete';
+		templateParams: Record<string, unknown>;
+		stylesheetParams: SaxonXdmMap;
+		stylesheetInternal: SaxonSefNode;
+		sourceNode: SaxonDocument;
+		async: true;
+	}
+
+	export interface SaxonXdmMap {
+		inSituPut(key: unknown, value: unknown): void;
+	}
+
+	export interface SaxonXsNamespace {
+		QName: {
+			fromParts(prefix: string, namespace: string, local: string): unknown;
+		};
+	}
+
+	export interface SaxonXPathNamespace {
+		sefToJSON(node: SaxonDocument, includeStatic?: boolean): SaxonSefNode;
+	}
+
+	export interface SaxonModule {
 		getPlatform(): SaxonPlatform;
-		compile(document: SaxonDocument): unknown;
+		checkOptions(options: SaxonCompileOptions): SaxonCheckedCompileOptions;
+		internalTransform(
+			stylesheet: SaxonSefNode,
+			sourceNode: SaxonDocument,
+			options: SaxonCheckedCompileOptions
+		): void;
+		XdmMap: new () => SaxonXdmMap;
+		XS: SaxonXsNamespace;
+		XPath: SaxonXPathNamespace;
 	}
 
 	const saxon: SaxonModule;

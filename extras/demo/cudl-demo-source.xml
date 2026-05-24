@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<demoItem id="DEMO-CUDL-0001">
+	<title>Demo CUDL Viewer Item</title>
+	<shelfLocator>DEMO-BOX-1</shelfLocator>
+	<abstract>
+		<p>This deliberately simple XML file is not TEI. It exists only to test the MDC Preview pipeline and prove that the CUDL output viewer can render an item.</p>
+	</abstract>
+	<creator>A Test Fixture</creator>
+	<date>2026</date>
+	<rights>Images are referenced from the public Manchester IIIF service for preview testing.</rights>
+	<pages>
+		<page imageRef="PR-JAPANESE-00070-000-00001.jp2" label="Mount Fuji map" width="3488" height="4640" />
+		<page imageRef="PR-JAPANESE-00094-000-00001.jp2" label="Qing item" width="3488" height="4640" />
+		<page imageRef="PR-JAPANESE-00097-000-00001.jp2" label="Tokugawa travel item" width="3488" height="4640" />
+	</pages>
+</demoItem>

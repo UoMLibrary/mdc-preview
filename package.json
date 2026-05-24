@@ -30,7 +30,7 @@
 		"idb-keyval": "^6.2.1",
 		"jspdf": "^4.2.1",
 		"openseadragon": "^4.1.0",
-		"saxon-js": "^2.5.0"
+		"saxon-js": "^2.7.0"
 	},
 	"overrides": {
 		"cookie": "0.7.2"
