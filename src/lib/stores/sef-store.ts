@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import type { FileData, XmlMetaData } from '$lib/UI/FileButtons/file-button-utils.js';
-import { get, writable } from 'svelte/store';
+import { createStore, get as idbGet, set as idbSet, type UseStore } from 'idb-keyval';
+import { get as getStore, writable } from 'svelte/store';
 
 export interface SefItem {
 	metadata?: unknown;
@@ -18,15 +19,23 @@ const emptyStore: SefStoreValue = {};
 // Structure. Key is the sefId, typically from previewSefIds.
 
 const emptyItem: SefItem = { metadata: null, sef: null, filename: null, errors: null };
+const sefStorageKey = 'sefStore';
+const legacyLocalStorageKey = 'stringifiedSefStore';
+
+let indexedDbStore: UseStore | null = null;
+let saveQueue = Promise.resolve();
 
 function createSefStore() {
 	const sefStore = writable<SefStoreValue>(emptyStore);
 
-	// If this is running in a browser check to see if there was any config
-	// left over from last time/page
+	// If this is running in a browser check to see if there was any SEF data
+	// left over from last time/page.
 	if (browser) {
-		loadLocal();
-		sefStore.subscribe((value) => saveLocal(value));
+		void loadLocal().finally(() => {
+			sefStore.subscribe((value) => {
+				void saveLocal(value);
+			});
+		});
 	}
 
 	return {
@@ -59,21 +68,66 @@ function createSefStore() {
 	// during its use which triggers the store update which triggers etc...
 	// Makes a copy of the object
 	function getKeyCopy(key: string) {
-		const store = get(sefStore);
+		const store = getStore(sefStore);
 		const sefForKey = store[key]?.sef;
 		const sefCopy = JSON.stringify(sefForKey);
 		return sefCopy === undefined ? undefined : JSON.parse(sefCopy);
 	}
 
-	function saveLocal(value: SefStoreValue) {
-		localStorage.setItem('stringifiedSefStore', JSON.stringify(value));
+	async function saveLocal(value: SefStoreValue) {
+		try {
+			const valueToSave = cloneStorageValue(value);
+			saveQueue = saveQueue
+				.catch(() => undefined)
+				.then(() => idbSet(sefStorageKey, valueToSave, getIndexedDbStore()));
+			await saveQueue;
+		} catch (error) {
+			console.warn('Unable to save SEF store to IndexedDB', error);
+		}
 	}
 
-	function loadLocal() {
-		const localStoredValue = localStorage.getItem('stringifiedSefStore');
-		let localStoredObj = { ...emptyStore };
-		if (localStoredValue) localStoredObj = JSON.parse(localStoredValue);
-		sefStore.set(localStoredObj);
+	async function loadLocal() {
+		try {
+			const storedValue = await idbGet<SefStoreValue>(sefStorageKey, getIndexedDbStore());
+			if (storedValue) {
+				sefStore.set(storedValue);
+				return;
+			}
+
+			const legacyValue = getLegacyLocalStorageValue();
+			if (legacyValue) {
+				sefStore.set(legacyValue);
+				await idbSet(sefStorageKey, legacyValue, getIndexedDbStore());
+				localStorage.removeItem(legacyLocalStorageKey);
+				return;
+			}
+
+			sefStore.set({ ...emptyStore });
+		} catch (error) {
+			console.warn('Unable to load SEF store from IndexedDB', error);
+		}
+	}
+
+	function getIndexedDbStore() {
+		indexedDbStore ??= createStore('mdc-preview', 'sef-store');
+		return indexedDbStore;
+	}
+
+	function getLegacyLocalStorageValue() {
+		const localStoredValue = localStorage.getItem(legacyLocalStorageKey);
+		if (!localStoredValue) return null;
+
+		try {
+			return JSON.parse(localStoredValue) as SefStoreValue;
+		} catch (error) {
+			console.warn('Unable to migrate legacy SEF localStorage value', error);
+			return null;
+		}
+	}
+
+	function cloneStorageValue(value: SefStoreValue) {
+		if (typeof structuredClone === 'function') return structuredClone(value) as SefStoreValue;
+		return JSON.parse(JSON.stringify(value)) as SefStoreValue;
 	}
 }
 

@@ -37,8 +37,8 @@
 			return;
 		}
 
-		// POST xmlString to api to convert to sef file used by SaxonJS
-		const resp = await fetch('/api/sef', {
+		// POST XSLT to the API to compile a SEF file used by SaxonJS.
+		const resp = await fetch('/api/compile-xslt-to-sef', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'text/plain'

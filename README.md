@@ -34,12 +34,12 @@ The preview flow is:
 
 ## Internal API
 
-`POST /api/sef` is an internal same-origin helper used by `/preview/tool`.
+`POST /api/compile-xslt-to-sef` is an internal same-origin helper used by `/preview/tool`.
 
 It accepts raw XSLT text in the request body and returns a compiled Saxon SEF payload:
 
 ```bash
-curl -X POST http://localhost:5174/api/sef \
+curl -X POST http://localhost:5174/api/compile-xslt-to-sef \
   --header "Content-Type: application/xml" \
   --data-binary @extras/xslt/jsonDocFormatter.xsl
 ```

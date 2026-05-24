@@ -6,7 +6,7 @@
 
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
-	import type { PreviewSefId } from '$lib/Tei/preview-sef-ids.js';
+	import { previewSefIds, type PreviewSefId } from '$lib/Tei/preview-sef-ids.js';
 	import type { SefItem } from '$lib/stores/sef-store.js';
 
 	interface Props {
@@ -19,7 +19,14 @@
 
 	const sefData = $derived($SefStore?.[sefId]);
 	const noXSLTLoaded = $derived(!sefData?.sef && !sefData?.fileData);
+	const emptyMessage = $derived(getEmptyMessage(sefId));
 	const status = $derived(getPanelStatus(!!sefData?.errors?.length, !!sefData?.sef));
+
+	function getEmptyMessage(id: PreviewSefId) {
+		if (id === previewSefIds.preTransform) return 'No pre-filter XSLT loaded';
+		if (id === previewSefIds.jsonTransform) return 'No JSON formatter XSLT loaded';
+		return 'No XSLT loaded';
+	}
 </script>
 
 <div
@@ -77,7 +84,7 @@
 			</div>
 		{:else}
 			{#if noXSLTLoaded}
-				<p class="tool-panel__empty">No TEI XML loaded</p>
+				<p class="tool-panel__empty">{emptyMessage}</p>
 			{/if}
 			{#if sefData?.fileData && Object.keys(sefData?.fileData).length > 1}
 				<p class="tool-panel__section-title">File details</p>

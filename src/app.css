@@ -258,6 +258,7 @@
 	background: var(--app-surface);
 	box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
 	font-size: 0.75rem;
+	overflow: hidden;
 }
 
 .tool-panel--error {
