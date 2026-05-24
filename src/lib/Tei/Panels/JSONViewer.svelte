@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { JsonView } from '@zerodevx/svelte-json-view';
+	import JsonTree from '$lib/UI/JsonTree.svelte';
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
@@ -71,7 +71,7 @@
 	<!-- Panel Body -->
 	<div class="tool-panel__body">
 		{#if hasJsonData}
-			<JsonView depth={currentDepth} json={jsonData} />
+			<JsonTree depth={currentDepth} value={jsonData} />
 		{:else}
 			<div class="tool-panel__message">{message}</div>
 		{/if}

@@ -27,7 +27,6 @@
 		"vite": "^8.0.14"
 	},
 	"dependencies": {
-		"@zerodevx/svelte-json-view": "^1.0.7",
 		"idb-keyval": "^6.2.1",
 		"jspdf": "^4.2.1",
 		"openseadragon": "^4.1.0",

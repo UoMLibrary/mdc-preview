@@ -1,5 +1,5 @@
 <script lang="ts">
-	// import { JsonView } from '@zerodevx/svelte-json-view'; // Debugging
+	// import JsonTree from '$lib/UI/JsonTree.svelte'; // Debugging
 	import Children from './Content/Children.svelte';
 	import Child from './Content/Child.svelte';
 	import type { ContentsObject } from '$lib/Tei/createViewModel.js';
@@ -35,6 +35,6 @@
 <!-- DEBUGGING -->
 <!-- {#if contents?.structure}
 	<div>
-		<JsonView depth="4" json={contents.structure} />
+		<JsonTree depth={4} value={contents.structure} />
 	</div>
 {/if} -->
