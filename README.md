@@ -32,23 +32,21 @@ The preview flow is:
 
 `/preview/tool` lets you inspect or replace the TEI, XSLT, generated SEF, and configuration at each stage.
 
-## Internal API
+The XSLT used for the production TEI-to-JSON transformation is managed in
+[UoMLibrary/mdc-data-processing-xslt](https://github.com/UoMLibrary/mdc-data-processing-xslt).
+Treat that repository as the source of truth for the transformation stylesheets;
+copies or demo stylesheets in this project are for previewing, testing, or local
+tool development.
 
-`POST /api/compile-xslt-to-sef` is an internal same-origin helper used by `/preview/tool`.
+## Stylesheet Compilation
 
-It accepts raw XSLT text in the request body and returns a compiled Saxon SEF payload:
+There is no public form-post or cross-site preview submission route. `/preview/tool`
+works from browser file selection: XML, XSLT, SEF, and configuration files are loaded
+locally by the user.
 
-```bash
-curl -X POST http://localhost:5174/api/compile-xslt-to-sef \
-  --header "Content-Type: application/xml" \
-  --data-binary @extras/xslt/jsonDocFormatter.xsl
-```
-
-This endpoint is not intended as a public cross-site preview API.
-
-For multi-file stylesheets, `/preview/tool` can send a project payload instead of raw
-text. The client packages the selected folder and supplies the inferred entry
-stylesheet:
+For multi-file stylesheets, the tool can package a selected folder in the browser and
+compile it through an internal same-origin helper. The client supplies the inferred
+entry stylesheet and the uploaded project files:
 
 ```json
 {
@@ -62,12 +60,6 @@ stylesheet:
 
 The compile endpoint resolves `xsl:include` and `xsl:import` against those uploaded
 project files.
-
-## CSRF
-
-The app currently uses SvelteKit's default CSRF behaviour. There is no cross-origin TEI form-post route.
-
-If cross-site preview submission is reintroduced later, configure trusted origins explicitly rather than using a wildcard, and validate the allowed route in a server hook or dedicated API handler.
 
 ## Runtime Assets
 
