@@ -56,20 +56,19 @@ There are currently 2 routes in the tool
 
 ## Opening up some routes for POST
 
-In the _svelte.config.js_ file
+In the _svelte.config.ts_ file
 
-```javascript
-// The following disabled as the logic for performing the csrf check has been implemented
-// in hooks.server.js to allow a specifiv POST route from a specified origin. This allows
-// us to POST data to the preview tool from a tool with a different origin.
+```typescript
+// SvelteKit's default CSRF origin check is widened because hooks.server.ts
+// performs the route-specific check for external preview POST requests.
 csrf: {
-	checkOrigin: false;
+	trustedOrigins: ['*'];
 }
 ```
 
-We handle the csrf check in _hooks.server.js_
+We handle the csrf check in _hooks.server.ts_
 
-```javascript
+```typescript
 // Specify routes to allow POST data
 let allowedPOSTPaths = ['/preview/posted'];
 // Specify Origins able to send POST data
