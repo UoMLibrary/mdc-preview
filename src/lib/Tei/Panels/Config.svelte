@@ -20,18 +20,11 @@
 		</div>
 		<div>
 			<OpenJsonFileButton
+				label="Load"
 				loaded={(payload) => ConfigStore.loadJson(payload.json as ConfigStoreValue)}
-			>
-				{#snippet children(openFile)}
-					<button type="button" class="tool-panel__button" onclick={openFile}>Load</button>
-				{/snippet}
-			</OpenJsonFileButton>
+			/>
 
-			<SaveJsonFileButton jsonData={$ConfigStore} fileName="config.json">
-				{#snippet children(saveFile)}
-					<button type="button" class="tool-panel__button" onclick={saveFile}>Save</button>
-				{/snippet}
-			</SaveJsonFileButton>
+			<SaveJsonFileButton label="Save" jsonData={$ConfigStore} fileName="config.json" />
 
 			<button class="tool-panel__button" onclick={() => ConfigStore.setDefault()}>Default</button>
 			<button class="tool-panel__button" onclick={() => ConfigStore.setLocal()}>Localhost</button>

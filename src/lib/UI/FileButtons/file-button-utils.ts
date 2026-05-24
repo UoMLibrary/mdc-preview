@@ -1,6 +1,5 @@
 import { parseFirstXMLComment } from '$lib/Utils/xmlutils.js';
 import { tick } from 'svelte';
-import type { Snippet } from 'svelte';
 
 export interface FileData {
 	basename: string;
@@ -17,13 +16,8 @@ export interface TextFileResult {
 	contents: string;
 }
 
-export type OpenFile = () => void;
-export type FileButtonChildren = Snippet<[OpenFile]>;
-export type SaveFile = () => void;
-export type SaveFileButtonChildren = Snippet<[SaveFile]>;
-
 export interface FileButtonProps<TLoaded> {
-	children?: FileButtonChildren;
+	label?: string;
 	started?: () => Promise<void> | void;
 	loaded?: (payload: TLoaded) => void;
 }
@@ -34,12 +28,8 @@ export interface FileButtonWithErrorProps<TLoaded, TError> extends FileButtonPro
 
 export interface SaveFileButtonProps {
 	fileName?: string;
-	children?: SaveFileButtonChildren;
-	started?: () => Promise<void> | void;
-	saved?: (payload: { fileName: string }) => void;
+	label?: string;
 }
-
-export function noop() {}
 
 interface ParsedXmlText {
 	xmlDoc: XMLDocument;

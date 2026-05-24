@@ -1,25 +1,5 @@
 <script lang="ts">
-	/*
-		A button component that provides a filepicker restricted to XSLT
-		files. Selection of the file by the user triggers the file to be
-		loaded as XSLT (XML) it then compiles it to a sef file (used by 
-		SaxonJS).
-		The compile bit happens in an API POST to /api/sef with the 
-		XSLTString as the body. A loaded event is then dispatched to the 
-		calling button containing the fileData, Sef Object, metadata (it
-		parses the first XML comment for key pair values) and an array of
-		any errors
-
-		The button can be styled by passing in a button to the slot e.g
-
-	<OpenXSLTFileButton loaded={(payload) => console.log(payload)}>
-		{#snippet children(openFile)}
-			<button class="tool-panel__button" onclick={openFile}>Load</button>
-		{/snippet}
-	</OpenXSLTFileButton>
-	*/
 	import {
-		noop,
 		selectParsedXmlFile,
 		type FileButtonWithErrorProps,
 		type XmlFilePayloadBase
@@ -33,11 +13,14 @@
 		sef: unknown;
 	}
 
+	const ignoreLoaded = (_payload: LoadedPayload) => {};
+	const ignoreError = (_payload: ErrorPayload) => {};
+
 	let {
-		children,
-		started = noop,
-		error = noop,
-		loaded = noop
+		label = 'Load XSLT',
+		started,
+		error = ignoreError,
+		loaded = ignoreLoaded
 	}: FileButtonWithErrorProps<LoadedPayload, ErrorPayload> = $props();
 
 	async function handleFileOpen() {
@@ -65,8 +48,4 @@
 	}
 </script>
 
-{#if children}
-	{@render children(handleFileOpen)}
-{:else}
-	<button type="button" onclick={handleFileOpen}>Open XSLT File</button>
-{/if}
+<button type="button" class="tool-panel__button" onclick={handleFileOpen}>{label}</button>

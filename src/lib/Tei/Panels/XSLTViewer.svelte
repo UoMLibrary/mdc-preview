@@ -35,6 +35,7 @@
 
 		<div class="tool-panel__actions">
 			<OpenXsltFileButton
+				label="Load XSLT"
 				started={() => {
 					SefStore.clearKeyValue(sefId);
 					isLoading = true;
@@ -47,13 +48,10 @@
 					SefStore.setKeyValue(sefId, payload as SefItem);
 					isLoading = false;
 				}}
-			>
-				{#snippet children(openXsltFile)}
-					<button type="button" class="tool-panel__button" onclick={openXsltFile}>Load XSLT</button>
-				{/snippet}
-			</OpenXsltFileButton>
+			/>
 
 			<OpenJsonFileButton
+				label="Load SEF"
 				started={() => {
 					isLoading = true;
 				}}
@@ -61,18 +59,10 @@
 					SefStore.setKeyValue(sefId, payload.json as SefItem);
 					isLoading = false;
 				}}
-			>
-				{#snippet children(openSefFile)}
-					<button type="button" class="tool-panel__button" onclick={openSefFile}>Load SEF</button>
-				{/snippet}
-			</OpenJsonFileButton>
+			/>
 
 			{#if sefData?.sef}
-				<SaveJsonFileButton fileName={`${sefId}.sef.json`} jsonData={sefData}>
-					{#snippet children(saveFile)}
-						<button type="button" class="tool-panel__button" onclick={saveFile}>Save SEF</button>
-					{/snippet}
-				</SaveJsonFileButton>
+				<SaveJsonFileButton label="Save SEF" fileName={`${sefId}.sef.json`} jsonData={sefData} />
 			{/if}
 
 			<button class="tool-panel__button" onclick={() => SefStore.clearKeyValue(sefId)}>Clear</button

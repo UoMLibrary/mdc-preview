@@ -19,7 +19,7 @@
 </script>
 
 {#if xmlDoc?.documentElement}
-	<button class="tool-panel__button" onclick={() => openXMLInBrowser(xmlDoc, tabName)}
+	<button type="button" class="tool-panel__button" onclick={() => openXMLInBrowser(xmlDoc, tabName)}
 		>View XML</button
 	>
 {/if}

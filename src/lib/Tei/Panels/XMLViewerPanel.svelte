@@ -34,11 +34,7 @@
 			<OpenXmlInBrowser {xmlDoc} tabName="preoutput" />
 
 			{#if xmlDoc}
-				<SaveXMLFileButton {xmlDoc} fileName={saveFile}>
-					{#snippet children(saveFile)}
-						<button type="button" class="tool-panel__button" onclick={saveFile}>Save</button>
-					{/snippet}
-				</SaveXMLFileButton>
+				<SaveXMLFileButton label="Save" {xmlDoc} fileName={saveFile} />
 			{/if}
 
 			<!-- <button class="tool-panel__button" onclick={clear}>Clear</button> -->

@@ -35,6 +35,7 @@
 			<OpenXmlInBrowser xmlDoc={$TeiStore?.xmlDoc} tabName="teixml" />
 
 			<OpenXMLFileButton
+				label="Load"
 				started={() => {
 					isLoading = true;
 					TeiStore.clear();
@@ -47,11 +48,7 @@
 					$TeiStore = payload;
 					isLoading = false;
 				}}
-			>
-				{#snippet children(openFile)}
-					<button type="button" class="tool-panel__button" onclick={openFile}>Load</button>
-				{/snippet}
-			</OpenXMLFileButton>
+			/>
 
 			<button class="tool-panel__button" onclick={() => TeiStore.clear()}>Clear</button>
 		</div>

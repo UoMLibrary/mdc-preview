@@ -87,11 +87,7 @@
 			{#if hasJsonData}
 				<button type="button" class="tool-panel__button" onclick={collapseAll}>Collapse all</button>
 				<button type="button" class="tool-panel__button" onclick={expandAll}>Expand all</button>
-				<SaveJsonFileButton {jsonData} fileName={savefile}>
-					{#snippet children(saveFile)}
-						<button type="button" class="tool-panel__button" onclick={saveFile}>Save</button>
-					{/snippet}
-				</SaveJsonFileButton>
+				<SaveJsonFileButton label="Save" {jsonData} fileName={savefile} />
 			{/if}
 			<!-- <button class="tool-panel__button" onclick={clear}>Clear</button> -->
 		</div>
