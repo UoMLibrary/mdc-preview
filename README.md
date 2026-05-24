@@ -1,80 +1,57 @@
-# Digital collection preview tool
+# MDC Preview
 
-# mdc-preview
+MDC Preview is a SvelteKit tool for checking how TEI source material is transformed into CUDL-style JSON and a presentation view model.
 
-## Running in dev mode
+It has two user-facing preview routes:
+
+- `/preview` - a simple TEI preview route. It uses the bundled SEF transforms and lets you choose one of the built-in Cambridge, Lancaster, or Manchester configurations.
+- `/preview/tool` - a pipeline/debug route. It exposes the TEI source, pre-filter XSLT, JSON transform XSLT, configuration, generated JSON, view model, print output, and final preview.
+
+## Local Development
 
 ```bash
-git clone <repo>
-cd <repo>
 npm ci
-# start the preview app and manually open a browser
 npm run dev
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building a docker image
+The dev server runs on port `5174` by default.
+
+Example TEI, XSLT, SEF, and configuration files live in `extras/`.
+
+## Transform Flow
+
+The preview flow is:
+
+1. Load a TEI XML document.
+2. Run the pre-filter XSLT.
+3. Run the JSON formatter XSLT.
+4. Build the view model from the generated CUDL JSON and selected configuration.
+5. Render the preview and optional PDF output.
+
+`/preview` does this with bundled transforms from `src/routes/preview/*.sef.json`.
+
+`/preview/tool` lets you inspect or replace the TEI, XSLT, generated SEF, and configuration at each stage.
+
+## Internal API
+
+`POST /api/sef` is an internal same-origin helper used by `/preview/tool`.
+
+It accepts raw XSLT text in the request body and returns a compiled Saxon SEF payload:
 
 ```bash
-# Build the image and tag it locally
-docker build --tag web-tei-preview .
+curl -X POST http://localhost:5174/api/sef \
+  --header "Content-Type: application/xml" \
+  --data-binary @extras/xslt/jsonDocFormatter.xsl
 ```
 
-## Publishing the container image
+This endpoint is not intended as a public cross-site preview API.
 
-The `.github/workflows/publish-ghcr.yml` workflow builds and pushes a multi-architecture image to GitHub Container Registry when changes are pushed to `main`. It can also be run manually from the GitHub Actions tab.
+## CSRF
 
-Images are published to `ghcr.io/<owner>/<repo>` with `latest`, branch, and commit SHA tags.
+The app currently uses SvelteKit's default CSRF behaviour. There is no cross-origin TEI form-post route.
 
-## Running the local docker image
+If cross-site preview submission is reintroduced later, configure trusted origins explicitly rather than using a wildcard, and validate the allowed route in a server hook or dedicated API handler.
 
-```bash
-# Start a container using the local image and expose port 3000
-docker run --rm -p 3000:3000 --name preview -d web-tei-preview
-# Stop the container with docker stop preview
-```
+## Runtime Assets
 
-## Manual deployment
-
-The VM is expected to pull the image from GHCR using Docker Compose. Deployment is currently manual:
-
-```bash
-docker compose pull
-docker compose up -d --remove-orphans
-docker image prune -f
-```
-
-The extras folder contains some example Manchester TEI content and configuration files for Manchester, Lancaster and Cambridge.
-
-## Routes
-
-There are currently 2 routes in the tool
-
-- preview/tool - Where the pipeline is out in the open and the XSLT can be configured
-- preview - A simpler version with preconfigured XSLT to help with previewing TEIs
-
-## Opening up some routes for POST
-
-In the _svelte.config.ts_ file
-
-```typescript
-// SvelteKit's default CSRF origin check is widened because hooks.server.ts
-// performs the route-specific check for external preview POST requests.
-csrf: {
-	trustedOrigins: ['*'];
-}
-```
-
-We handle the csrf check in _hooks.server.ts_
-
-```typescript
-// Specify routes to allow POST data
-let allowedPOSTPaths = ['/preview/posted'];
-// Specify Origins able to send POST data
-let allowedOrigins = [
-	'http://localhost:5173',
-	'http://192.168.1.176:5173',
-	'https://tools.digitallibrarytools.com'
-];
-```
+`static/SaxonJS2.rt.js` is loaded at runtime by `src/app.html`. It is intentionally kept in `static/` even though static analysis tools may not see an import for it.

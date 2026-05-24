@@ -28,7 +28,7 @@ export async function transformXmlDocToXml(
 	return transformXmlStringToXml(serializeXmlDoc(xmlDoc), stylesheetInternal, options);
 }
 
-export async function transformXmlStringToXml(
+async function transformXmlStringToXml(
 	xmlString: string,
 	stylesheetInternal: unknown,
 	options: XmlTransformOptions = {}
