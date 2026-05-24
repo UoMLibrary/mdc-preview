@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SefStore from '$lib/stores/sef-store.js';
 	import { getPanelStatus } from '$lib/Tei/panel-status.js';
-	import OpenXsltFileButton from '$lib/UI/FileButtons/OpenXSLTFileButton.svelte';
+	import CompileXsltFileButton from '$lib/UI/FileButtons/CompileXsltFileButton.svelte';
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
@@ -18,14 +18,14 @@
 	let isLoading = $state(false);
 
 	const sefData = $derived($SefStore?.[sefId]);
-	const noXSLTLoaded = $derived(!sefData?.sef && !sefData?.fileData);
+	const noStylesheetLoaded = $derived(!sefData?.sef && !sefData?.fileData);
 	const emptyMessage = $derived(getEmptyMessage(sefId));
 	const status = $derived(getPanelStatus(!!sefData?.errors?.length, !!sefData?.sef));
 
 	function getEmptyMessage(id: PreviewSefId) {
-		if (id === previewSefIds.preTransform) return 'No pre-filter XSLT loaded';
-		if (id === previewSefIds.jsonTransform) return 'No JSON formatter XSLT loaded';
-		return 'No XSLT loaded';
+		if (id === previewSefIds.preTransform) return 'No pre-filter stylesheet loaded';
+		if (id === previewSefIds.jsonTransform) return 'No JSON transform stylesheet loaded';
+		return 'No stylesheet loaded';
 	}
 </script>
 
@@ -34,14 +34,13 @@
 		? 'tool-panel--success'
 		: ''}"
 >
-	<!-- Panel Header -->
 	<div class="tool-panel__header">
 		<p class="tool-panel__title tool-panel__title--file">
 			<span class="tool-panel__details-label">{title}: </span>{sefData?.fileData?.basename || ''}
 		</p>
 
 		<div class="tool-panel__actions">
-			<OpenXsltFileButton
+			<CompileXsltFileButton
 				label="Load XSLT"
 				started={() => {
 					SefStore.clearKeyValue(sefId);
@@ -76,18 +75,18 @@
 			>
 		</div>
 	</div>
-	<!-- Panel Body -->
+
 	<div class="tool-panel__body tool-panel__body--text">
 		{#if isLoading}
 			<div class="tool-panel__loading">
 				<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 			</div>
 		{:else}
-			{#if noXSLTLoaded}
+			{#if noStylesheetLoaded}
 				<p class="tool-panel__empty">{emptyMessage}</p>
 			{/if}
 			{#if sefData?.fileData && Object.keys(sefData?.fileData).length > 1}
-				<p class="tool-panel__section-title">File details</p>
+				<p class="tool-panel__section-title">Source file details</p>
 				<div class="tool-panel__details">
 					{#each Object.entries(sefData?.fileData) as [key, value] (key)}
 						<p><span class="tool-panel__details-label">{key}</span>: {value}</p>
@@ -95,7 +94,7 @@
 				</div>
 			{/if}
 			{#if sefData?.metaData && Object.keys(sefData.metaData).length > 1}
-				<p class="tool-panel__section-title">Metadata</p>
+				<p class="tool-panel__section-title">Source metadata</p>
 				<div class="tool-panel__details">
 					{#each Object.entries(sefData.metaData) as [key, value] (key)}
 						<p><span class="tool-panel__details-label">{key}</span>: {value}</p>

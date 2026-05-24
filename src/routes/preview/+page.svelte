@@ -7,18 +7,20 @@
 	// Stores
 	import TeiStore from '$lib/stores/tei-store.js';
 
-	import { isValidPreviewConfig, previewConfigData } from '$lib/Tei/preview-utils.js';
-	import { transformXmlDocToJson, transformXmlDocToXml } from '$lib/Tei/preview-transform.js';
+	import { previewConfigData } from '$lib/Tei/preview-utils.js';
+	import {
+		createPreviewViewModel,
+		runPreviewJsonTransform,
+		runPreviewPreTransform,
+		type CudlObject,
+		type PreviewConfig,
+		type ViewModel
+	} from '$lib/Tei/preview-pipeline.js';
 
 	// We load the sef when the page is loaded, this preview page doen't need to react to
 	// live updates in the sef files
 	import { sef as preTransformSef } from './preTransform.sef.json';
 	import { sef as jsonTransformSef } from './JSONTransform.sef.json';
-
-	// ViewModel processing
-	import { createViewModel } from '$lib/Tei/createViewModel.js';
-	import type { CudlObject, ViewModel } from '$lib/Tei/createViewModel.js';
-	import type { PreviewConfig } from '$lib/Tei/preview-utils.js';
 
 	let page = $state(0);
 	let selectedOrg = $state('manchester');
@@ -41,12 +43,12 @@
 	});
 
 	async function runPreTransform(xmlDoc: XMLDocument | null | undefined) {
-		const result = await transformXmlDocToXml(xmlDoc, preTransformSef, { cleanFacsimile: true });
+		const result = await runPreviewPreTransform(xmlDoc, preTransformSef);
 		preTransformXmlDocOutput = result.value;
 	}
 
 	async function runJSONTransform(xmlDoc: XMLDocument | null | undefined) {
-		const result = await transformXmlDocToJson(xmlDoc, jsonTransformSef);
+		const result = await runPreviewJsonTransform(xmlDoc, jsonTransformSef);
 		JSONTransformObjOutput = result.value;
 	}
 
@@ -54,12 +56,7 @@
 		cudlJson: CudlObject | null,
 		config: PreviewConfig | undefined
 	) {
-		if (!cudlJson || !isValidPreviewConfig(config)) {
-			return (ViewModelOutput = null);
-		}
-		// Quick hack for new Object, transformation will make a copy
-		let cudlJsonCopy = JSON.parse(JSON.stringify(cudlJson)) as CudlObject;
-		ViewModelOutput = createViewModel(cudlJsonCopy, config);
+		ViewModelOutput = createPreviewViewModel(cudlJson, config);
 	}
 
 	function selectConfig(org: string) {

@@ -9,7 +9,7 @@ export interface TransformDisplayError {
 	stack?: string;
 }
 
-interface TransformOutcome<T> {
+export interface TransformOutcome<T> {
 	value: T | null;
 	error: TransformDisplayError | null;
 }

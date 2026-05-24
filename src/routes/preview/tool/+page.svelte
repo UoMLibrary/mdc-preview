@@ -4,22 +4,21 @@
 	import SefStore from '$lib/stores/sef-store.js';
 	import ConfigStore from '$lib/stores/config-store.js';
 
-	// ViewModel processing
-	import { createViewModel } from '$lib/Tei/createViewModel.js';
-	import type { CudlObject, ViewModel } from '$lib/Tei/createViewModel.js';
-	import { isValidPreviewConfig } from '$lib/Tei/preview-utils.js';
 	import {
-		transformXmlDocToJson,
-		transformXmlDocToXml,
-		type TransformDisplayError
-	} from '$lib/Tei/preview-transform.js';
+		createPreviewViewModel,
+		runPreviewJsonTransform,
+		runPreviewPreTransform,
+		type CudlObject,
+		type PreviewConfig,
+		type TransformDisplayError,
+		type ViewModel
+	} from '$lib/Tei/preview-pipeline.js';
 	import { previewSefIds } from '$lib/Tei/preview-sef-ids.js';
-	import type { PreviewConfig } from '$lib/Tei/preview-utils.js';
 	import type { SefItem } from '$lib/stores/sef-store.js';
 
 	// Tool Panels and Preview
 	import SourceTEI from '$lib/Tei/Panels/SourceTEI.svelte';
-	import XSLTViewer from '$lib/Tei/Panels/XSLTViewer.svelte';
+	import StylesheetCompilerPanel from '$lib/Tei/Panels/StylesheetCompilerPanel.svelte';
 	import XMLViewerPanel from '$lib/Tei/Panels/XMLViewerPanel.svelte';
 	import JSONViewer from '$lib/Tei/Panels/JSONViewer.svelte';
 	import Config from '$lib/Tei/Panels/Config.svelte';
@@ -54,7 +53,7 @@
 	) {
 		PreTransformError = null;
 		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.preTransform) : null;
-		const result = await transformXmlDocToXml(xmlDoc, stylesheet, { cleanFacsimile: true });
+		const result = await runPreviewPreTransform(xmlDoc, stylesheet);
 
 		preTransformXmlDocOutput = result.value;
 		PreTransformError = result.error;
@@ -66,19 +65,14 @@
 	) {
 		JSONtransformError = null;
 		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.jsonTransform) : null;
-		const result = await transformXmlDocToJson(xmlDoc, stylesheet);
+		const result = await runPreviewJsonTransform(xmlDoc, stylesheet);
 
 		JSONTransformObjOutput = result.value;
 		JSONtransformError = result.error;
 	}
 
 	async function runViewModelTransform(cudlJson: CudlObject | null, configObj: PreviewConfig) {
-		if (!cudlJson || !isValidPreviewConfig(configObj)) {
-			return (ViewModelOutput = null);
-		}
-		// Quick hack for new Object, transformation will make a copy
-		let cudlJsonCopy = JSON.parse(JSON.stringify(cudlJson)) as CudlObject;
-		ViewModelOutput = createViewModel(cudlJsonCopy, configObj);
+		ViewModelOutput = createPreviewViewModel(cudlJson, configObj);
 	}
 
 	// Handle page navigation from Preview internal components.
@@ -96,8 +90,8 @@
 		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
-	<!-- UI to load preFilter XSLT doc and formats it to a form used by SaxtonJS -->
-	<XSLTViewer title="Pre filter XSLT" sefId={previewSefIds.preTransform} />
+	<!-- Load a pre-filter stylesheet or precompiled SEF for SaxonJS. -->
+	<StylesheetCompilerPanel title="Pre-filter stylesheet" sefId={previewSefIds.preTransform} />
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">
@@ -128,8 +122,8 @@
 		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
-	<!-- UI to load JSONTransform XSLT doc and formats it to a form used by SaxtonJS -->
-	<XSLTViewer title="JSON formatter XSLT" sefId={previewSefIds.jsonTransform} />
+	<!-- Load a JSON transform stylesheet or precompiled SEF for SaxonJS. -->
+	<StylesheetCompilerPanel title="JSON transform stylesheet" sefId={previewSefIds.jsonTransform} />
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">

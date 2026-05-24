@@ -37,7 +37,6 @@
 			return;
 		}
 
-		// POST XSLT to the API to compile a SEF file used by SaxonJS.
 		const resp = await fetch('/api/compile-xslt-to-sef', {
 			method: 'POST',
 			headers: {
@@ -45,7 +44,7 @@
 			},
 			body: contents
 		});
-		// TODO: Capture errors from sef transform here and dispatch as error
+
 		const json = await resp.json();
 		loaded({ fileData, sef: json.sef, metaData, errors: [] });
 	}
