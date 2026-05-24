@@ -1,9 +1,15 @@
 <script lang="ts">
-	import { selectTextFile, type FileButtonProps, type FileData } from './file-button-utils.js';
+	import { selectTextFile, type FileData } from './file-button-utils.js';
 
 	type LoadedPayload = { fileData: FileData; json: unknown };
 
-	let { label = 'Load', started, loaded }: FileButtonProps<LoadedPayload> = $props();
+	interface Props {
+		label?: string;
+		started?: () => Promise<void> | void;
+		loaded?: (payload: LoadedPayload) => void;
+	}
+
+	let { label = 'Load', started, loaded }: Props = $props();
 
 	async function handleFileOpen() {
 		const fileResult = await selectTextFile({ accept: '.json', started });

@@ -11,24 +11,9 @@ export interface FileData {
 
 export type XmlMetaData = ReturnType<typeof parseFirstXMLComment>;
 
-export interface TextFileResult {
+interface TextFileResult {
 	fileData: FileData;
 	contents: string;
-}
-
-export interface FileButtonProps<TLoaded> {
-	label?: string;
-	started?: () => Promise<void> | void;
-	loaded?: (payload: TLoaded) => void;
-}
-
-export interface FileButtonWithErrorProps<TLoaded, TError> extends FileButtonProps<TLoaded> {
-	error?: (payload: TError) => void;
-}
-
-export interface SaveFileButtonProps {
-	fileName?: string;
-	label?: string;
 }
 
 interface ParsedXmlText {
@@ -43,11 +28,11 @@ export interface XmlFilePayloadBase {
 	errors: string[];
 }
 
-export interface ParsedXmlFileResult extends TextFileResult, XmlFilePayloadBase {
+interface ParsedXmlFileResult extends TextFileResult, XmlFilePayloadBase {
 	xmlDoc: XMLDocument;
 }
 
-export interface SelectTextFileOptions {
+interface SelectTextFileOptions {
 	accept: string;
 	started?: () => Promise<void> | void;
 }

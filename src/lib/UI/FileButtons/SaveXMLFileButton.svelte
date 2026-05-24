@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { downloadTextFile, type SaveFileButtonProps } from './file-button-utils.js';
+	import { downloadTextFile } from './file-button-utils.js';
 
-	interface Props extends SaveFileButtonProps {
+	interface Props {
 		xmlDoc?: XMLDocument;
+		fileName?: string;
+		label?: string;
 	}
 
 	let { xmlDoc, fileName = 'data.xml', label = 'Save' }: Props = $props();

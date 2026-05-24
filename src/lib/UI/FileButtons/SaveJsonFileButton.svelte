@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { downloadTextFile, type SaveFileButtonProps } from './file-button-utils.js';
+	import { downloadTextFile } from './file-button-utils.js';
 
-	interface Props extends SaveFileButtonProps {
+	interface Props {
 		jsonData: unknown;
+		fileName?: string;
+		label?: string;
 	}
 
 	let { jsonData, fileName = 'data.json', label = 'Save' }: Props = $props();

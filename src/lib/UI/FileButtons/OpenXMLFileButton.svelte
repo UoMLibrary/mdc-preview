@@ -1,9 +1,5 @@
 <script lang="ts">
-	import {
-		selectParsedXmlFile,
-		type FileButtonWithErrorProps,
-		type XmlFilePayloadBase
-	} from './file-button-utils.js';
+	import { selectParsedXmlFile, type XmlFilePayloadBase } from './file-button-utils.js';
 
 	interface ErrorPayload extends XmlFilePayloadBase {
 		xmlDoc: null;
@@ -13,15 +9,17 @@
 		xmlDoc: XMLDocument;
 	}
 
+	interface Props {
+		label?: string;
+		started?: () => Promise<void> | void;
+		error?: (payload: ErrorPayload) => void;
+		loaded?: (payload: LoadedPayload) => void;
+	}
+
 	const ignoreLoaded = (_payload: LoadedPayload) => {};
 	const ignoreError = (_payload: ErrorPayload) => {};
 
-	let {
-		label = 'Load',
-		started,
-		error = ignoreError,
-		loaded = ignoreLoaded
-	}: FileButtonWithErrorProps<LoadedPayload, ErrorPayload> = $props();
+	let { label = 'Load', started, error = ignoreError, loaded = ignoreLoaded }: Props = $props();
 
 	async function handleFileOpen() {
 		const xmlFile = await selectParsedXmlFile({ accept: '.xml', started });
