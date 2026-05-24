@@ -46,6 +46,23 @@ curl -X POST http://localhost:5174/api/compile-xslt-to-sef \
 
 This endpoint is not intended as a public cross-site preview API.
 
+For multi-file stylesheets, `/preview/tool` can send a project payload instead of raw
+text. The client packages the selected folder and supplies the inferred entry
+stylesheet:
+
+```json
+{
+	"entryPath": "my-transform/main.xsl",
+	"files": [
+		{ "path": "my-transform/main.xsl", "contents": "<xsl:stylesheet>...</xsl:stylesheet>" },
+		{ "path": "my-transform/lib/common.xsl", "contents": "<xsl:stylesheet>...</xsl:stylesheet>" }
+	]
+}
+```
+
+The compile endpoint resolves `xsl:include` and `xsl:import` against those uploaded
+project files.
+
 ## CSRF
 
 The app currently uses SvelteKit's default CSRF behaviour. There is no cross-origin TEI form-post route.
@@ -55,6 +72,8 @@ If cross-site preview submission is reintroduced later, configure trusted origin
 ## Runtime Assets
 
 `static/SaxonJS2.rt.js` is loaded at runtime by `src/app.html`. It is intentionally kept in `static/` even though static analysis tools may not see an import for it.
+
+Third-party license notices are recorded in `THIRD_PARTY_LICENSES.md`.
 
 ## SaxonJS Notes
 

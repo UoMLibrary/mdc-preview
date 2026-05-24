@@ -20,12 +20,19 @@
 	const sefData = $derived($SefStore?.[sefId]);
 	const noStylesheetLoaded = $derived(!sefData?.sef && !sefData?.fileData);
 	const emptyMessage = $derived(getEmptyMessage(sefId));
+	const preferredEntryNames = $derived(getPreferredEntryNames(sefId));
 	const status = $derived(getPanelStatus(!!sefData?.errors?.length, !!sefData?.sef));
 
 	function getEmptyMessage(id: PreviewSefId) {
 		if (id === previewSefIds.preTransform) return 'No pre-filter stylesheet loaded';
 		if (id === previewSefIds.jsonTransform) return 'No JSON transform stylesheet loaded';
 		return 'No stylesheet loaded';
+	}
+
+	function getPreferredEntryNames(id: PreviewSefId) {
+		if (id === previewSefIds.preTransform) return ['preFilter', 'prefilter', 'preTransform'];
+		if (id === previewSefIds.jsonTransform) return ['jsonTransform', 'json'];
+		return [];
 	}
 </script>
 
@@ -42,6 +49,7 @@
 		<div class="tool-panel__actions">
 			<CompileXsltFileButton
 				label="Load XSLT"
+				{preferredEntryNames}
 				started={() => {
 					SefStore.clearKeyValue(sefId);
 					isLoading = true;

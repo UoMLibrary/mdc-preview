@@ -4,6 +4,8 @@ import { tick } from 'svelte';
 export interface FileData {
 	basename: string;
 	name: string;
+	path?: string;
+	projectFiles?: number;
 	size: number;
 	lastModified: Date;
 	type: string;
@@ -11,12 +13,12 @@ export interface FileData {
 
 export type XmlMetaData = ReturnType<typeof parseFirstXMLComment>;
 
-interface TextFileResult {
+export interface TextFileResult {
 	fileData: FileData;
 	contents: string;
 }
 
-interface ParsedXmlText {
+export interface ParsedXmlText {
 	xmlDoc: XMLDocument;
 	metaData: XmlMetaData;
 	errors: string[];
@@ -28,11 +30,11 @@ export interface XmlFilePayloadBase {
 	errors: string[];
 }
 
-interface ParsedXmlFileResult extends TextFileResult, XmlFilePayloadBase {
+export interface ParsedXmlFileResult extends TextFileResult, XmlFilePayloadBase {
 	xmlDoc: XMLDocument;
 }
 
-interface SelectTextFileOptions {
+export interface SelectTextFileOptions {
 	accept: string;
 	started?: () => Promise<void> | void;
 }
@@ -81,7 +83,7 @@ export function selectTextFile({
 	});
 }
 
-async function waitForUiUpdate() {
+export async function waitForUiUpdate() {
 	await tick();
 	await nextAnimationFrame();
 }
@@ -126,7 +128,7 @@ export async function selectParsedXmlFile(
 	};
 }
 
-function parseXmlText(xmlString: string): ParsedXmlText {
+export function parseXmlText(xmlString: string): ParsedXmlText {
 	const parser = new DOMParser();
 	const parserErrorNamespace =
 		parser.parseFromString('INVALID', 'application/xml').getElementsByTagName('parsererror')[0]
@@ -140,14 +142,19 @@ function parseXmlText(xmlString: string): ParsedXmlText {
 	};
 }
 
-function getFileData(file: File): FileData {
-	return {
+export function getFileData(file: File, path?: string, projectFiles?: number): FileData {
+	const fileData: FileData = {
 		basename: file.name.replace(/\.[^/.]+$/, ''),
 		name: file.name,
 		size: file.size,
 		lastModified: new Date(file.lastModified),
 		type: file.type
 	};
+
+	if (path) fileData.path = path;
+	if (projectFiles) fileData.projectFiles = projectFiles;
+
+	return fileData;
 }
 
 function getParserErrors(xmlDoc: XMLDocument, parserErrorNamespace: string): string[] {

@@ -8,6 +8,8 @@ declare module 'saxon-js' {
 
 	export interface SaxonPlatform {
 		parseXmlFromString(xml: string): SaxonDocument;
+		readFile(location: string | URL, ...args: unknown[]): string;
+		resolveUri(href: string, base?: string): string;
 		resource(name: 'compiler'): SaxonSefNode;
 	}
 
@@ -33,6 +35,7 @@ declare module 'saxon-js' {
 		stylesheetParams: SaxonXdmMap;
 		stylesheetInternal: SaxonSefNode;
 		sourceNode: SaxonDocument;
+		documentPool?: Record<string, SaxonDocument>;
 		async: true;
 	}
 
