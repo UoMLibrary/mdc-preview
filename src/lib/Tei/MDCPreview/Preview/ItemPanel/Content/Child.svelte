@@ -17,21 +17,21 @@
 
 {#if clickable}
 	<button
-		class=" w-full text-left py-1 px-2 {isCurrentPage
-			? 'bg-purple-500 text-white'
-			: 'bg-zinc-200 hover:bg-zinc-100'}"
+		class="contents-child-button {isCurrentPage
+			? 'contents-child-button--current'
+			: 'contents-child-button--default'}"
 		onclick={() => updatepage(data.startPagePosition)}
 	>
 		<!-- {page} -->
 		{data.label}
-		<span class="text-xs {isCurrentPage ? 'text-white' : 'text-gray-400'}">
+		<span class="contents-child-meta {isCurrentPage ? 'contents-child-meta--current' : ''}">
 			(image {data.startPagePosition}, page {data.startPageLabel})</span
 		>
 	</button>
 {:else}
-	<div class="px-2 py-1">
+	<div class="contents-child-text">
 		{data.label}
-		<span class="text-xs text-gray-400">
+		<span class="contents-child-meta">
 			(image {data.startPagePosition}, page {data.startPageLabel})</span
 		>
 	</div>

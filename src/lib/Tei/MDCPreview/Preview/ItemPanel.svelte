@@ -21,9 +21,9 @@
 	let activeItem = $state('About');
 </script>
 
-<aside class="flex flex-col min-h-[640px] h-[640px]">
+<aside class="item-panel">
 	<ItemPanelTabs {activeItem} {tabItems} tabChange={(item) => (activeItem = item)} />
-	<div class="flex-1 bg-white overflow-y-auto">
+	<div class="item-panel__content">
 		{#if activeItem == 'About'}
 			<About {viewModel} />
 		{:else if activeItem == 'Contents'}
@@ -33,7 +33,9 @@
 		{:else if activeItem == 'Metadata'}
 			<Metadata metadata={viewModel.displayMetadata} />
 		{:else}
-			<div class="text-xs"><p class="flex-1 p-4">Under construction...</p></div>
+			<div class="item-panel__placeholder">
+				<p class="item-panel__placeholder-text">Under construction...</p>
+			</div>
 		{/if}
 	</div>
 	<ActionPanel />

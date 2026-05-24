@@ -14,10 +14,10 @@
 	let { children: structureChildren = [], page = 1, updatepage = () => {} }: Props = $props();
 </script>
 
-<div class="m-3 border border-gray-300 rounded-md overflow-hidden text-sm">
+<div class="contents-section">
 	{#each structureChildren as child (child.data?.startPagePosition ?? child.data?.label ?? child)}
 		{#if child.children}
-			<div class="m-3 border border-gray-300 rounded-md overflow-hidden text-sm">
+			<div class="contents-section">
 				<Child data={child.data} {page} />
 				<div>
 					<Children children={child.children} {page} {updatepage} />

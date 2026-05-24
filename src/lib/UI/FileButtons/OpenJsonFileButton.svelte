@@ -10,7 +10,7 @@
 
 	<OpenJsonFileButton loaded={(payload) => ConfigStore.loadJson(payload.json)}>
 		{#snippet children(openFile)}
-			<button class="p-1 mr-2" onclick={openFile}>Load</button>
+			<button class="tool-panel__button" onclick={openFile}>Load</button>
 		{/snippet}
 	</OpenJsonFileButton>
 */

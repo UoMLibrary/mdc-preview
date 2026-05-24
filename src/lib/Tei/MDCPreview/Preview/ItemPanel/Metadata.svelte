@@ -9,6 +9,6 @@
 	let { metadata }: Props = $props();
 </script>
 
-<div class="m-4">
+<div class="metadata-panel">
 	<Information {metadata} />
 </div>

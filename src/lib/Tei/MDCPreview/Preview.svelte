@@ -30,9 +30,9 @@
 	pdfData={viewModel.pdfObj}
 	{updatepage}
 />
-<div class="flex flex-col md:flex-row">
-	<div class="flex-1 bg-black">
+<div class="mdc-preview">
+	<div class="mdc-preview__image">
 		<ImageViewer pages={viewModel.pages} {page} showNavigator={true} />
 	</div>
-	<div class="flex-1"><ItemPanel {viewModel} {page} {updatepage} /></div>
+	<div class="mdc-preview__item"><ItemPanel {viewModel} {page} {updatepage} /></div>
 </div>

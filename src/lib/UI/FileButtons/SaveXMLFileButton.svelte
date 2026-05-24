@@ -9,7 +9,7 @@
 
 	<SaveXMLFileButton xmlDoc={$XMLStore} fileName="myfile.xml">
 		{#snippet children(saveFile)}
-			<button class="p-1 mr-2" onclick={saveFile}>Save</button>
+			<button class="tool-panel__button" onclick={saveFile}>Save</button>
 		{/snippet}
 	</SaveXMLFileButton>
 */

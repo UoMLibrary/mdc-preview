@@ -5,7 +5,7 @@
 <article class="home-links">
 	<h2>Digital collection preview tool</h2>
 	<p>
-		<a href={resolve('/preview/tool')}>Preview tool </a><span class="text-xs">
+		<a href={resolve('/preview/tool')}>Preview tool </a><span class="home-links__note">
 			(There may be a delay if a large TEI is loaded)</span
 		>
 	</p>

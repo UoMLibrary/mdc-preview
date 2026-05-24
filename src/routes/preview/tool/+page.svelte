@@ -86,12 +86,12 @@
 	}
 </script>
 
-<div class="p-4 bg-slate-300 pb-32">
+<div class="preview-workspace preview-workspace--compact">
 	<!-- UI to load TEI XML file -->
 	<SourceTEI title="Source TEI Document" />
 
 	<!-- + symbol (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
@@ -99,18 +99,18 @@
 	<XSLTViewer title="Pre filter XSLT" sefId="preTransform" />
 
 	<!-- down arrow (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
 	{#if PreTransformError}
-		<div class="rounded-md bg-red-50 mb-4 text-xs p-2 border-red-400 border-2">
-			<p class="pb-2">
+		<div class="preview-error">
+			<p class="preview-error__line">
 				<strong>{PreTransformError.name}</strong>
-				<span class="text-sm">({PreTransformError.code})</span>
+				<span class="preview-error__code">({PreTransformError.code})</span>
 			</p>
-			<p class="pb-2">{PreTransformError.message}</p>
-			<pre class="text-sm">{PreTransformError.stack}</pre>
+			<p class="preview-error__line">{PreTransformError.message}</p>
+			<pre class="preview-error__stack">{PreTransformError.stack}</pre>
 		</div>
 	{/if}
 
@@ -123,7 +123,7 @@
 	/>
 
 	<!-- + symbol (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
@@ -131,18 +131,20 @@
 	<XSLTViewer title="JSON formatter XSLT" sefId="JSONTransform" />
 
 	<!-- down arrow (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
 	{#if JSONtransformError}
-		<div class="rounded-md bg-red-50 mb-4 text-xs p-2 border-red-400 border-2">
-			<p class="pb-2">
+		<div class="preview-error">
+			<p class="preview-error__line">
 				<strong>{JSONtransformError.name}</strong>
-				{#if JSONtransformError.code}<span class="text-sm">({JSONtransformError.code})</span>{/if}
+				{#if JSONtransformError.code}<span class="preview-error__code"
+						>({JSONtransformError.code})</span
+					>{/if}
 			</p>
-			<p class="pb-2">{JSONtransformError.message}</p>
-			<pre class="text-sm">{JSONtransformError.stack}</pre>
+			<p class="preview-error__line">{JSONtransformError.message}</p>
+			<pre class="preview-error__stack">{JSONtransformError.stack}</pre>
 		</div>
 	{/if}
 
@@ -155,7 +157,7 @@
 	/>
 
 	<!-- + symbol (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="plus" color="#666666" scale="1.0" />
 	</div>
 
@@ -163,7 +165,7 @@
 	<Config title="Configuration" />
 
 	<!-- down arrow (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
@@ -176,7 +178,7 @@
 	/>
 
 	<!-- down arrow (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
@@ -184,7 +186,7 @@
 	<PrintPanel title="Print pdf" data={ViewModelOutput?.pdfObj} />
 
 	<!-- down arrow (decorative) -->
-	<div class="flex justify-center mb-4">
+	<div class="preview-flow-marker">
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 

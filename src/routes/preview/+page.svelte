@@ -72,26 +72,20 @@
 	}
 </script>
 
-<div class="p-4 bg-slate-300 pb-32 min-h-screen">
+<div class="preview-workspace">
 	<!-- UI to load TEI XML file -->
 	<SourceTEI title="Source TEI Document" />
-	<div class="flex text-xs">
+	<div class="preview-org-selector">
 		<button
-			class="m-2 mr-2 mb-4 p-2 bg-blue-500 rounded text-white {selectedOrg == 'cambridge'
-				? 'bg-red-500'
-				: ''}"
+			class="preview-org-button {selectedOrg == 'cambridge' ? 'preview-org-button--selected' : ''}"
 			onclick={() => selectConfig('cambridge')}>Cambridge</button
 		>
 		<button
-			class="m-2 mr-2 mb-4 p-2 bg-blue-500 rounded text-white {selectedOrg == 'lancaster'
-				? 'bg-red-500'
-				: ''}"
+			class="preview-org-button {selectedOrg == 'lancaster' ? 'preview-org-button--selected' : ''}"
 			onclick={() => selectConfig('lancaster')}>Lancaster</button
 		>
 		<button
-			class="m-2 mr-2 mb-4 p-2 bg-blue-500 rounded text-white {selectedOrg == 'manchester'
-				? 'bg-red-500'
-				: ''}"
+			class="preview-org-button {selectedOrg == 'manchester' ? 'preview-org-button--selected' : ''}"
 			onclick={() => selectConfig('manchester')}>Manchester</button
 		>
 	</div>

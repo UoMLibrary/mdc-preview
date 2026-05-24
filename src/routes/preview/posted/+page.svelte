@@ -51,7 +51,7 @@
 	}
 </script>
 
-<div class="p-4 bg-slate-300 pb-32 min-h-screen">
+<div class="preview-workspace">
 	{#if !loading}
 		<PreviewPanel
 			title="Preview"
@@ -69,7 +69,7 @@
 			message="View Model generation requires a TEI to be loaded"
 		/>
 	{:else}
-		<div class="flex justify-center">
+		<div class="tool-panel__loading">
 			<LoadingSpinner size="30" unit="px" duration="2s" color="purple" />
 		</div>
 	{/if}

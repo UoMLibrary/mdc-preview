@@ -18,13 +18,13 @@
 	let showModal = $state(false);
 </script>
 
-<div class="text-xs text-white bg-uom-purple px-4 py-1 flex justify-between">
-	<p class="py-1">{title} - Page: {page}</p>
-	<div class="flex">
+<div class="mdc-titlebar">
+	<p class="mdc-titlebar__title">{title} - Page: {page}</p>
+	<div class="mdc-titlebar__actions">
 		<NextPrev min={1} max={pageTotal} current={page} update={updatepage} />
 
 		{#if pdfData}
-			<div class="ml-4 py-1">
+			<div class="mdc-titlebar__pdf">
 				<PDFButton onclick={() => (showModal = true)} />
 			</div>
 		{/if}

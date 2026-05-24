@@ -9,19 +9,19 @@
 	let { viewModel }: Props = $props();
 </script>
 
-<div class="">
-	<h2 class="m-4 text-xl">
+<div class="about-panel">
+	<h2 class="about-panel__title">
 		{viewModel.aboutObj.title}
 		{#if viewModel?.aboutObj?.shelfLocator}({viewModel.aboutObj.shelfLocator}){/if}
 	</h2>
-	<article class="m-4 rich-text">
+	<article class="about-panel__abstract rich-text">
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		{@html viewModel.aboutObj.abstractHTML}
 	</article>
-	<div class="m-4">
+	<div class="about-panel__metadata">
 		<Information metadata={viewModel.displayMetadata} />
 	</div>
-	<div class="m-4 text-xs text-gray-400">
+	<div class="about-panel__rights">
 		{#if viewModel?.aboutObj?.displayImageRights}{viewModel.aboutObj.displayImageRights}{/if}
 	</div>
 </div>

@@ -9,5 +9,5 @@
 </script>
 
 <button {onclick}>
-	<SvgIcon name="file-pdf" class="text-white" scale="1.0" />
+	<SvgIcon name="file-pdf" class="mdc-icon--light" scale="1.0" />
 </button>

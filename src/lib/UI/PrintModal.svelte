@@ -33,19 +33,19 @@
 
 <div>
 	<dialog
-		class="max-w-full w-full sm:w-3/4 lg:w-[800px] p-0 md:rounded-md"
+		class="print-modal-dialog"
 		bind:this={dialog}
 		onclose={() => (showModal = false)}
 		onclick={closeOnBackdrop}
 	>
 		<div>
-			<div class="flex justify-between">
-				<h2 class="p-2 px-4 text-base lg:text-lg">{title}</h2>
-				<button type="button" class="px-4 py-2 text-sm" onclick={closeDialog}>Close</button>
+			<div class="print-modal-header">
+				<h2 class="print-modal-title">{title}</h2>
+				<button type="button" class="print-modal-close" onclick={closeDialog}>Close</button>
 			</div>
 			<hr />
 			<!-- Print Modal Body -->
-			<div class="m-4">
+			<div class="print-modal-body">
 				<PdfColumnPrintControls data={pdfData} completed={closeDialog} />
 			</div>
 		</div>

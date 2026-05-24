@@ -21,9 +21,9 @@
 	const childStructures = $derived(contents?.structure?.children ?? []);
 </script>
 
-<div class="">
+<div class="contents-panel">
 	{#if contents?.structure?.data}
-		<div class="m-3 border border-gray-300 rounded-md overflow-hidden text-sm">
+		<div class="contents-section">
 			<Child data={contents.structure.data} {updatepage} clickable={true} {page} />
 		</div>
 	{/if}
@@ -34,7 +34,7 @@
 </div>
 <!-- DEBUGGING -->
 <!-- {#if contents?.structure}
-	<div class="bg-white p-2 rounded-md mb-4">
+	<div>
 		<JsonView depth="4" json={contents.structure} />
 	</div>
 {/if} -->

@@ -8,17 +8,17 @@
 	let { tabItems = [], activeItem, tabChange = () => {} }: Props = $props();
 </script>
 
-<nav class="bg-zinc-100">
-	<ul class="flex text-sm text-zinc-800 border-b-[1px]">
+<nav class="item-tabs">
+	<ul class="item-tabs__list">
 		{#each tabItems as item (item)}
-			<li class="relative">
+			<li class="item-tabs__item">
 				<button
 					type="button"
-					class="cursor-pointer px-5 py-3 relative"
+					class="item-tabs__button"
 					onclick={() => tabChange(item)}
 					class:active={item === activeItem}
 				>
-					<span class="select-none">{item}</span>
+					<span class="item-tabs__label">{item}</span>
 				</button>
 			</li>
 		{/each}

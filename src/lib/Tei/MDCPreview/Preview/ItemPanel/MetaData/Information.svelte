@@ -11,9 +11,9 @@
 </script>
 
 {#if metadata?.length > 0}
-	<div class="border border-purple-400 rounded-md overflow-hidden text-sm">
-		<div class="flex justify-between bg-zinc-300 p-3">
-			<h4 class="m-0 text-uom-purple">Information about this document</h4>
+	<div class="metadata-info">
+		<div class="metadata-info__header">
+			<h4 class="metadata-info__title">Information about this document</h4>
 		</div>
 
 		<div class="metadata-list">

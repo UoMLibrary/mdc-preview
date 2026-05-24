@@ -94,43 +94,41 @@
 	}
 </script>
 
-<div class="bg-black flex relative h-[600px]">
-	<div id="seadragon-viewer" class="flex-1"></div>
+<div class="image-viewer">
+	<div id="seadragon-viewer" class="image-viewer__canvas"></div>
 
-	<div class="absolute top-0 right-0 m-2">
-		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="fullscreen"
+	<div class="image-viewer__fullscreen">
+		<button class="image-viewer__button" id="fullscreen"
 			><SvgIcon name="expand" color="white" scale="1.0" /></button
 		>
 	</div>
 
-	<div class="flex gap-x-2 absolute bottom-0 left-0 m-2">
-		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="zoomHome"
+	<div class="image-viewer__controls">
+		<button class="image-viewer__button" id="zoomHome"
 			><SvgIcon name="home" color="white" scale="1.0" /></button
 		>
-		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="zoomIn"
+		<button class="image-viewer__button" id="zoomIn"
 			><SvgIcon name="magnifying-glass-plus" color="white" scale="1.0" /></button
 		>
-		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="zoomOut"
+		<button class="image-viewer__button" id="zoomOut"
 			><SvgIcon name="magnifying-glass-minus" color="white" scale="1.0" /></button
 		>
-		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="rotateLeft"
+		<button class="image-viewer__button" id="rotateLeft"
 			><SvgIcon name="rotate-left" color="white" scale="1.0" /></button
 		>
-		<button class="text-white bg-slate-800 px-3 py-1 rounded" id="rotateRight"
+		<button class="image-viewer__button" id="rotateRight"
 			><SvgIcon name="rotate-right" color="white" scale="1.0" /></button
 		>
 
-		<div class="flex py-1">
+		<div class="image-viewer__option">
 			<input
-				class="ml-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+				class="image-viewer__checkbox"
 				type="checkbox"
 				id="preserve-viewport"
 				bind:checked={preserveSettings}
 				onchange={updatePreserveViewport}
 			/>
-			<label for="preserve-viewport" class="ml-2 text-xs text-shadow-xs font-medium text-white"
-				>Preserve state</label
-			>
+			<label for="preserve-viewport" class="image-viewer__label">Preserve state</label>
 		</div>
 	</div>
 </div>

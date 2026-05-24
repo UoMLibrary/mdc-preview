@@ -1,8 +1,8 @@
-<ul class="flex justify-between border-t-[1px]">
-	<li class="text-xs text-center p-2">Download options</li>
-	<li class="text-xs text-center p-2">Rights options</li>
-	<li class="text-xs text-center p-2">Download metadata options</li>
-	<li class="text-xs text-center p-2">Bookmark option</li>
-	<li class="text-xs text-center p-2">iiif option</li>
-	<li class="text-xs text-center p-2">Mirador option</li>
+<ul class="action-panel">
+	<li class="action-panel__item">Download options</li>
+	<li class="action-panel__item">Rights options</li>
+	<li class="action-panel__item">Download metadata options</li>
+	<li class="action-panel__item">Bookmark option</li>
+	<li class="action-panel__item">iiif option</li>
+	<li class="action-panel__item">Mirador option</li>
 </ul>

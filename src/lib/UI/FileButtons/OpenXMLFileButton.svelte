@@ -10,7 +10,7 @@
 
 	<OpenXMLFileButton loaded={(payload) => console.log(payload.xmlDoc)}>
 		{#snippet children(openFile)}
-			<button class="p-1 mr-2" onclick={openFile}>Load</button>
+			<button class="tool-panel__button" onclick={openFile}>Load</button>
 		{/snippet}
 	</OpenXMLFileButton>
 

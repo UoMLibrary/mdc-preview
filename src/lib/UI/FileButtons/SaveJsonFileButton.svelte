@@ -9,7 +9,7 @@
 
 	<SaveJsonFileButton jsonData={$ConfigStore} fileName="config.json">
 		{#snippet children(saveFile)}
-			<button class="p-1 mr-2" onclick={saveFile}>Save</button>
+			<button class="tool-panel__button" onclick={saveFile}>Save</button>
 		{/snippet}
 	</SaveJsonFileButton>
 */
