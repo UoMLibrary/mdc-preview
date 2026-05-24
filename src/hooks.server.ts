@@ -1,5 +1,5 @@
 import { json, text } from '@sveltejs/kit';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, RequestEvent } from '@sveltejs/kit';
 
 /*
 	Code in here will run when the application starts up, making it a useful
@@ -22,25 +22,44 @@ const allowedOrigins = [
 	add it back here.
 */
 export const handle: Handle = async ({ event, resolve }) => {
-	const origin = event.request.headers.get('origin') || '';
 	// console.log(`origin '${origin}' !== event.url.origin '${event.url.origin}'`);
 
-	const forbidden =
-		event.request.method === 'POST' &&
-		origin !== event.url.origin &&
-		!(allowedOrigins.includes(origin) && allowedPOSTPaths.includes(event.url.pathname)) &&
-		isFormContentType(event.request);
-
-	if (forbidden) {
-		const message = `Cross-site ${event.request.method} form submissions are forbidden`;
-		if (event.request.headers.get('accept') === 'application/json') {
-			return json({ message }, { status: 403 });
-		}
-		return text(message, { status: 403 });
-	}
+	if (isForbiddenCrossSiteFormPost(event)) return forbiddenCrossSiteFormResponse(event.request);
 
 	return resolve(event);
 };
+
+function isForbiddenCrossSiteFormPost(event: RequestEvent) {
+	if (event.request.method !== 'POST') return false;
+	if (!isCrossSiteRequest(event)) return false;
+	if (isAllowedCrossSitePost(event)) return false;
+
+	return isFormContentType(event.request);
+}
+
+function isCrossSiteRequest(event: RequestEvent) {
+	return getOrigin(event.request) !== event.url.origin;
+}
+
+function isAllowedCrossSitePost(event: RequestEvent) {
+	return (
+		allowedOrigins.includes(getOrigin(event.request)) &&
+		allowedPOSTPaths.includes(event.url.pathname)
+	);
+}
+
+function forbiddenCrossSiteFormResponse(request: Request) {
+	const message = `Cross-site ${request.method} form submissions are forbidden`;
+	return acceptsJson(request) ? json({ message }, { status: 403 }) : text(message, { status: 403 });
+}
+
+function acceptsJson(request: Request) {
+	return request.headers.get('accept') === 'application/json';
+}
+
+function getOrigin(request: Request) {
+	return request.headers.get('origin') || '';
+}
 
 function isContentType(request: Request, ...types: string[]) {
 	const type = request.headers.get('content-type')?.split(';', 1)[0].trim() ?? '';

@@ -76,14 +76,15 @@ export interface ViewModel {
 }
 
 export function createViewModel(cudlObj: CudlObject, configObj: ViewModelConfig): ViewModel {
-	let pdfObj = createPdfObject(cudlObj, configObj);
-	let pages = createPagesArray(cudlObj.pages, configObj);
-	let thumbnails = createThumbnailsArray(cudlObj.pages, configObj);
-	let metadata = createMetadataObj(cudlObj);
-	let displayMetadata = createDisplayMetadataArray(cudlObj);
-	let contentsObj = createContentsObj(cudlObj);
-	let aboutObj = createAboutObj(cudlObj);
-	let viewModel = {
+	const pdfObj = createPdfObject(cudlObj, configObj);
+	const pages = createPagesArray(cudlObj.pages, configObj);
+	const thumbnails = createThumbnailsArray(cudlObj.pages, configObj);
+	const metadata = createMetadataObj(cudlObj);
+	const displayMetadata = createDisplayMetadataArray(cudlObj);
+	const contentsObj = createContentsObj(cudlObj);
+	const aboutObj = createAboutObj(cudlObj);
+
+	return {
 		aboutObj,
 		metadata,
 		displayMetadata,
@@ -92,22 +93,17 @@ export function createViewModel(cudlObj: CudlObject, configObj: ViewModelConfig)
 		thumbnails,
 		contentsObj
 	};
-	return viewModel;
 }
 
 function createAboutObj(cudlObj: CudlObject): AboutObject {
-	let aboutObj = {
-		title: '',
-		abstractHTML: '',
-		shelfLocator: '',
-		displayImageRights: ''
-	};
-	aboutObj.title = cudlObj?.descriptiveMetadata?.[0]?.title?.displayForm ?? '';
-	aboutObj.abstractHTML = cudlObj?.descriptiveMetadata?.[0]?.abstract?.displayForm ?? '';
-	aboutObj.shelfLocator = cudlObj?.descriptiveMetadata?.[0]?.shelfLocator?.displayForm ?? '';
-	aboutObj.displayImageRights = cudlObj?.descriptiveMetadata?.[0]?.displayImageRights ?? '';
+	const metadata = getPrimaryDescriptiveMetadata(cudlObj);
 
-	return aboutObj;
+	return {
+		title: getDisplayForm(metadata, 'title'),
+		abstractHTML: getDisplayForm(metadata, 'abstract'),
+		shelfLocator: getDisplayForm(metadata, 'shelfLocator'),
+		displayImageRights: metadata.displayImageRights ?? ''
+	};
 }
 
 function createPagesArray(pagesArray: CudlPage[], configObj: ViewModelConfig): string[] {
@@ -141,7 +137,7 @@ function createPdfObject(cudlObj: CudlObject, configObj: ViewModelConfig): PdfOb
 	//let downloadImageRights = tei?.raw?.descriptiveMetadata?.[0]?.downloadImageRights;
 	let itemid = 'TESTID';
 	let downloadImageRights =
-		cudlObj?.descriptiveMetadata?.[0]?.displayImageRights ?? 'Missing copyright message';
+		getPrimaryDescriptiveMetadata(cudlObj).displayImageRights ?? 'Missing copyright message';
 
 	// TODO: This should live elsewhere or in the tei JSON data structure
 	// update print data structure
@@ -170,20 +166,17 @@ function createPdfObject(cudlObj: CudlObject, configObj: ViewModelConfig): PdfOb
 
 // TODO: thumbnailUrl needs string replacement from ConfigUrl
 function createMetadataObj(cudlObj: CudlObject): Record<string, string> {
-	let descriptiveMetadata = cudlObj.descriptiveMetadata?.[0] ?? {};
-	let metadata: Record<string, string> = {};
-	for (const [key, value] of Object.entries(descriptiveMetadata)) {
-		if (typeof key == 'string' && typeof value == 'string') {
-			metadata[key] = value;
-			//delete descriptiveMetadata[key]; // Remove items during development so we can see what we're missing}
-		}
-	}
-	return metadata;
+	const descriptiveMetadata = getPrimaryDescriptiveMetadata(cudlObj);
+	const stringEntries = Object.entries(descriptiveMetadata).filter(
+		(entry): entry is [string, string] => typeof entry[1] === 'string'
+	);
+
+	return Object.fromEntries(stringEntries);
 }
 
 // Returns an array of display metadata in the form of key pair values.
 function createDisplayMetadataArray(cudlObj: CudlObject): DisplayMetadataItem[] {
-	let descriptiveMetadata = cudlObj.descriptiveMetadata?.[0] ?? {};
+	let descriptiveMetadata = getPrimaryDescriptiveMetadata(cudlObj);
 	let displayMetadataArray: CudlRecord[] = [];
 
 	// process the descriptive Metadata recursively
@@ -206,51 +199,85 @@ function createDisplayMetadataArray(cudlObj: CudlObject): DisplayMetadataItem[] 
 }
 
 function processDescriptiveMetadataRecursively(obj: CudlRecord, metadataArray: CudlRecord[]) {
-	for (const [key, value] of Object.entries(obj)) {
-		// console.log(typeof value, key, value);
-		if (value?.label && value?.displayForm && value?.seq) {
-			metadataArray.push(value);
-			//delete obj[key]; // Remove items during development so we can see what we're missing
-		} else if (value?.label && value?.value && value?.seq) {
-			metadataArray.push(value);
-			//delete obj[key]; // Remove items during development so we can see what we're missing
-		} else if (value?.value && value?.seq) {
-			// loop through the value Array and pass each value back into the recursive function
-			value.value.forEach((itemInArray: CudlRecord) => {
-				processDescriptiveMetadataRecursively(itemInArray, metadataArray);
-			});
-			//delete obj[key]; // Remove items during development so we can see what we're missing
-		}
+	for (const value of Object.values(obj)) {
+		processDescriptiveMetadataValue(value, metadataArray);
 	}
+}
+
+function processDescriptiveMetadataValue(value: CudlRecord, metadataArray: CudlRecord[]) {
+	if (isDisplayMetadataRecord(value)) {
+		metadataArray.push(value);
+		return;
+	}
+
+	if (isNestedMetadataRecord(value)) {
+		value.value.forEach((itemInArray) => {
+			processDescriptiveMetadataRecursively(itemInArray, metadataArray);
+		});
+	}
+}
+
+function isDisplayMetadataRecord(value: CudlRecord) {
+	return hasMetadataLabel(value) && hasMetadataSequence(value) && hasDisplayMetadataPayload(value);
+}
+
+function isNestedMetadataRecord(value: CudlRecord): value is CudlRecord & { value: CudlRecord[] } {
+	return Boolean(value?.seq && Array.isArray(value?.value));
+}
+
+function hasMetadataLabel(value: CudlRecord) {
+	return Boolean(value?.label);
+}
+
+function hasMetadataSequence(value: CudlRecord) {
+	return Boolean(value?.seq);
+}
+
+function hasDisplayMetadataPayload(value: CudlRecord) {
+	return Boolean(value?.displayForm || value?.value);
 }
 
 function formatDisplayMetadataArray(
 	displayMetadataArray: CudlRecord[]
 ): Array<DisplayMetadataItem | undefined> {
-	return displayMetadataArray.map((item) => {
-		if (item.label && item.displayForm) {
-			if (item.linktype) {
-				let link = createSearchLink(item.displayForm);
-				return { label: item.label, value: [{ text: item.displayForm, link }] };
-			} else {
-				return { label: item.label, value: [{ text: item.displayForm }] };
-			}
-		} else if (item.label && item.value) {
-			if (item.value.length > 1) {
-				let list = item.value.map((listItem: CudlRecord) => {
-					if (listItem.linktype) {
-						let link = createSearchLink(listItem.displayForm);
-						return { text: listItem.displayForm, link };
-					} else {
-						return { text: listItem.displayForm };
-					}
-				});
-				return { label: item.label, value: list };
-			} else if (item.value.length > 0) {
-				return { label: item.label, value: [{ text: item.value[0].displayForm }] };
-			}
-		}
-	});
+	return displayMetadataArray.map(formatDisplayMetadataItem);
+}
+
+function formatDisplayMetadataItem(item: CudlRecord): DisplayMetadataItem | undefined {
+	if (!item.label) return;
+	if (item.displayForm) return createDisplayFormMetadataItem(item);
+
+	return createValueMetadataItem(item);
+}
+
+function createDisplayFormMetadataItem(item: CudlRecord): DisplayMetadataItem {
+	return {
+		label: item.label,
+		value: [formatDisplayMetadataValue(item)]
+	};
+}
+
+function createSingleValueMetadataItem(item: CudlRecord): DisplayMetadataItem {
+	return {
+		label: item.label,
+		value: [{ text: item.value[0].displayForm }]
+	};
+}
+
+function createValueMetadataItem(item: CudlRecord): DisplayMetadataItem | undefined {
+	const values = Array.isArray(item.value) ? item.value : [];
+	if (values.length === 0) return;
+	if (values.length === 1) return createSingleValueMetadataItem(item);
+
+	return {
+		label: item.label,
+		value: values.map(formatDisplayMetadataValue)
+	};
+}
+
+function formatDisplayMetadataValue(item: CudlRecord): DisplayMetadataValue {
+	const text = item.displayForm;
+	return item.linktype ? { text, link: createSearchLink(text) } : { text };
 }
 
 function createSearchLink(text: string) {
@@ -260,12 +287,20 @@ function createSearchLink(text: string) {
 // Takes the cudl structure and returns cleaned up contents panel data
 function createContentsObj(cudlObj: CudlObject): ContentsObject {
 	// Shelf locator is used in content section titles
-	let shelfLocator = cudlObj.descriptiveMetadata?.[0]?.shelfLocator?.displayForm ?? '';
+	let shelfLocator = getDisplayForm(getPrimaryDescriptiveMetadata(cudlObj), 'shelfLocator');
 
 	let rawStructure = cudlObj.logicalStructures?.[0] ?? {};
 	let structure = tidyUpContentsStructure(rawStructure, shelfLocator);
 
 	return { structure };
+}
+
+function getPrimaryDescriptiveMetadata(cudlObj: CudlObject): CudlRecord {
+	return cudlObj.descriptiveMetadata?.[0] ?? {};
+}
+
+function getDisplayForm(metadata: CudlRecord, key: string): string {
+	return metadata[key]?.displayForm ?? '';
 }
 
 // Cleans up the contents panel data structure and passes the shelflocator down the
