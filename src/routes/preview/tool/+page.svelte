@@ -27,6 +27,9 @@
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
+	const PRE_TRANSFORM_SEF_ID = 'preTransform';
+	const JSON_TRANSFORM_SEF_ID = 'JSONTransform';
+
 	let page = $state(0);
 	let preTransformXmlDocOutput = $state<XMLDocument | null>(null); // the output of the preTransform (transient)
 	let JSONTransformObjOutput = $state<CudlObject | null>(null); // the output of the JSON transform (transient)
@@ -36,11 +39,11 @@
 	let JSONtransformError = $state<TransformDisplayError | null>(null);
 
 	$effect(() => {
-		runPreTransform($TeiStore.xmlDoc, $SefStore?.preTransform);
+		runPreTransform($TeiStore.xmlDoc, $SefStore?.[PRE_TRANSFORM_SEF_ID]);
 	});
 
 	$effect(() => {
-		runJSONTransform(preTransformXmlDocOutput, $SefStore?.jsonTransform);
+		runJSONTransform(preTransformXmlDocOutput, $SefStore?.[JSON_TRANSFORM_SEF_ID]);
 	});
 
 	$effect(() => {
@@ -52,7 +55,7 @@
 		sefObj: SefItem | null | undefined
 	) {
 		PreTransformError = null;
-		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy('preTransform') : null;
+		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(PRE_TRANSFORM_SEF_ID) : null;
 		const result = await transformXmlDocToXml(xmlDoc, stylesheet, { cleanFacsimile: true });
 
 		preTransformXmlDocOutput = result.value;
@@ -64,7 +67,7 @@
 		sefObj: SefItem | null | undefined
 	) {
 		JSONtransformError = null;
-		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy('JSONTransform') : null;
+		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(JSON_TRANSFORM_SEF_ID) : null;
 		const result = await transformXmlDocToJson(xmlDoc, stylesheet);
 
 		JSONTransformObjOutput = result.value;
@@ -96,7 +99,7 @@
 	</div>
 
 	<!-- UI to load preFilter XSLT doc and formats it to a form used by SaxtonJS -->
-	<XSLTViewer title="Pre filter XSLT" sefId="preTransform" />
+	<XSLTViewer title="Pre filter XSLT" sefId={PRE_TRANSFORM_SEF_ID} />
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">
@@ -128,7 +131,7 @@
 	</div>
 
 	<!-- UI to load JSONTransform XSLT doc and formats it to a form used by SaxtonJS -->
-	<XSLTViewer title="JSON formatter XSLT" sefId="JSONTransform" />
+	<XSLTViewer title="JSON formatter XSLT" sefId={JSON_TRANSFORM_SEF_ID} />
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">
