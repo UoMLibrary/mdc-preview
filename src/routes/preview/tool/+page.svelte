@@ -13,6 +13,7 @@
 		transformXmlDocToXml,
 		type TransformDisplayError
 	} from '$lib/Tei/preview-transform.js';
+	import { previewSefIds } from '$lib/Tei/preview-sef-ids.js';
 	import type { PreviewConfig } from '$lib/Tei/preview-utils.js';
 	import type { SefItem } from '$lib/stores/sef-store.js';
 
@@ -27,9 +28,6 @@
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
-	const PRE_TRANSFORM_SEF_ID = 'preTransform';
-	const JSON_TRANSFORM_SEF_ID = 'JSONTransform';
-
 	let page = $state(0);
 	let preTransformXmlDocOutput = $state<XMLDocument | null>(null); // the output of the preTransform (transient)
 	let JSONTransformObjOutput = $state<CudlObject | null>(null); // the output of the JSON transform (transient)
@@ -39,11 +37,11 @@
 	let JSONtransformError = $state<TransformDisplayError | null>(null);
 
 	$effect(() => {
-		runPreTransform($TeiStore.xmlDoc, $SefStore?.[PRE_TRANSFORM_SEF_ID]);
+		runPreTransform($TeiStore.xmlDoc, $SefStore?.[previewSefIds.preTransform]);
 	});
 
 	$effect(() => {
-		runJSONTransform(preTransformXmlDocOutput, $SefStore?.[JSON_TRANSFORM_SEF_ID]);
+		runJSONTransform(preTransformXmlDocOutput, $SefStore?.[previewSefIds.jsonTransform]);
 	});
 
 	$effect(() => {
@@ -55,7 +53,7 @@
 		sefObj: SefItem | null | undefined
 	) {
 		PreTransformError = null;
-		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(PRE_TRANSFORM_SEF_ID) : null;
+		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.preTransform) : null;
 		const result = await transformXmlDocToXml(xmlDoc, stylesheet, { cleanFacsimile: true });
 
 		preTransformXmlDocOutput = result.value;
@@ -67,7 +65,7 @@
 		sefObj: SefItem | null | undefined
 	) {
 		JSONtransformError = null;
-		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(JSON_TRANSFORM_SEF_ID) : null;
+		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.jsonTransform) : null;
 		const result = await transformXmlDocToJson(xmlDoc, stylesheet);
 
 		JSONTransformObjOutput = result.value;
@@ -99,7 +97,7 @@
 	</div>
 
 	<!-- UI to load preFilter XSLT doc and formats it to a form used by SaxtonJS -->
-	<XSLTViewer title="Pre filter XSLT" sefId={PRE_TRANSFORM_SEF_ID} />
+	<XSLTViewer title="Pre filter XSLT" sefId={previewSefIds.preTransform} />
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">
@@ -131,7 +129,7 @@
 	</div>
 
 	<!-- UI to load JSONTransform XSLT doc and formats it to a form used by SaxtonJS -->
-	<XSLTViewer title="JSON formatter XSLT" sefId={JSON_TRANSFORM_SEF_ID} />
+	<XSLTViewer title="JSON formatter XSLT" sefId={previewSefIds.jsonTransform} />
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">

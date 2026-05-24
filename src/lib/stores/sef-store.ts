@@ -15,11 +15,7 @@ export interface SefItem {
 type SefStoreValue = Record<string, SefItem | null | undefined>;
 
 const emptyStore: SefStoreValue = {};
-// Structure. Key is the sefId
-// {
-// 	  preTransform: { metadata: null, sef: null, filename: null, errors: null },
-// 	  JSONTransform: { metadata: null, sef: null, filename: null, errors: null }
-// };
+// Structure. Key is the sefId, typically from previewSefIds.
 
 const emptyItem: SefItem = { metadata: null, sef: null, filename: null, errors: null };
 

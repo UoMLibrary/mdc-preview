@@ -6,14 +6,15 @@
 
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
+	import type { PreviewSefId } from '$lib/Tei/preview-sef-ids.js';
 	import type { SefItem } from '$lib/stores/sef-store.js';
 
 	interface Props {
 		title?: string;
-		sefId?: string;
+		sefId: PreviewSefId;
 	}
 
-	let { title = '', sefId = '' }: Props = $props();
+	let { title = '', sefId }: Props = $props();
 	let isLoading = $state(false);
 
 	const sefData = $derived($SefStore?.[sefId]);
