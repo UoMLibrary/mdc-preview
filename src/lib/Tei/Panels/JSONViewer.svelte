@@ -4,6 +4,10 @@
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
 	type JsonData = unknown;
+	type JsonContainer = Record<string, unknown> | unknown[];
+	type JsonTreeHandle = {
+		resetManualExpansion: () => void;
+	};
 
 	interface Props {
 		jsonData?: JsonData | null;
@@ -16,26 +20,48 @@
 	let { jsonData, depth = 0, title = '', savefile = 'data.json', message = '' }: Props = $props();
 
 	let currentDepth = $derived(depth);
+	let jsonTree = $state<JsonTreeHandle | null>(null);
 
-	const objectDepth = (value: unknown): number =>
-		Object(value) === value
-			? 1 + Math.max(-1, ...Object.values(value as Record<string, unknown>).map(objectDepth))
-			: 0;
-
-	const maxDepth = $derived(objectDepth(jsonData) || 0);
+	const maxDepth = $derived(getMaxContainerDepth(jsonData));
 	const hasJsonData = $derived(isObjectWithKeys(jsonData));
 
 	function isObjectWithKeys(value: unknown): value is object {
 		return typeof value === 'object' && value !== null && Object.keys(value).length > 0;
 	}
 
+	function isJsonContainer(value: unknown): value is JsonContainer {
+		return typeof value === 'object' && value !== null;
+	}
+
+	function getMaxContainerDepth(value: unknown, depth = 0): number {
+		if (!isJsonContainer(value)) return Math.max(0, depth - 1);
+
+		const childDepths = Object.values(value).map((entry) => getMaxContainerDepth(entry, depth + 1));
+		return Math.max(depth, ...childDepths);
+	}
+
+	function clampDepth(value: number) {
+		return Math.min(Math.max(value, 0), maxDepth);
+	}
+
+	function setGlobalDepth(value: number) {
+		currentDepth = clampDepth(value);
+		jsonTree?.resetManualExpansion();
+	}
+
 	function increaseDepth() {
-		currentDepth += 1;
-		if (currentDepth > maxDepth - 1) currentDepth = maxDepth - 1;
+		setGlobalDepth(currentDepth + 1);
 	}
 	function decreaseDepth() {
-		currentDepth -= 1;
-		if (currentDepth < 0) currentDepth = 0;
+		setGlobalDepth(currentDepth - 1);
+	}
+
+	function collapseAll() {
+		setGlobalDepth(0);
+	}
+
+	function expandAll() {
+		setGlobalDepth(maxDepth);
 	}
 </script>
 
@@ -46,7 +72,7 @@
 			{#if title}<p class="tool-panel__title">{title}</p>{/if}
 		</div>
 		<div>
-			{#if maxDepth > 1}
+			{#if maxDepth > 0}
 				<!-- only show depth tools if there is any depth -->
 				<span class="tool-panel__json-depth-label">Depth: </span>
 				<button onclick={decreaseDepth}
@@ -59,6 +85,8 @@
 			{/if}
 
 			{#if hasJsonData}
+				<button type="button" class="tool-panel__button" onclick={collapseAll}>Collapse all</button>
+				<button type="button" class="tool-panel__button" onclick={expandAll}>Expand all</button>
 				<SaveJsonFileButton {jsonData} fileName={savefile}>
 					{#snippet children(saveFile)}
 						<button type="button" class="tool-panel__button" onclick={saveFile}>Save</button>
@@ -71,7 +99,7 @@
 	<!-- Panel Body -->
 	<div class="tool-panel__body">
 		{#if hasJsonData}
-			<JsonTree depth={currentDepth} value={jsonData} />
+			<JsonTree bind:this={jsonTree} depth={currentDepth} value={jsonData} />
 		{:else}
 			<div class="tool-panel__message">{message}</div>
 		{/if}

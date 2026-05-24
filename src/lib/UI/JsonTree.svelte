@@ -28,6 +28,11 @@
 
 	const rows = $derived(formatJsonRows(value, depth));
 
+	export function resetManualExpansion() {
+		collapsedPaths = [];
+		expandedPaths = [];
+	}
+
 	function formatJsonRows(jsonValue: unknown, maxDepth: number): JsonRow[] {
 		return formatJsonValue(jsonValue, maxDepth, 0, 'root', undefined, true);
 	}
