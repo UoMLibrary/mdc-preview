@@ -75,12 +75,18 @@
 			{#if maxDepth > 0}
 				<!-- only show depth tools if there is any depth -->
 				<span class="tool-panel__json-depth-label">Depth: </span>
-				<button onclick={decreaseDepth}
-					><SvgIcon name="square-minus" color="#666666" scale="1.0" /></button
+				<button
+					type="button"
+					class="tool-panel__json-depth-button"
+					aria-label="Decrease JSON depth"
+					onclick={decreaseDepth}><SvgIcon name="square-minus" scale="1.0" /></button
 				>
 				<span class="tool-panel__json-depth-value">{currentDepth + 1}</span>
-				<button class="tool-panel__json-depth-button" onclick={increaseDepth}
-					><SvgIcon name="square-plus" color="#666666" scale="1.0" /></button
+				<button
+					type="button"
+					class="tool-panel__json-depth-button"
+					aria-label="Increase JSON depth"
+					onclick={increaseDepth}><SvgIcon name="square-plus" scale="1.0" /></button
 				>
 			{/if}
 

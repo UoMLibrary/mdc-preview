@@ -23,6 +23,7 @@ export interface TransformProgressMessage {
 interface XmlTransformOptions {
 	cleanFacsimile?: boolean;
 	progress?: (message: TransformProgressMessage) => void;
+	signal?: AbortSignal;
 }
 
 export async function transformXmlDocToXml(
@@ -82,7 +83,7 @@ async function transformXmlStringToSerialized(
 	if (!hasTransformInputs(sourceText, stylesheetInternal)) return emptyOutcome();
 
 	try {
-		const value = await runSerializedTransform(sourceText, stylesheetInternal, options.progress);
+		const value = await runSerializedTransform(sourceText, stylesheetInternal, options);
 		return { value, error: null };
 	} catch (error) {
 		return { value: null, error: createDisplayError(error) };
@@ -92,10 +93,10 @@ async function transformXmlStringToSerialized(
 async function runSerializedTransform(
 	sourceText: string,
 	stylesheetInternal: unknown,
-	progress?: (message: TransformProgressMessage) => void
+	options: XmlTransformOptions = {}
 ) {
 	if (browser) {
-		return transformXmlStringOnServer(sourceText, stylesheetInternal, progress);
+		return transformXmlStringOnServer(sourceText, stylesheetInternal, options);
 	}
 
 	const transformConfig: SaxonTransformConfig = {
@@ -110,21 +111,23 @@ async function runSerializedTransform(
 async function transformXmlStringOnServer(
 	sourceText: string,
 	stylesheetInternal: unknown,
-	progress?: (message: TransformProgressMessage) => void
+	options: XmlTransformOptions = {}
 ) {
 	const response = await fetch('/api/run-xslt-transform', {
 		method: 'POST',
 		headers: { Accept: 'application/x-ndjson', 'Content-Type': 'application/json' },
-		body: JSON.stringify({ sourceText, stylesheetInternal })
+		body: JSON.stringify({ sourceText, stylesheetInternal }),
+		signal: options.signal
 	});
 
 	const contentType = response.headers.get('content-type') ?? '';
 	if (response.body && contentType.includes('application/x-ndjson')) {
-		return readStreamingTransformResponse(response, progress);
+		return readStreamingTransformResponse(response, options.progress);
 	}
 
 	const payload = (await response.json()) as TransformApiResponse;
-	if (!response.ok || payload.status === 'error') throw createErrorFromTransformApiResponse(payload);
+	if (!response.ok || payload.status === 'error')
+		throw createErrorFromTransformApiResponse(payload);
 
 	return payload.result;
 }

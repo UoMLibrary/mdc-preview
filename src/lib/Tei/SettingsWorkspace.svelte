@@ -86,10 +86,12 @@
 			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.preTransform) : null;
 			if (xmlDoc?.documentElement && stylesheet) preTransformStage = 'transforming';
 
-			const result = await runPreviewPreTransform(xmlDoc, stylesheet, (message) => {
-				if (runId !== preTransformRun) return;
+			const result = await runPreviewPreTransform(xmlDoc, stylesheet, {
+				progress: (message) => {
+					if (runId !== preTransformRun) return;
 
-				preTransformMessages = [...preTransformMessages.slice(-5), message];
+					preTransformMessages = [...preTransformMessages.slice(-5), message];
+				}
 			});
 			if (runId !== preTransformRun) return;
 
@@ -118,10 +120,12 @@
 			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.jsonTransform) : null;
 			if (xmlDoc?.documentElement && stylesheet) jsonTransformStage = 'transforming';
 
-			const result = await runPreviewJsonTransform(xmlDoc, stylesheet, (message) => {
-				if (runId !== jsonTransformRun) return;
+			const result = await runPreviewJsonTransform(xmlDoc, stylesheet, {
+				progress: (message) => {
+					if (runId !== jsonTransformRun) return;
 
-				jsonTransformMessages = [...jsonTransformMessages.slice(-5), message];
+					jsonTransformMessages = [...jsonTransformMessages.slice(-5), message];
+				}
 			});
 			if (runId !== jsonTransformRun) return;
 
@@ -191,7 +195,7 @@
 	}
 </script>
 
-<div class="preview-workspace preview-workspace--compact">
+<div class="preview-workspace preview-workspace--compact settings-workspace">
 	<!-- UI to load TEI XML file -->
 	<SourceTEI title="Source TEI Document" />
 

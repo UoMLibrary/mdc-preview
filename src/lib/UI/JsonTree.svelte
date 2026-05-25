@@ -245,6 +245,7 @@
 <style>
 	.json-tree {
 		overflow: auto;
+		color: var(--app-text);
 		font-family:
 			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
 			monospace;
@@ -264,7 +265,7 @@
 		font-family: inherit;
 		font-size: 0;
 		line-height: 1.25;
-		color: #111827;
+		color: var(--json-tree-delimiter);
 	}
 
 	.json-tree__delimiter-text {
@@ -273,13 +274,13 @@
 
 	.json-tree__delimiter:hover,
 	.json-tree__delimiter:focus-visible {
-		color: #632390;
+		color: var(--app-accent-hover);
 		text-decoration: underline;
 		text-underline-offset: 0.125rem;
 	}
 
 	.json-tree__delimiter--collapsed {
-		color: #111827;
+		color: var(--json-tree-delimiter);
 	}
 
 	.json-tree__key,
@@ -291,7 +292,11 @@
 
 	.json-tree__key,
 	.json-tree__syntax {
-		color: #111827;
+		color: var(--json-tree-syntax);
+	}
+
+	.json-tree__key {
+		color: var(--json-tree-key);
 	}
 
 	.json-tree__key,
@@ -300,19 +305,19 @@
 	}
 
 	.json-tree__value--string {
-		color: #008000;
+		color: var(--json-tree-string);
 	}
 
 	.json-tree__value--number {
-		color: #c41a16;
+		color: var(--json-tree-number);
 	}
 
 	.json-tree__value--boolean {
-		color: #1f4ec9;
+		color: var(--json-tree-boolean);
 	}
 
 	.json-tree__value--null,
 	.json-tree__value--undefined {
-		color: #6b7280;
+		color: var(--json-tree-null);
 	}
 </style>
