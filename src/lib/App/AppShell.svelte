@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { fade } from 'svelte/transition';
@@ -26,8 +27,9 @@
 	const isSettingsRoute = $derived(page.route.id === '/settings');
 	const isClosableRoute = $derived(isHelpRoute || isSettingsRoute);
 
-	function toggleFileMenu() {
+	async function toggleFileMenu() {
 		fileMenuOpen = !fileMenuOpen;
+		if (isHelpRoute) await goto(previewHref);
 	}
 
 	function closeFileMenu() {
