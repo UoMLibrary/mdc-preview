@@ -58,9 +58,15 @@
 	);
 
 	const previewMessage = $derived(
-		previewCancelled
-			? 'Preview generation was cancelled'
-			: 'Preview generation requires a TEI to be loaded'
+		getPreviewMessage(
+			previewCancelled,
+			Boolean($TeiStore.xmlDoc?.documentElement),
+			Boolean(activePreTransformSef),
+			Boolean(activeJsonTransformSef),
+			PreTransformError,
+			JSONTransformError,
+			ViewModelError
+		)
 	);
 
 	const progressSteps = $derived(
@@ -97,7 +103,10 @@
 		runViewModelTransform(JSONTransformObjOutput, selectedConfig);
 	});
 
-	async function runPreTransform(xmlDoc: XMLDocument | null | undefined, stylesheetInternal: unknown) {
+	async function runPreTransform(
+		xmlDoc: XMLDocument | null | undefined,
+		stylesheetInternal: unknown
+	) {
 		const runId = ++preTransformRun;
 		previewCancelled = false;
 		preTransformController?.abort();
@@ -138,7 +147,10 @@
 		}
 	}
 
-	async function runJSONTransform(xmlString: string | null | undefined, stylesheetInternal: unknown) {
+	async function runJSONTransform(
+		xmlString: string | null | undefined,
+		stylesheetInternal: unknown
+	) {
 		const runId = ++jsonTransformRun;
 		jsonTransformController?.abort();
 		const controller = xmlString && stylesheetInternal ? new AbortController() : null;
@@ -251,18 +263,21 @@
 		preDetail: string | null,
 		jsonDetail: string | null
 	): ProgressStep[] {
-		if (ViewModelOutput || !hasProgressStarted(preStage, jsonStage, modelStage)) return [];
+		const hasError = Boolean(preError || jsonError || modelError);
+		if (ViewModelOutput || (!hasProgressStarted(preStage, jsonStage, modelStage) && !hasError)) {
+			return [];
+		}
 
 		return [
 			{ label: 'TEI loaded', status: 'done' },
 			{
 				label: preError ? 'Pre-filter transform failed' : 'Running pre-filter transform',
-				detail: preDetail ?? undefined,
+				detail: preError?.message ?? preDetail ?? undefined,
 				status: getProgressStatus(preStage, !!preError)
 			},
 			{
 				label: jsonError ? 'JSON transform failed' : 'Running JSON transform',
-				detail: jsonDetail ?? undefined,
+				detail: jsonError?.message ?? jsonDetail ?? undefined,
 				status: getProgressStatus(jsonStage, !!jsonError)
 			},
 			{
@@ -286,6 +301,24 @@
 
 	function getLatestTransformMessage(messages: TransformProgressMessage[]) {
 		return messages.at(-1)?.message ?? null;
+	}
+
+	function getPreviewMessage(
+		cancelled: boolean,
+		hasTei: boolean,
+		hasPreTransform: boolean,
+		hasJsonTransform: boolean,
+		preError: TransformDisplayError | null,
+		jsonError: TransformDisplayError | null,
+		modelError: TransformDisplayError | null
+	) {
+		if (cancelled) return 'Preview generation was cancelled';
+		if (!hasTei) return 'Preview generation requires a TEI to be loaded';
+		if (!hasPreTransform) return 'Preview generation requires a pre-filter stylesheet';
+		if (!hasJsonTransform) return 'Preview generation requires a JSON transform stylesheet';
+		if (preError || jsonError || modelError) return 'Preview generation failed';
+
+		return 'Preview generation is waiting for transform output';
 	}
 
 	function createDisplayError(error: unknown): TransformDisplayError {

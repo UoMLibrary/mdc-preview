@@ -150,11 +150,31 @@ async function transformXmlStringOnServer(
 		return readStreamingTransformResponse(response, options.progress);
 	}
 
-	const payload = (await response.json()) as TransformApiResponse;
+	const payload = await readTransformApiResponse(response);
 	if (!response.ok || payload.status === 'error')
 		throw createErrorFromTransformApiResponse(payload);
 
 	return payload.result;
+}
+
+async function readTransformApiResponse(response: Response): Promise<TransformApiResponse> {
+	const responseText = await response.text();
+	const contentType = response.headers.get('content-type') ?? '';
+	if (contentType.includes('application/json')) {
+		try {
+			return JSON.parse(responseText) as TransformApiResponse;
+		} catch (_error) {
+			return {
+				status: 'error',
+				error: createHttpResponseMessage(response, responseText)
+			};
+		}
+	}
+
+	return {
+		status: 'error',
+		error: createHttpResponseMessage(response, responseText)
+	};
 }
 
 async function readStreamingTransformResponse(
@@ -306,6 +326,17 @@ function createErrorFromTransformApiError(
 	error.stack = apiError.stack;
 	(error as Error & { code?: string | number }).code = apiError.code;
 	return error;
+}
+
+function createHttpResponseMessage(response: Response, responseText: string) {
+	const bodyPreview = responseText
+		.replace(/<[^>]*>/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim()
+		.slice(0, 240);
+	const details = bodyPreview || response.statusText;
+
+	return details ? `HTTP ${response.status}: ${details}` : `HTTP ${response.status}`;
 }
 
 const jsonParseWorkerSource = `

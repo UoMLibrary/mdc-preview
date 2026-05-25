@@ -18,6 +18,9 @@
 
 	type CancelCompile = () => void;
 	type XsltCompileProgressStage = 'xslt-uploaded' | 'sef-compiling' | 'sef-loaded';
+	type CompileApiResponse =
+		| { status: 'success'; sef: unknown }
+		| { status: 'error'; error?: unknown };
 
 	interface Props {
 		label?: string;
@@ -56,11 +59,14 @@
 	let activeCancel: CancelCompile | null = null;
 
 	async function handleFileOpen() {
+		let compileContext: Pick<ErrorPayload, 'fileData' | 'metaData'> | null = null;
+
 		try {
 			const xmlFile = await selectParsedXmlFile({ accept: '.xsl, .xslt', started });
 			if (!xmlFile) return;
 
 			const { fileData, contents, metaData, errors } = xmlFile;
+			compileContext = { fileData, metaData };
 			progress('xslt-uploaded');
 
 			if (errors.length > 0) {
@@ -75,16 +81,13 @@
 		} catch (compileError) {
 			if (isCompilationCancelled(compileError)) return;
 
-			error({
-				fileData: createSyntheticFileData('XSLT compile error'),
-				sef: null,
-				metaData: {},
-				errors: [getErrorMessage(compileError)]
-			});
+			error(createCompileErrorPayload(compileError, compileContext, 'XSLT compile error'));
 		}
 	}
 
 	async function handleProjectOpen() {
+		let compileContext: Pick<ErrorPayload, 'fileData' | 'metaData'> | null = null;
+
 		try {
 			const xsltProject = await selectParsedXsltProject({
 				accept: '.xsl, .xslt',
@@ -94,6 +97,7 @@
 			if (!xsltProject) return;
 
 			const { fileData, contents, metaData, errors, entryPath, files } = xsltProject;
+			compileContext = { fileData, metaData };
 			progress('xslt-uploaded');
 
 			if (errors.length > 0) {
@@ -108,12 +112,7 @@
 		} catch (projectError) {
 			if (isCompilationCancelled(projectError)) return;
 
-			error({
-				fileData: createSyntheticFileData('XSLT project'),
-				sef: null,
-				metaData: {},
-				errors: [getErrorMessage(projectError)]
-			});
+			error(createCompileErrorPayload(projectError, compileContext, 'XSLT project'));
 		}
 	}
 
@@ -149,9 +148,9 @@
 				signal: controller.signal
 			});
 
-			const json = await resp.json();
+			const json = await readCompileResponse(resp);
 			if (!resp.ok || json.status !== 'success') {
-				throw new Error(json.error ?? `XSLT compilation failed with HTTP ${resp.status}`);
+				throw new Error(createCompileFailureMessage(json, resp));
 			}
 
 			return json.sef;
@@ -178,7 +177,38 @@
 					body: JSON.stringify({ entryPath: payload.entryPath, files: payload.files }),
 					contentType: 'application/json'
 				}
-			: { body: payload.contents, contentType: 'text/plain' };
+			: { body: payload.contents, contentType: 'application/xslt+xml' };
+	}
+
+	async function readCompileResponse(response: Response): Promise<CompileApiResponse> {
+		const responseText = await response.text();
+		const contentType = response.headers.get('content-type') ?? '';
+		if (contentType.includes('application/json')) {
+			try {
+				return JSON.parse(responseText) as CompileApiResponse;
+			} catch (_error) {
+				return { status: 'error', error: createHttpResponseMessage(response, responseText) };
+			}
+		}
+
+		return { status: 'error', error: createHttpResponseMessage(response, responseText) };
+	}
+
+	function createCompileFailureMessage(payload: CompileApiResponse, response: Response) {
+		if (payload.status === 'error' && payload.error) return getErrorMessage(payload.error);
+
+		return `XSLT compilation failed with HTTP ${response.status}`;
+	}
+
+	function createHttpResponseMessage(response: Response, responseText: string) {
+		const bodyPreview = responseText
+			.replace(/<[^>]*>/g, ' ')
+			.replace(/\s+/g, ' ')
+			.trim()
+			.slice(0, 240);
+		const details = bodyPreview || response.statusText;
+
+		return details ? `HTTP ${response.status}: ${details}` : `HTTP ${response.status}`;
 	}
 
 	function createSyntheticFileData(name: string): FileData {
@@ -191,7 +221,29 @@
 		};
 	}
 
+	function createCompileErrorPayload(
+		errorValue: unknown,
+		compileContext: Pick<ErrorPayload, 'fileData' | 'metaData'> | null,
+		fallbackName: string
+	): ErrorPayload {
+		return {
+			fileData: compileContext?.fileData ?? createSyntheticFileData(fallbackName),
+			sef: null,
+			metaData: compileContext?.metaData ?? {},
+			errors: [getErrorMessage(errorValue)]
+		};
+	}
+
 	function getErrorMessage(errorValue: unknown) {
+		if (
+			typeof errorValue === 'object' &&
+			errorValue !== null &&
+			'message' in errorValue &&
+			typeof errorValue.message === 'string'
+		) {
+			return errorValue.message;
+		}
+
 		return errorValue instanceof Error ? errorValue.message : String(errorValue);
 	}
 

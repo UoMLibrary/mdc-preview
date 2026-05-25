@@ -18,7 +18,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
-ENV ORIGIN=http://localhost:3000
+ENV BODY_SIZE_LIMIT=64M
+# Set ORIGIN, or trusted proxy headers, at deployment time to match the public URL.
 
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --no-audit && npm cache clean --force

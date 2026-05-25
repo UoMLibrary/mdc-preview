@@ -121,12 +121,24 @@ streams newline-delimited JSON progress events back to the browser. Large
 transform results are sent back in chunks so the preview page can continue to
 show progress and respond to cancellation.
 
+The Node adapter defaults to a 512KB request body limit. Preview transforms send
+the selected TEI plus SEF data to the server, so production deployments must set
+`BODY_SIZE_LIMIT` high enough for the expected files. The Docker image sets
+`BODY_SIZE_LIMIT=64M`; if the app is behind a proxy, configure the proxy upload
+limit as well.
+
 The preview pipeline supports `AbortController` cancellation while transforms or
 JSON parsing are in progress. JSON parsing is moved into a small browser Worker
 where available so the main page remains responsive.
 
 `/api/compile-xslt-to-sef` imports the npm package `saxon-js` to compile loaded
 XSLT projects into SEF JSON.
+
+When deploying behind a public hostname, configure SvelteKit's public origin at
+runtime with `ORIGIN=https://your-host.example` or trusted proxy headers such as
+`PROTOCOL_HEADER`/`HOST_HEADER`. Do not bake a localhost `ORIGIN` into the
+production image, because SvelteKit will reject some POST requests when the
+browser's origin does not match the server's configured origin.
 
 ## Persistence
 
