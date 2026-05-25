@@ -3,6 +3,7 @@
 	import SourceTEI from '$lib/Tei/Panels/SourceTEI.svelte';
 	import PreviewPanel from '$lib/Tei/Panels/PreviewPanel.svelte';
 	import JSONViewer from '$lib/Tei/Panels/JSONViewer.svelte';
+	import ConfigPresetSelect from '$lib/Tei/Panels/ConfigPresetSelect.svelte';
 
 	// Stores
 	import TeiStore from '$lib/stores/tei-store.js';
@@ -69,23 +70,13 @@
 	}
 </script>
 
+{#snippet headerActions()}
+	<ConfigPresetSelect selectedPreset={selectedOrg} selectPreset={selectConfig} />
+{/snippet}
+
 <div class="preview-workspace">
 	<!-- UI to load TEI XML file -->
-	<SourceTEI title="Source TEI Document" />
-	<div class="preview-org-selector">
-		<button
-			class="preview-org-button {selectedOrg == 'cambridge' ? 'preview-org-button--selected' : ''}"
-			onclick={() => selectConfig('cambridge')}>Cambridge</button
-		>
-		<button
-			class="preview-org-button {selectedOrg == 'lancaster' ? 'preview-org-button--selected' : ''}"
-			onclick={() => selectConfig('lancaster')}>Lancaster</button
-		>
-		<button
-			class="preview-org-button {selectedOrg == 'manchester' ? 'preview-org-button--selected' : ''}"
-			onclick={() => selectConfig('manchester')}>Manchester</button
-		>
-	</div>
+	<SourceTEI title="Source TEI Document" {headerActions} />
 
 	<!-- Preview panel showing an example of the final viewer output, contains an embedded
 		 Preview component. TODO: specify 'Preview' here to swap between a pure data view 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
+	import type { Snippet } from 'svelte';
 
 	import { getPanelStatus } from '$lib/Tei/panel-status.js';
 	import TeiStore from '$lib/stores/tei-store.js';
@@ -8,9 +9,10 @@
 
 	interface Props {
 		title?: string;
+		headerActions?: Snippet;
 	}
 
-	let { title = '' }: Props = $props();
+	let { title = '', headerActions }: Props = $props();
 	let isLoading = $state(false);
 
 	// <!-- TODO: Add in TEI SUMMARY e.g Is image section populated, how many images, is basic metatdata complete -->
@@ -32,6 +34,8 @@
 				?.fileData?.basename || ''}
 		</p>
 		<div>
+			{@render headerActions?.()}
+
 			<OpenXmlInBrowser xmlDoc={$TeiStore?.xmlDoc} tabName="teixml" />
 
 			<OpenXMLFileButton
