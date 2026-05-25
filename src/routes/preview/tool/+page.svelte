@@ -27,6 +27,8 @@
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
+	type StylesheetTransformStage = 'idle' | 'waiting-for-input' | 'transforming' | 'complete';
+
 	let page = $state(0);
 	let preTransformXmlDocOutput = $state<XMLDocument | null>(null); // the output of the preTransform (transient)
 	let JSONTransformObjOutput = $state<CudlObject | null>(null); // the output of the JSON transform (transient)
@@ -34,6 +36,11 @@
 
 	let PreTransformError = $state<TransformDisplayError | null>(null);
 	let JSONtransformError = $state<TransformDisplayError | null>(null);
+	let ViewModelError = $state<TransformDisplayError | null>(null);
+	let preTransformStage = $state<StylesheetTransformStage>('idle');
+	let jsonTransformStage = $state<StylesheetTransformStage>('idle');
+	let preTransformRun = 0;
+	let jsonTransformRun = 0;
 
 	$effect(() => {
 		runPreTransform($TeiStore.xmlDoc, $SefStore?.[previewSefIds.preTransform]);
@@ -51,33 +58,98 @@
 		xmlDoc: XMLDocument | null | undefined,
 		sefObj: SefItem | null | undefined
 	) {
+		const runId = ++preTransformRun;
 		PreTransformError = null;
-		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.preTransform) : null;
-		const result = await runPreviewPreTransform(xmlDoc, stylesheet);
+		preTransformStage = getTransformStartStage(xmlDoc, sefObj);
 
-		preTransformXmlDocOutput = result.value;
-		PreTransformError = result.error;
+		try {
+			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.preTransform) : null;
+			if (xmlDoc?.documentElement && stylesheet) preTransformStage = 'transforming';
+
+			const result = await runPreviewPreTransform(xmlDoc, stylesheet);
+			if (runId !== preTransformRun) return;
+
+			preTransformXmlDocOutput = result.value;
+			PreTransformError = result.error;
+			preTransformStage = getTransformEndStage(result.value, result.error, xmlDoc, stylesheet);
+		} catch (error) {
+			if (runId !== preTransformRun) return;
+
+			preTransformXmlDocOutput = null;
+			PreTransformError = createDisplayError(error);
+			preTransformStage = 'idle';
+		}
 	}
 
 	async function runJSONTransform(
 		xmlDoc: XMLDocument | null | undefined,
 		sefObj: SefItem | null | undefined
 	) {
+		const runId = ++jsonTransformRun;
 		JSONtransformError = null;
-		const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.jsonTransform) : null;
-		const result = await runPreviewJsonTransform(xmlDoc, stylesheet);
+		jsonTransformStage = getTransformStartStage(xmlDoc, sefObj);
 
-		JSONTransformObjOutput = result.value;
-		JSONtransformError = result.error;
+		try {
+			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.jsonTransform) : null;
+			if (xmlDoc?.documentElement && stylesheet) jsonTransformStage = 'transforming';
+
+			const result = await runPreviewJsonTransform(xmlDoc, stylesheet);
+			if (runId !== jsonTransformRun) return;
+
+			JSONTransformObjOutput = result.value;
+			JSONtransformError = result.error;
+			jsonTransformStage = getTransformEndStage(result.value, result.error, xmlDoc, stylesheet);
+		} catch (error) {
+			if (runId !== jsonTransformRun) return;
+
+			JSONTransformObjOutput = null;
+			JSONtransformError = createDisplayError(error);
+			jsonTransformStage = 'idle';
+		}
 	}
 
 	async function runViewModelTransform(cudlJson: CudlObject | null, configObj: PreviewConfig) {
-		ViewModelOutput = createPreviewViewModel(cudlJson, configObj);
+		ViewModelError = null;
+
+		try {
+			ViewModelOutput = createPreviewViewModel(cudlJson, configObj);
+		} catch (error) {
+			ViewModelOutput = null;
+			ViewModelError = createDisplayError(error);
+		}
 	}
 
 	// Handle page navigation from Preview internal components.
 	function changePage(nextPage: number) {
 		page = nextPage;
+	}
+
+	function createDisplayError(error: unknown): TransformDisplayError {
+		if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
+
+		const code = (error as Error & { code?: string | number }).code;
+		return { name: error.name, message: error.message, stack: error.stack, code };
+	}
+
+	function getTransformStartStage(
+		xmlDoc: XMLDocument | null | undefined,
+		sefObj: SefItem | null | undefined
+	): StylesheetTransformStage {
+		if (xmlDoc?.documentElement && sefObj?.sef) return 'transforming';
+		if (sefObj?.sef) return 'waiting-for-input';
+		return 'idle';
+	}
+
+	function getTransformEndStage<T>(
+		value: T | null,
+		error: TransformDisplayError | null,
+		xmlDoc: XMLDocument | null | undefined,
+		stylesheet: unknown
+	): StylesheetTransformStage {
+		if (error) return 'idle';
+		if (value) return 'complete';
+		if (stylesheet && !xmlDoc?.documentElement) return 'waiting-for-input';
+		return 'idle';
 	}
 </script>
 
@@ -91,23 +163,17 @@
 	</div>
 
 	<!-- Load a pre-filter stylesheet or precompiled SEF for SaxonJS. -->
-	<StylesheetCompilerPanel title="Pre-filter stylesheet" sefId={previewSefIds.preTransform} />
+	<StylesheetCompilerPanel
+		title="Pre-filter stylesheet"
+		sefId={previewSefIds.preTransform}
+		runtimeError={PreTransformError}
+		transformStage={preTransformStage}
+	/>
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
-
-	{#if PreTransformError}
-		<div class="preview-error">
-			<p class="preview-error__line">
-				<strong>{PreTransformError.name}</strong>
-				<span class="preview-error__code">({PreTransformError.code})</span>
-			</p>
-			<p class="preview-error__line">{PreTransformError.message}</p>
-			<pre class="preview-error__stack">{PreTransformError.stack}</pre>
-		</div>
-	{/if}
 
 	<!-- XML Viewer that contains preFilter transform XSLT output -->
 	<XMLViewerPanel
@@ -123,25 +189,17 @@
 	</div>
 
 	<!-- Load a JSON transform stylesheet or precompiled SEF for SaxonJS. -->
-	<StylesheetCompilerPanel title="JSON transform stylesheet" sefId={previewSefIds.jsonTransform} />
+	<StylesheetCompilerPanel
+		title="JSON transform stylesheet"
+		sefId={previewSefIds.jsonTransform}
+		runtimeError={JSONtransformError}
+		transformStage={jsonTransformStage}
+	/>
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
-
-	{#if JSONtransformError}
-		<div class="preview-error">
-			<p class="preview-error__line">
-				<strong>{JSONtransformError.name}</strong>
-				{#if JSONtransformError.code}<span class="preview-error__code"
-						>({JSONtransformError.code})</span
-					>{/if}
-			</p>
-			<p class="preview-error__line">{JSONtransformError.message}</p>
-			<pre class="preview-error__stack">{JSONtransformError.stack}</pre>
-		</div>
-	{/if}
 
 	<!-- JSON Viewer that contains JSONtransform XSLT output -->
 	<JSONViewer
@@ -171,6 +229,18 @@
 		savefile="viewmodel.json"
 		message="View Model generation requires Cudl Output and Configuration be configured"
 	/>
+
+	{#if ViewModelError}
+		<div class="preview-error">
+			<p class="preview-error__line">
+				<strong>{ViewModelError.name}</strong>
+				{#if ViewModelError.code}<span class="preview-error__code">({ViewModelError.code})</span
+					>{/if}
+			</p>
+			<p class="preview-error__line">{ViewModelError.message}</p>
+			<pre class="preview-error__stack">{ViewModelError.stack}</pre>
+		</div>
+	{/if}
 
 	<!-- down arrow (decorative) -->
 	<div class="preview-flow-marker">

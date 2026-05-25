@@ -72,16 +72,38 @@ async function transformXmlStringToSerialized(
 	if (!hasTransformInputs(sourceText, stylesheetInternal)) return emptyOutcome();
 
 	try {
-		const transformConfig: SaxonTransformConfig = {
-			sourceText,
-			destination: 'serialized',
-			stylesheetInternal
-		};
-		const transform = await SaxonJS.transform(transformConfig, 'async');
-		return { value: transform.principalResult, error: null };
+		const value = await runSerializedTransform(sourceText, stylesheetInternal);
+		return { value, error: null };
 	} catch (error) {
 		return { value: null, error: createDisplayError(error) };
 	}
+}
+
+async function runSerializedTransform(sourceText: string, stylesheetInternal: unknown) {
+	if (browser) {
+		return transformXmlStringOnServer(sourceText, stylesheetInternal);
+	}
+
+	const transformConfig: SaxonTransformConfig = {
+		sourceText,
+		destination: 'serialized',
+		stylesheetInternal
+	};
+	const transform = await SaxonJS.transform(transformConfig, 'async');
+	return transform.principalResult;
+}
+
+async function transformXmlStringOnServer(sourceText: string, stylesheetInternal: unknown) {
+	const response = await fetch('/api/run-xslt-transform', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ sourceText, stylesheetInternal })
+	});
+
+	const payload = (await response.json()) as TransformApiResponse;
+	if (!response.ok || payload.status === 'error') throw createErrorFromTransformApiResponse(payload);
+
+	return payload.result;
 }
 
 function serializeXmlDoc(xmlDoc: XMLDocument) {
@@ -101,4 +123,22 @@ function createDisplayError(error: unknown): TransformDisplayError {
 
 	const code = (error as Error & { code?: string | number }).code;
 	return { name: error.name, message: error.message, stack: error.stack, code };
+}
+
+type TransformApiResponse =
+	| { status: 'success'; result: string }
+	| { status: 'error'; error: TransformDisplayError | string };
+
+function createErrorFromTransformApiResponse(payload: TransformApiResponse) {
+	const fallbackMessage = 'SaxonJS transform failed.';
+	if (payload.status === 'success') return new Error(fallbackMessage);
+
+	const { error: apiError } = payload;
+	if (typeof apiError === 'string') return new Error(apiError || fallbackMessage);
+
+	const error = new Error(apiError.message || fallbackMessage);
+	error.name = apiError.name || 'Error';
+	error.stack = apiError.stack;
+	(error as Error & { code?: string | number }).code = apiError.code;
+	return error;
 }

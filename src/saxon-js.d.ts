@@ -24,6 +24,16 @@ declare module 'saxon-js' {
 		principalResult: SaxonDocument | SaxonDocument[];
 	}
 
+	export interface SaxonSerializedTransformConfig {
+		sourceText: string;
+		destination: 'serialized';
+		stylesheetInternal: unknown;
+	}
+
+	export interface SaxonSerializedTransformResult {
+		principalResult: string;
+	}
+
 	export interface SaxonCheckedCompileOptions {
 		resultPromise: Promise<SaxonTransformResult>;
 	}
@@ -55,6 +65,10 @@ declare module 'saxon-js' {
 
 	export interface SaxonModule {
 		getPlatform(): SaxonPlatform;
+		transform(
+			config: SaxonSerializedTransformConfig,
+			executionMode: 'async'
+		): Promise<SaxonSerializedTransformResult>;
 		checkOptions(options: SaxonCompileOptions): SaxonCheckedCompileOptions;
 		internalTransform(
 			stylesheet: SaxonSefNode,

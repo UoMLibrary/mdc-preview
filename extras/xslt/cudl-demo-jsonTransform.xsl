@@ -9,7 +9,18 @@
 
 	<xsl:output method="json" indent="yes" />
 
-	<xsl:template match="/prefilteredDemo">
+	<xsl:template match="/">
+		<xsl:choose>
+			<xsl:when test="prefilteredDemo">
+				<xsl:apply-templates select="prefilteredDemo" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:message terminate="yes">cudl-demo-jsonTransform.xsl expects the XML produced by cudl-demo-preFilter.xsl. Use xslt-bundle/jsonTransform.xsl for the normal TEI pre-filter output.</xsl:message>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="prefilteredDemo">
 		<xsl:sequence select="
 			map {
 				'pages': array {

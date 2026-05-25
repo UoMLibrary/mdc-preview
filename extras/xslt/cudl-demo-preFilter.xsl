@@ -7,7 +7,18 @@
 	<xsl:mode on-no-match="shallow-skip" />
 	<xsl:output method="xml" indent="yes" />
 
-	<xsl:template match="/demoItem">
+	<xsl:template match="/">
+		<xsl:choose>
+			<xsl:when test="demoItem">
+				<xsl:apply-templates select="demoItem" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:message terminate="yes">cudl-demo-preFilter.xsl expects extras/demo/cudl-demo-source.xml as its source XML.</xsl:message>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="demoItem">
 		<prefilteredDemo id="{@id}">
 			<metadata>
 				<title>

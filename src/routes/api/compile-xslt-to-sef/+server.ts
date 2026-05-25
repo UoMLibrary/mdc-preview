@@ -19,7 +19,7 @@ let compileQueue = Promise.resolve();
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
-		const sef = await enqueueCompile(() => compileRequest(request));
+		const sef = await enqueueCompile(() => compileRequest(request), request.signal);
 		return jsonResponse({ status: 'success', sef });
 	} catch (error) {
 		return jsonResponse({ status: 'error', error: getErrorMessage(error) }, 400);
@@ -98,16 +98,27 @@ async function compileXsltToSef(
 	return sef;
 }
 
-async function enqueueCompile<T>(compile: () => Promise<T>) {
+async function enqueueCompile<T>(compile: () => Promise<T>, signal?: AbortSignal) {
 	const queuedCompile = compileQueue.then(
-		() => compile(),
-		() => compile()
+		() => runUnlessAborted(compile, signal),
+		() => runUnlessAborted(compile, signal)
 	);
 	compileQueue = queuedCompile.then(
 		() => undefined,
 		() => undefined
 	);
 	return queuedCompile;
+}
+
+async function runUnlessAborted<T>(operation: () => Promise<T>, signal?: AbortSignal) {
+	throwIfAborted(signal);
+	const result = await operation();
+	throwIfAborted(signal);
+	return result;
+}
+
+function throwIfAborted(signal?: AbortSignal) {
+	if (signal?.aborted) throw new Error('XSLT compilation cancelled.');
 }
 
 function parseProjectRequest(value: unknown): CompileProjectRequest {
