@@ -131,6 +131,20 @@ The preview pipeline supports `AbortController` cancellation while transforms or
 JSON parsing are in progress. JSON parsing is moved into a small browser Worker
 where available so the main page remains responsive.
 
+Progress messages shown during XSLT execution come from `xsl:message` calls in
+the running stylesheet. For page-level pre-filter progress, emit a message inside
+the facsimile surface loop, for example:
+
+```xml
+<xsl:for-each select="//*:facsimile/*:surface">
+	<xsl:if test="position() = 1 or position() mod 10 = 0 or position() = last()">
+		<xsl:message select="concat('Processing page ', position(), ' of ', last())"/>
+	</xsl:if>
+
+	<!-- Existing page processing goes here. -->
+</xsl:for-each>
+```
+
 `/api/compile-xslt-to-sef` imports the npm package `saxon-js` to compile loaded
 XSLT projects into SEF JSON.
 
