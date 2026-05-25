@@ -437,6 +437,29 @@
 	padding: 0 0.5rem;
 }
 
+.tool-panel__transform-messages {
+	display: grid;
+	gap: 0.25rem;
+	margin-bottom: 0.75rem;
+	padding: 0 0.5rem;
+	color: var(--app-muted);
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace;
+}
+
+.tool-panel__transform-messages p {
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	gap: 0.5rem;
+	margin: 0;
+}
+
+.tool-panel__transform-message-time {
+	color: var(--app-text);
+	font-weight: 700;
+}
+
 .tool-panel__details-label {
 	font-weight: 700;
 }

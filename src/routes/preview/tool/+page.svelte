@@ -11,6 +11,7 @@
 		type CudlObject,
 		type PreviewConfig,
 		type TransformDisplayError,
+		type TransformProgressMessage,
 		type ViewModel
 	} from '$lib/Tei/preview-pipeline.js';
 	import { previewSefIds } from '$lib/Tei/preview-sef-ids.js';
@@ -39,6 +40,8 @@
 	let ViewModelError = $state<TransformDisplayError | null>(null);
 	let preTransformStage = $state<StylesheetTransformStage>('idle');
 	let jsonTransformStage = $state<StylesheetTransformStage>('idle');
+	let preTransformMessages = $state<TransformProgressMessage[]>([]);
+	let jsonTransformMessages = $state<TransformProgressMessage[]>([]);
 	let preTransformRun = 0;
 	let jsonTransformRun = 0;
 
@@ -61,12 +64,17 @@
 		const runId = ++preTransformRun;
 		PreTransformError = null;
 		preTransformStage = getTransformStartStage(xmlDoc, sefObj);
+		preTransformMessages = [];
 
 		try {
 			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.preTransform) : null;
 			if (xmlDoc?.documentElement && stylesheet) preTransformStage = 'transforming';
 
-			const result = await runPreviewPreTransform(xmlDoc, stylesheet);
+			const result = await runPreviewPreTransform(xmlDoc, stylesheet, (message) => {
+				if (runId !== preTransformRun) return;
+
+				preTransformMessages = [...preTransformMessages.slice(-5), message];
+			});
 			if (runId !== preTransformRun) return;
 
 			preTransformXmlDocOutput = result.value;
@@ -88,12 +96,17 @@
 		const runId = ++jsonTransformRun;
 		JSONtransformError = null;
 		jsonTransformStage = getTransformStartStage(xmlDoc, sefObj);
+		jsonTransformMessages = [];
 
 		try {
 			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.jsonTransform) : null;
 			if (xmlDoc?.documentElement && stylesheet) jsonTransformStage = 'transforming';
 
-			const result = await runPreviewJsonTransform(xmlDoc, stylesheet);
+			const result = await runPreviewJsonTransform(xmlDoc, stylesheet, (message) => {
+				if (runId !== jsonTransformRun) return;
+
+				jsonTransformMessages = [...jsonTransformMessages.slice(-5), message];
+			});
 			if (runId !== jsonTransformRun) return;
 
 			JSONTransformObjOutput = result.value;
@@ -168,6 +181,7 @@
 		sefId={previewSefIds.preTransform}
 		runtimeError={PreTransformError}
 		transformStage={preTransformStage}
+		transformMessages={preTransformMessages}
 	/>
 
 	<!-- down arrow (decorative) -->
@@ -194,6 +208,7 @@
 		sefId={previewSefIds.jsonTransform}
 		runtimeError={JSONtransformError}
 		transformStage={jsonTransformStage}
+		transformMessages={jsonTransformMessages}
 	/>
 
 	<!-- down arrow (decorative) -->

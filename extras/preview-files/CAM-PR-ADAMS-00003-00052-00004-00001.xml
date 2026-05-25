@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://raw.githubusercontent.com/tei-for-special-collections/consolidated-schema/refs/heads/main/rng/cdcp.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://raw.githubusercontent.com/tei-for-special-collections/consolidated-schema/refs/heads/main/rng/cdcp.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="manuscript_1">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>PR-ADAMS-00003-00052-00004-00001</title>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Katie Taylor, HPS for the Astronomical Images Project, Department of History and Philosophy of Science, University of Cambridge</publisher>
+            <availability xml:id="displayImageRights" status="restricted">
+               <p>Zooming image © Cambridge University Library. Reproduced by kind permission of the Syndics of Cambridge University Library.</p>
+            </availability>
+            <availability xml:id="metadataRights" status="restricted">
+               <licence>This metadata is licensed under a Creative Commons Attribution-NonCommercial
+                  4.0 Unported License.</licence>
+            </availability>
+            <availability xml:id="watermark" status="restricted">
+               <licence>Cambridge University Library (CC BY-NC 4.0)</licence>
+            </availability>
+         </publicationStmt>
+         <sourceDesc>
+            <msDesc>
+               <msIdentifier>
+                  <repository>Cambridge University Library</repository>
+                  <idno>Adams.3.52.4</idno>
+               </msIdentifier>
+               <msContents>
+                  <summary>Johann Stoeffler (1452-1531) was a mathematician, astronomer and instrument-maker who was appointed to the chair of mathematics and astronomy at the University of Tuebingen. He taught both Philipp Melanchthon and Sebastian Muenster and published amongst other things an almanac and work on calendar revision, as well as a book on the construction and use of the astrolabe. A celestial globe made in Stoeffler's workshop for the Bishop of Konstanz is preserved in the Landesmuseum Wuerttemberg in Stuttgart.       <hi rend="italic">Elucidatio fabricae ususque astrolabii</hi> was a work on the construction and use of the astrolabe which seems to have been widely read, going through more than fifteen editions in the sixteenth and early seventeenth centuries. The work was divided into two parts, the first on the construction of the instrument, and the second on its use. The latter section contained textual worked examples, as well as horoscopes and relatively realistic figures showing the astrolabe in use in surveying contexts.     Throughout the first part of the work, on the construction of the instrument, Stoeffler used figures of the astrolabe's scales along with tables to clarify the details of the making of the instrument. While some attention was given over to very practical elements such as the screws that ought to be used and the ring from which the instrument could be suspended, most of the figures showed the inscription of the lines of the astrolabe. In these figures, such as the one shown here, fold-out sections were often used to make it easier to identify the circles and lines shown within the bounds of the instrument.</summary>
+                  <msItem>
+                     <title>Figure showing the marking of the astrolabe</title>
+                     <title type="uniform">Elucidatio fabricae ususque astrolabii</title>
+                     <textLang mainLang="lat">Latin</textLang>
+                     <author>Johann Stoeffler</author>
+                     <editor role="pub">Jacob Koebel</editor>
+                     <note>
+                        <p>Links to other items:</p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-LE-00028-00005-00006">CUL LE.28.5 (Blagrave's birdcage-like instrument to give the 'Theoricall reason and grounde of all Dialles')</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-LE-00028-00005-00005">CUL LE.28.5 (Demonstration of Blagrave's drawing method for construction lines)</ref>
+                        </p>
+                        <p>Instrument-making method - astrolabe: <ref type="cudl_link" target="/view/PR-LE-00028-00005-00002">CUL LE.28.5 (Projection 1: showing the passage of a glass plate across the circles to be projected)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-ADAMS-00006-00053-00002-00003">CUL Adams.6.53.2 (Astrolabe: a latitude plate for 50 degrees north)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-LE-00028-00005-00003">CUL LE.28.5 (Projection 2: showing the lines resulting from connecting the associated points in Projection 1)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-LE-00028-00005-00007">CUL LE.28.5 (Rete and mater plates marked with red ink, cut out and mounted in line with Blagrave's instructions)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-WHIPPLE-STORE-00095-00050-00003">Whipple STORE 95:50 (Projection of several celestial circles and a particular horizon)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-M-00008-00056-00003">CUL M.8.56 (Construction of a latitude plate for an astrolabe)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-WHIPPLE-STORE-00095-00050-00002">Whipple STORE 95:50 (Projection of the polar circle and a tropic (2))</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-ADAMS-00006-00053-00002-00001">CUL Adams.6.53.2 (Back, or &lt;em&gt;dorsum&lt;/em&gt;, of astrolabe)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-ADAMS-00006-00053-00002-00002">CUL Adams.6.53.2 (Astrolabe rete and plate for latitude 42 degrees )</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-ADAMS-00003-00052-00004-00003">CUL Adams.3.52.4 (Using the shadow square on an astrolabe to measure the height of a tower)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-WHIPPLE-STORE-00095-00050-00001">Whipple STORE 95:50 (Projection of the polar circle and a tropic (1))</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-PETERBOROUGH-A-00008-00013-00001">CUL Peterborough A.8.13 (Full-page figure of the rete of Blagrave's &lt;em&gt;Jewel&lt;/em&gt;)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-PETERBOROUGH-A-00008-00013-00002">CUL Peterborough A.8.13 (Full-page figure of the mater of Blagrave's &lt;em&gt;Jewel&lt;/em&gt;)</ref>
+                        </p>
+                        <p>Astrolabe - use and construction: <ref type="cudl_link" target="/view/PR-ADAMS-00003-00052-00004-00002">CUL Adams.3.52.4 (Astrolabe: a latitude plate with lines of equal azimuth radiating from the observer's zenith)</ref>
+                        </p>
+                        <p>Astrolabes: <ref type="cudl_link" target="/view/PR-WHIPPLE-STORE-00054-00017-00001">Whipple STORE 54:17 (Back, or &lt;em&gt;dorsum&lt;/em&gt;, of astrolabe)</ref>
+                        </p>
+                        <p>Instrument-making method - astrolabe: <ref type="cudl_link" target="/view/PR-M-00009-00038-00001">CUL M.9.38 (Frisius' visual account of projection)</ref>
+                        </p>
+                     </note>
+                  </msItem>
+               </msContents>
+               <physDesc>
+                  <objectDesc form="book">
+                     <supportDesc material="paper">
+                        <support>paper</support>
+                        <extent>
+                           <dimensions type="leaf" unit="mm">
+                              <height>300</height>
+                              <width>300</width>
+                           </dimensions>
+                        </extent>
+                     </supportDesc>
+                  </objectDesc>
+                  <decoDesc>
+                     <decoNote>Relief</decoNote>
+                  </decoDesc>
+               </physDesc>
+               <history>
+                  <origin>
+                     <date calendar="Gregorian" notBefore="1524-01-01" notAfter="1524-12-31">1524</date>
+                     <origPlace>Oppenheim</origPlace>
+                  </origin>
+               </history>
+            </msDesc>
+         </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+         <textClass>
+            <keywords>
+               <list>
+                  <item>
+                     <term>Astrolabe</term>
+                  </item>
+                  <item>
+                     <term>horoscope</term>
+                  </item>
+                  <item>
+                     <term>instrument(s)</term>
+                  </item>
+                  <item>
+                     <term>surveying</term>
+                  </item>
+               </list>
+            </keywords>
+         </textClass>
+      </profileDesc>
+   </teiHeader>
+   <facsimile>
+      <graphic decls="#document-thumbnail"
+               rend="landscape"
+               url="PR-ADAMS-00003-00052-00004-00001-000-00001"/>
+      <surface xml:id="i1" n="1r">
+         <graphic decls="#downloadImageRights #download"
+                  height="543px"
+                  width="709px"
+                  rend="landscape"
+                  url="PR-ADAMS-00003-00052-00004-00001-000-00001"/>
+      </surface>
+   </facsimile>
+   <text>
+      <body>
+         <div>
+            <pb n="1r" xml:id="pb-1r" facs="#i1"/>
+         </div>
+      </body>
+   </text>
+</TEI>

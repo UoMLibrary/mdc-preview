@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Note on the contents of the manuscript scrapbooks for The Bow in the Cloud</title>
+                <respStmt>
+                    <resp>Cataloguer</resp>
+                    <name>Ourania Karapasia</name>
+                    <name>Christopher Ohge</name>
+                </respStmt>
+                <respStmt>
+                    <resp>Photographer</resp>
+                    <name>James Robinson</name>
+                </respStmt>
+                <respStmt>
+                    <resp>Conversion to TEI encoding</resp>
+                    <name>Briony Cheetham</name>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>The University of Manchester Library</publisher>
+                <date calendar="Gregorian">2020</date>
+                <pubPlace>
+                    <address>
+                        <addrLine>The John Rylands Library</addrLine>
+                        <street>150 Deansgate</street>
+                        <settlement>Manchester</settlement>
+                        <postCode>M3 3EH</postCode>
+                        <addrLine>
+                            <ref target="http://www.library.manchester.ac.uk/specialcollections/">The John Rylands Library</ref>
+                        </addrLine>
+                        <addrLine>
+                            <email>uml.special-collections@manchester.ac.uk</email>
+                        </addrLine>
+                    </address>
+                </pubPlace>
+                <availability xml:id="displayImageRights" status="restricted">
+                    <p>Zooming image Â© University of Manchester Library, All rights reserved.</p>
+                </availability>
+                <availability xml:id="downloadImageRights" status="restricted">
+                    <licence target="https://creativecommons.org/licenses/by-nc/4.0/">Images made available for download are licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).</licence>
+                </availability>
+                <availability xml:id="metadataRights" status="restricted">
+                    <licence target="https://creativecommons.org/licenses/by-nc/4.0/">Metadata made available for download is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).</licence>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc>
+                    <msIdentifier>
+                        <country>United Kingdom</country>
+                        <region type="county">Greater Manchester</region>
+                        <settlement>Manchester</settlement>
+                        <institution>The University of Manchester Library</institution>
+                        <repository>The John Rylands Library</repository>
+                        <idno>English MS 414/1a</idno>
+                    </msIdentifier>
+                    <msContents>
+                        <summary>
+                            <seg type="para"> A note by Mary Anne Rawson, outlining the contents of the scrapbook as the original manuscripts for The Bow in the Cloud. </seg>
+                        </summary>
+                        <msItem>
+                            <title>Note on the contents of the manuscript scrapbooks for The Bow in the Cloud</title>
+                            <textLang mainLang="eng">English</textLang>
+                            <author>
+                                <name type="person" ref="http://viaf.org/viaf/4004154867602660100003" role="aut">
+                                    <persName type="standard">Rawson, Mary Anne, 1801-1887</persName>
+                                </name>
+                            </author>
+                            <respStmt>
+                                <resp/>
+                                <name type="person" ref="http://viaf.org/viaf/4004154867602660100003" role="com">
+                                    <persName type="standard">Rawson, Mary Anne, 1801-1887</persName>
+                                </name>
+                            </respStmt>
+                            <respStmt>
+                                <resp/>
+                                <name type="person" ref="http://viaf.org/viaf/4004154867602660100003" role="edt">
+                                    <persName type="standard">Rawson, Mary Anne, 1801-1887</persName>
+                                </name>
+                            </respStmt>
+                            <note type="technique">Handwriting</note>
+                            <note type="medium">Ink</note>
+                        </msItem>
+                    </msContents>
+                    <physDesc>
+                        <objectDesc>
+                            <supportDesc material="paper">
+                                <support>
+                                    <material>Paper</material>
+                                </support>
+                            </supportDesc>
+                        </objectDesc>
+                    </physDesc>
+                    <history>
+                        <origin>
+                            <origPlace>
+                                <country ref="http://viaf.org/viaf/142995804">England</country>,
+                                <placeName ref="http://viaf.org/viaf/131450199">Rotherham</placeName>
+                            </origPlace>
+                        </origin>
+                        <acquisition>
+                            <p>Presented to the John Rylands Library by Alexander Cowan Wilson in 1923. The gift was probably received in conjunction with the collection of anti-slavery pamphlets acquired by the
+                Library from the executors of Henry Joseph Wilson.</p>
+                        </acquisition>
+                    </history>
+                    <additional>
+                        <adminInfo>
+                            <availability status="restricted">
+                                <p>The manuscript is available for consultation by any accredited reader.</p>
+                            </availability>
+                        </adminInfo>
+                    </additional>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <projectDesc>
+                <p>The John Rylands Research Institute and Digital Humanities Project: Mary Anne Rawson's The Bow in the Cloud and The Network of Anti-Slavery in Britain </p>
+                <p>Academic Project Lead: Christopher Ohge</p>
+            </projectDesc>
+            <classDecl>
+                <taxonomy xml:id="LCSH">
+                    <bibl>
+                        <ref target="http://id.loc.gov/authorities/subjects.html#lcsh">Library of Congress Subject Headings</ref>
+                    </bibl>
+                </taxonomy>
+            </classDecl>
+        </encodingDesc>
+        <profileDesc>
+            <textClass>
+                <keywords scheme="#LCSH">
+                    <list>
+                        <item>
+                            <term>Antislavery movements</term>
+                        </item>
+                        <item>
+                            <term>Antislavery movements--Great Britain--19th century</term>
+                        </item>
+                        <item>
+                            <term>Slavery in literature--History--19th century</term>
+                        </item>
+                        <item>
+                            <term>Abolitionists--Great Britain--Poetry--19th century</term>
+                        </item>
+                        <item>
+                            <term>Books--Great Britain--History--19th century</term>
+                        </item>
+                        <item>
+                            <term key="subject_sh2009129992">Literature publishing--Great Britain--19th century</term>
+                        </item>
+                        <item>
+                            <term>Autographs--Great Britain--19th century</term>
+                        </item>
+                        <item>
+                            <term>Rawson, Mary Anne, 1801-1887</term>
+                        </item>
+                    </list>
+                </keywords>
+            </textClass>
+        </profileDesc>
+        <!--<revisionDesc>
+			<change when="2020-04-21">
+				<persName>Briony Cheetham</persName>
+			</change>
+		</revisionDesc>-->
+    </teiHeader>
+    <facsimile>
+        <surface/>
+    </facsimile>
+    <text>
+        <body>
+            <div/>
+        </body>
+    </text>
+</TEI>

@@ -6,19 +6,50 @@ interface TransformRequest {
 	stylesheetInternal: unknown;
 }
 
+interface WorkerMessage {
+	type: 'message' | 'success' | 'error';
+	message?: string;
+	code?: string;
+	result?: string;
+	error?: TransformErrorPayload;
+}
+
+interface TransformErrorPayload {
+	name: string;
+	message: string;
+	code?: string | number;
+	stack?: string;
+}
+
+interface WorkerLike {
+	on(event: 'message', listener: (message: WorkerMessage) => void): WorkerLike;
+	on(event: 'error', listener: (error: Error) => void): WorkerLike;
+	on(event: 'exit', listener: (code: number) => void): WorkerLike;
+	terminate(): Promise<number>;
+}
+
+interface WorkerConstructor {
+	new (source: string, options: { eval: true; workerData: TransformRequest }): WorkerLike;
+}
+
 let transformQueue = Promise.resolve();
+const importWorkerThreads = Function('return import("node:worker_threads")') as () => Promise<{
+	Worker: WorkerConstructor;
+}>;
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
-		const result = await enqueueTransform(() => transformRequest(request));
+		const transformRequest = parseTransformRequest(await request.json());
+		if (acceptsStreamingProgress(request)) return streamTransformRequest(transformRequest, request.signal);
+
+		const result = await enqueueTransform(() => transformRequestInProcess(transformRequest), request.signal);
 		return jsonResponse({ status: 'success', result });
 	} catch (error) {
 		return jsonResponse({ status: 'error', error: createErrorPayload(error) }, 400);
 	}
 };
 
-async function transformRequest(request: Request) {
-	const transformRequest = parseTransformRequest(await request.json());
+async function transformRequestInProcess(transformRequest: TransformRequest) {
 	const transform = await saxon.transform(
 		{
 			sourceText: transformRequest.sourceText,
@@ -31,16 +62,133 @@ async function transformRequest(request: Request) {
 	return transform.principalResult ?? '';
 }
 
-async function enqueueTransform<T>(transform: () => Promise<T>) {
+function streamTransformRequest(transformRequest: TransformRequest, signal: AbortSignal) {
+	const encoder = new TextEncoder();
+
+	return new Response(
+		new ReadableStream({
+			async start(controller) {
+				const writeEvent = (event: unknown) => {
+					controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
+				};
+
+				try {
+					writeEvent({ type: 'stage', message: 'Queued for transform' });
+					const result = await enqueueTransform(
+						() => transformRequestInWorker(transformRequest, writeEvent, signal),
+						signal
+					);
+					writeEvent({ type: 'success', result });
+				} catch (error) {
+					writeEvent({ type: 'error', error: createErrorPayload(error) });
+				} finally {
+					controller.close();
+				}
+			}
+		}),
+		{
+			headers: {
+				'Content-Type': 'application/x-ndjson; charset=UTF-8',
+				'Cache-Control': 'no-cache'
+			}
+		}
+	);
+}
+
+function transformRequestInWorker(
+	transformRequest: TransformRequest,
+	progress: (event: unknown) => void,
+	signal: AbortSignal
+) {
+	return new Promise<string>((resolve, reject) => {
+		void startTransformWorker(resolve, reject);
+
+		async function startTransformWorker(
+			resolveResult: (result: string) => void,
+			rejectResult: (error: unknown) => void
+		) {
+			try {
+				throwIfAborted(signal);
+				const { Worker } = await importWorkerThreads();
+				const worker = new Worker(transformWorkerSource, {
+					eval: true,
+					workerData: transformRequest
+				});
+				let settled = false;
+
+				const settle = (callback: () => void) => {
+					if (settled) return;
+
+					settled = true;
+					signal.removeEventListener('abort', abortTransform);
+					void worker.terminate();
+					callback();
+				};
+
+				const abortTransform = () => {
+					settle(() => rejectResult(new Error('XSLT transformation cancelled.')));
+				};
+
+				signal.addEventListener('abort', abortTransform, { once: true });
+
+				worker.on('message', (message: WorkerMessage) => {
+					if (message.type === 'message') {
+						progress({ type: 'message', message: message.message ?? '', code: message.code });
+						return;
+					}
+
+					if (message.type === 'success') {
+						settle(() => resolveResult(message.result ?? ''));
+						return;
+					}
+
+					if (message.type === 'error') {
+						settle(() => rejectResult(createErrorFromPayload(message.error)));
+					}
+				});
+
+				worker.on('error', (error: Error) => {
+					settle(() => rejectResult(error));
+				});
+
+				worker.on('exit', (code: number) => {
+					if (settled || code === 0) return;
+					settle(() =>
+						rejectResult(new Error(`XSLT transform worker stopped with exit code ${code}.`))
+					);
+				});
+			} catch (error) {
+				rejectResult(error);
+			}
+		}
+	});
+}
+
+async function enqueueTransform<T>(transform: () => Promise<T>, signal?: AbortSignal) {
 	const queuedTransform = transformQueue.then(
-		() => transform(),
-		() => transform()
+		() => runUnlessAborted(transform, signal),
+		() => runUnlessAborted(transform, signal)
 	);
 	transformQueue = queuedTransform.then(
 		() => undefined,
 		() => undefined
 	);
 	return queuedTransform;
+}
+
+async function runUnlessAborted<T>(operation: () => Promise<T>, signal?: AbortSignal) {
+	throwIfAborted(signal);
+	const result = await operation();
+	throwIfAborted(signal);
+	return result;
+}
+
+function throwIfAborted(signal?: AbortSignal) {
+	if (signal?.aborted) throw new Error('XSLT transformation cancelled.');
+}
+
+function acceptsStreamingProgress(request: Request) {
+	return request.headers.get('accept')?.includes('application/x-ndjson') ?? false;
 }
 
 function parseTransformRequest(value: unknown): TransformRequest {
@@ -58,11 +206,19 @@ function parseTransformRequest(value: unknown): TransformRequest {
 	};
 }
 
-function createErrorPayload(error: unknown) {
+function createErrorPayload(error: unknown): TransformErrorPayload {
 	if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
 
 	const code = (error as Error & { code?: string | number }).code;
 	return { name: error.name, message: error.message, stack: error.stack, code };
+}
+
+function createErrorFromPayload(errorPayload: TransformErrorPayload | undefined) {
+	const error = new Error(errorPayload?.message ?? 'XSLT transformation failed.');
+	error.name = errorPayload?.name ?? 'Error';
+	error.stack = errorPayload?.stack;
+	(error as Error & { code?: string | number }).code = errorPayload?.code;
+	return error;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -75,3 +231,51 @@ function jsonResponse(body: unknown, status = 200) {
 		headers: { 'Content-Type': 'application/json' }
 	});
 }
+
+const transformWorkerSource = `
+const { parentPort, workerData } = require('node:worker_threads');
+const saxon = require('saxon-js');
+
+function stringifyMessage(message) {
+	try {
+		return saxon.serialize(message, { method: 'text' });
+	} catch (_error) {
+		return String(message ?? '');
+	}
+}
+
+function createErrorPayload(error) {
+	if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
+
+	return {
+		name: error.name,
+		message: error.message,
+		code: error.code,
+		stack: error.stack
+	};
+}
+
+(async () => {
+	try {
+		const transform = await saxon.transform(
+			{
+				sourceText: workerData.sourceText,
+				destination: 'serialized',
+				stylesheetInternal: workerData.stylesheetInternal,
+				deliverMessage(message, code) {
+					parentPort.postMessage({
+						type: 'message',
+						message: stringifyMessage(message),
+						code: String(code ?? '')
+					});
+				}
+			},
+			'async'
+		);
+
+		parentPort.postMessage({ type: 'success', result: transform.principalResult ?? '' });
+	} catch (error) {
+		parentPort.postMessage({ type: 'error', error: createErrorPayload(error) });
+	}
+})();
+`;

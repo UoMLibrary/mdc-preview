@@ -1,0 +1,283 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PR-XYLO-17249-00002" xml:lang="eng">
+  <teiHeader
+    <fileDesc>
+      <titleStmt>
+        <title>Block Book 17249.2</title>
+        <funder>Arts and Humanities Research Council (AHRC)</funder>
+        <funder>Deutsche Forschungsgemeinschaft (DFG)</funder>
+        <principal>Edward Potten</principal>
+        <principal>Stephen Mossman </principal>
+        <principal>Julianne Simpson</principal>
+        <respStmt>
+          <resp>Cataloguer</resp>
+          <resp>Incunabula Cataloguing Project, ALMA</resp>
+          <name>John Gandy</name>
+        </respStmt>
+        <respStmt>
+          <resp>Project Photographer</resp>
+          <resp>Digitisation</resp>
+          <name>James Robinson</name>
+        </respStmt>
+        <respStmt>
+          <resp>Manchester Digital Collections (MDC) Content Coordinator</resp>
+          <resp>Conversion to TEI-XML from ALMA-MARC</resp>
+          <name>Charlotte Hoare</name>
+        </respStmt>
+        <respStmt>
+          <resp>Digital Metadata Specialist</resp>
+          <resp>TEI-XML reviewing and supervision</resp>
+          <name>Ourania Karapasia</name>
+        </respStmt>
+        <respStmt>
+          <resp>Metadata Assistant</resp>
+          <resp>TEI-XML proofreading, editing, and encoding</resp>
+          <name>Briony Cheetham</name>
+        </respStmt>
+        <respStmt>
+          <resp>Senior Software Developer</resp>
+          <resp>Metadata processing</resp>
+          <name>Thomas Higgins</name>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>The University of Manchester Library</publisher>
+        <date calendar="gregorian">2024</date>
+        <pubPlace>
+          <address>
+            <addrLine>The John Rylands Research Institute and Library</addrLine>
+            <street>150 Deansgate</street>
+            <settlement>Manchester</settlement>
+            <postCode>M3 3EH</postCode>
+            <addrLine>
+              <ref target="https://www.library.manchester.ac.uk/rylands/special-collections/">The John Rylands Research Institute and Library</ref>
+            </addrLine>
+            <addrLine>
+              <email>uml.special-collections@manchester.ac.uk</email>
+            </addrLine>
+          </address>
+        </pubPlace>
+        <availability xml:id="displayImageRights" status="restricted">
+          <p>Zooming image © University of Manchester Library. All rights reserved.</p>
+        </availability>
+        <availability xml:id="downloadImageRights" status="restricted">
+          <licence>Images made available for download are licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).</licence>
+        </availability>
+        <availability xml:id="metadataRights" status="restricted">
+          <licence>Metadata made available for download is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).</licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>United Kingdom</country>
+            <region type="county">Greater Manchester</region>
+            <settlement>Manchester</settlement>
+            <institution>The University of Manchester</institution>
+            <repository>The John Rylands Research Institute and Library</repository>
+            <collection>Block Book Collection</collection>
+            <idno>17249.2</idno>
+          </msIdentifier>
+          <msContents>
+            <summary>
+              <seg type="para">Impression on paper depicting Saint Christopher. The Saint strides through the water from one shore to the other of a little bay. He grasps in both hands the stem of a
+                date palm which he uses as a staff, and carries on his shoulder the Infant Christ, clad in a long robe, who blesses with his right hand and holds the Orb in his left. The landscape,
+                diminutive in scale as compared with the figure of the Saint, consists of hills that rise and form steep, jutting cliffs, surmounted by trees, on either side of the bay, but descend to
+                the level of the water in the foreground. On the right, a hermit kneels, holding a lantern to guide the Saint, before the door of a chapel, beneath him a rabbit emerges from a burrow.
+                On the left, a man rides on a mule, carrying a sack, towards a mill, from which another man, carrying a sack of flour over his shoulder, climbs on foot the steep road that ascends to a
+                little house beneath the topmost tree. Xylographic text at foot: Cristofori faciem quacumque tueris Illa nempe die morte mala non morieris Millesimo cccc° xx° tertio. The whole within
+                a single wide border.</seg>
+            </summary>
+            <msItem>
+              <title xml:lang="eng">Saint Christopher</title>
+              <title type="alt" xml:lang="eng">Saint Christopher woodcut</title>
+              <textLang mainLang="lat">Latin</textLang>
+              <editor role="fmo">Gundelfingen, Anna von, 1400?-1432</editor>
+              <editor role="fmo">Spencer, George John Spencer, Earl, 1758-1834</editor>
+              <editor role="fmo">Reichskartause Buxheim</editor>
+              <editor role="bsl">Horn, Alexander, active 1814</editor>
+              <note>
+                <p>A companion impression to that of the Annunciation (Rylands 17249.1). Although the borders of these two woodcuts differ, they are printed with the same ink, coloured in the same way
+                  and they display sufficiently close similarities in the cutting technique to convince that they originate from the same workshop.</p>
+                <p>The xylographic date of 1423 historically led to the Saint Christopher being described as the earliest dated Western European woodcut impression, but analysis of the watermark links
+                  the paper on which the woodcut is printed to a cluster of other papers produced in Ravensburg and in use within a geographical area centred around Ulm between 1428 and 1435. This,
+                  coupled with art historical evidence and strong formal parallels with stained glass, panel paintings and altarpieces from Ulm dated to the 1430s, suggest that it in fact dates from
+                  between 1435 and 1450. See: Potten, Edward, 'A series of uncertainties: dating the Buxheim Saint Christopher', in: Goldfinch, J., Tokunaga, S. and Kato, T. (eds.), Provenances and
+                  Producers: Copy-Specific Features of Incunabula (Leiden: Brill, 2023).</p>
+                <p>Campbell Dodgson's Woodcuts of the Fifteenth Century in the John Rylands Library Manchester (Manchester: Manchester University Press, 1915), page 12, incorrectly attributes
+                  ownership of the Buxheim Laus Mariae manuscript in which the Saint Christopher and Annunciation impressions are pasted to Jacobus Matzenberger, parish priest of the church of the
+                  Blessed Virgin Mary at Memmingen.</p>
+                <p>Image size: 288.5 x 207.5 mm.</p>
+              </note>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <p>The impression of the Saint Christopher survives, with a companion impression of the Annunciation catalogued separately, pasted to the front and rear boards of a manuscript of the Laus
+              Mariae by the Carthusian Konrad von Haimburg (Hainburg), completed in 1417: Rylands Latin MS 366.</p>
+            <p>The vellum pastedowns and paper flyleaves front and rear bear evidence of early fifteenth-century annotation. These fall into three categories: annotations present on the vellum used as
+              pastedowns prior to the binding of the Laus Mariae; annotations added to the vellum pastedowns prior to the insertion of the woodcuts, but after binding; annotations added to the paper
+              flyleaves either before or after the insertion of the woodcuts. None assist materially with the dating or localising of the impressions of the Annunciation and Saint Christopher, but a
+              lengthy inscription on the flyleaf facing the impression of the Saint Christopher, broadly contemporaneous with the manuscript Laus Mariae, records the beneficial properties of various
+              precious stones, such as topaz and amethyst, and concludes with a prayer for the consecration of an Agnus Dei, an image or model of the Lamb of God believed to protect against illness
+              and misfortune, so has traditionally been associated with the impression of the Saint, which had a talismanic purpose. For a detailed description of these inscriptions see: Potten,
+              Edward, 'A series of uncertainties: dating the Buxheim Saint Christopher'.</p>
+            <p>The presence of pin holes in the corners of the Saint Christopher impression suggest that it may have been displayed elsewhere before being pasted into the Laus Mariae manuscript.</p>
+            <p>Hand coloured in green, yellow, pink and scarlet, as in the Annunciation, but with the addition of a pale, slightly bluish, grey used for the robe of Christ, the hermit and part of the
+              water, and a darker brownish grey, used for the Saint's hair and beard.</p>
+            <p>The paper on which the Saint Christopher impression is printed bears a watermark: a bull's-head, without facial features, the shape of the ears unclear, and with a characteristic narrow
+              muzzle and a stem surmounted with a six-pointed star. The distance from the top of the stem to the bottom of the muzzle is c. 92-95 mm, and at the widest point between the horns 33 mm.
+              The chainlines in the paper are impossible to deduce, due to the length of time it has been pasted to the wooden board, but it appears that the watermark sits between chainlines. For a
+              detailed description of the watermark and its impact on the dating of the impression see: Potten, Edward, 'A series of uncertainties: dating the Buxheim Saint Christopher'.</p>
+            <objectDesc form="sheet">
+              <supportDesc material="paper">
+                <support>
+                  <material>Paper</material>
+                </support>
+                <extent>1 sheet.
+                  <dimensions type="leaf" unit="mm">
+                    <height>298</height>
+                    <width>210</width>
+                  </dimensions>
+                </extent>
+              </supportDesc>
+            </objectDesc>
+            <bindingDesc>
+              <p>Early fifteenth-century full German calf, decorated with a pattern of fillets; remains of five metal bosses to each cover, which were wanting by the time a paper title label was added
+                to the rear cover in the fifteenth century at Buxheim; remains of an earlier manuscript annotation directly to the leather, which is now illegible; bent and slotted catchplates to the
+                rear cover, of a pattern which were in use by the late-fourteenth century, of a characteristic design (see Adler, Georg, Handbuch Buchverschluss und Buchbeschlag (Wiesbaden: Reichert
+                Verlag, 2010), Abb. 5-61d, page 102, where a similar catchplate is recorded on bindings from the Austrian convents at Lambach and Gaming and used by various Viennese workshops between
+                1427 and the third quarter of the fifteenth century); the wooden boards are larger than, rather than flush with, the text block; the binding is upside-down and back-to-front. This
+                orientation is odd, but careful examination suggests that it has always been thus: there is no evidence that this is a binding that has been re-used, no evidence of re-stitching, and
+                the head and tail bands look as one would expect.</p>
+            </bindingDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origDate calendar="gregorian" notBefore="1435" notAfter="1450">between 1435 and 1450</origDate>
+              <origPlace>Germany, Swabia</origPlace>
+              <note type="publisher">Swabia: publisher not identified</note>
+            </origin>
+            <provenance>
+              <p>According to Franz Krismer, the Laus Marine manuscript in which the impressions of the Saint Christopher and the Annunciation are now pasted, once bore an exlibris inscription, now
+                lost: Istum librum legauit domna Anna filia domni Stephani baronis de Gundelfingen Canonica in büchow Aule bte Marie v'ginis in Buchshaim ordis Cartusien. prope Memingen Augusten.
+                dyoc. [i.e.: given to the Charterhouse Library at Buxheim by Anna von Gundelfingen (1400?-1432), Canoness at Buchau]. See: Krismer, Franz, 'Formschneiderkunst', Journal zur
+                Kunstgeschichte und zur allgemeinen Litteratur, 2 (1776), pages 104-105, footnote *.</p>
+              <p>The impression of the Saint Christopher was discovered in the library of the Swabian Charterhouse of Buxheim in 1769 by Karl-Heinrich von Heinecken, who described it in print in his
+                1771 'Idée générale'.</p>
+              <p>Acquired from Alexander Horn (1762-1820) by George John (1758-1834), 2nd Earl Spencer, in 1803. See: White, Eric Marshall, 'Gutenberg Bibles on the Move in England, 1789-1834', in
+                Potten, Edward and Tokunaga, Satoko (eds.), Incunabula on the Move: The Production, Circulation and Collection of Early Printed Books, TCBS, 15.1 (2012), page 92.</p>
+            </provenance>
+            <acquisition>
+              <p>Part of the library of the Earls Spencer, acquired in 1892 by Enriqueta Rylands from John Poyntz Spencer (1835-1910), 5th Earl Spencer, for The John Rylands Library.</p>
+            </acquisition>
+          </history>
+          <additional>
+            <adminInfo>
+              <availability status="restricted">
+                <p>The item is available for consultation by any accredited reader.</p>
+                <p>For information on eligibility and admissions procedures, see
+                  <ref target="https://www.library.manchester.ac.uk/rylands/special-collections/using-the-reading-rooms/john-rylands-library/">Using Special Collections at the John Rylands Research
+                    Institute and Library</ref>.
+                </p>
+                <p>For further information on the availability of the item, please contact the
+                  <ref target="uml.special-collections@manchester.ac.uk">Special Collections Reader Services</ref>.
+                </p>
+              </availability>
+            </adminInfo>
+            <listBibl>
+              <bibl>Recorded in University of Manchester
+                <ref target="https://www.librarysearch.manchester.ac.uk/permalink/44MAN_INST/elks2a/alma9933485684401631">Library Search</ref>
+              </bibl>
+              <bibl>Heinecken, Karl-Heinrich von. Idée générale d'une collection complette d'estampes: avec une dissertation sur l'origine de la gravure &amp; sur les premiers livres d'images
+                (Leipzig: Jean Paul Kraus, 1771), pages 250-251</bibl>
+              <bibl>Krismer, Franz. 'Formschneiderkunst', Journal zur Kunstgeschichte und zur allgemeinen Litteratur, 2 (1776), pages 75-179</bibl>
+              <bibl>Dibdin, T.F. Bibliotheca Spenceriana, Volume I, pages I-iv, and plates facing page iii</bibl>
+              <bibl>Schreiber, W.L. Manuel de l'amateur de la gravure sur le bois et sur métal au XVe siècle (Berlin &amp; Leipzig: 1891-1911), 1349</bibl>
+              <bibl>Dodgson, Campbell. Woodcuts of the Fifteenth Century in the John Rylands Library Manchester (Manchester: Manchester University Press, 1915), plate number II, pages 13-14</bibl>
+              <bibl>Schmidt, Peter. 'Manuscript with the "Buxheim" Saint Christopher', in Parshall, Peter and Schoch, Rainer (eds.), Origins of European Printmaking: Fifteenth-Century Woodcuts and
+                Their Public (New Haven, CT: Yale University Press, 2005), pages 153-156</bibl>
+              <bibl>Potten, Edward. 'A series of uncertainties: dating the Buxheim Saint Christopher', in: Goldfinch, J., Tokunaga, S. and Kato, T. (eds.), Provenances and Producers: Copy-Specific
+                Features of Incunabula (Leiden: Brill, 2023)</bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p>Created as part of the Incunabula Cataloguing Project, funded by the John Rylands Research Institute and Library, and the research project: '‘Werck der bücher’ Transitions, experimentation,
+          and collaboration in reprographic technologies, 1440–1470', funded by the AHRC/DFG. John Gandy is Project Cataloguer on the Incunabula Cataloguing Project. 'Werck der bücher' is led by Dr
+          Stephen Mossman, Senior Lecturer in Medieval History, Department of History, School of Arts, Languages and Cultures, (SALC), University of Manchester, and Edward Potten, Principal
+          Consultant, Department of History, School of Arts, Languages and Cultures, (SALC), University of Manchester.</p>
+      </projectDesc>
+      <classDecl>
+        <taxonomy xml:id="LCSH">
+          <bibl>
+            <ref target="http://id.loc.gov/authorities/subjects.html">Library of Congress Subject Headings (LCSH)</ref>
+          </bibl>
+        </taxonomy>
+        <taxonomy xml:id="LCLC-ISO-6392">
+          <bibl>
+            <ref target="https://www.loc.gov/standards/iso639-2/php/code_list.php">ISO 639-2 Codes for Representation of Names of Languages (LC)</ref>
+          </bibl>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <textClass>
+        <keywords scheme="#LCSH">
+          <list>
+            <item>
+              <term key="subject_sh85025011">Christian art and symbolism</term>
+            </item>
+            <item>
+              <term key="subject_sh85147845">Wood-engraving--15th century</term>
+            </item>
+            <item>
+              <term key="subject_sh2010013804">Early works to 1800</term>
+            </item>
+          </list>
+        </keywords>
+      </textClass>
+      <textClass>
+        <keywords scheme="local">
+          <list>
+            <item>
+              <term type="subject">Christopher, Saint--Art</term>
+            </item>
+            <item>
+              <term type="genre">Blind tooled bindings (Binding)--Germany--15th century</term>
+            </item>
+            <item>
+              <term key="genre_cv00454">Calf bindings (Binding)--Germany--15th century</term>
+            </item>
+          </list>
+        </keywords>
+      </textClass>
+    </profileDesc>
+    <!--<revisionDesc>
+      <change when="2024-06-28"><persName>Briony Cheetham</persName>
+      </change>
+    </revisionDesc>-->
+  </teiHeader>
+  <facsimile>
+    <graphic decls="#document-thumbnail" rend="portrait" url="PR-XYLO-17249-00002-000-00001.jp2"/>
+    <surface xml:id="i1" n="1">
+      <graphic n="JRL1200357" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4782px" url="PR-XYLO-17249-00002-000-00001.jp2"/>
+    </surface>
+    <surface xml:id="i2" n="detail_1">
+      <graphic n="JRL17102262" decls="#downloadImageRights #download" rend="portrait" height="9998px" width="4000px" url="PR-XYLO-17249-00002-000-00002.jp2"/>
+    </surface>
+    <surface xml:id="i3" n="detail_2">
+      <graphic n="JRL15060183" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="995px" url="PR-XYLO-17249-00002-000-00003.jp2"/>
+    </surface>
+  </facsimile>
+  <text>
+    <body>
+      <div>
+        <pb n="1" xml:id="pb-1" facs="#i1"/>
+        <pb n="detail_1" xml:id="pb-detail_1" facs="#i2"/>
+        <pb n="detail_2" xml:id="pb-detail_2" facs="#i3"/>
+      </div>
+    </body>
+  </text>
+</TEI>

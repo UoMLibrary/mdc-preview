@@ -7,7 +7,10 @@
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
 	import { previewSefIds, type PreviewSefId } from '$lib/Tei/preview-sef-ids.js';
-	import type { TransformDisplayError } from '$lib/Tei/preview-pipeline.js';
+	import type {
+		TransformDisplayError,
+		TransformProgressMessage
+	} from '$lib/Tei/preview-pipeline.js';
 	import type { SefItem } from '$lib/stores/sef-store.js';
 
 	type StylesheetLoadStage =
@@ -33,9 +36,16 @@
 		sefId: PreviewSefId;
 		runtimeError?: TransformDisplayError | null;
 		transformStage?: StylesheetTransformStage;
+		transformMessages?: TransformProgressMessage[];
 	}
 
-	let { title = '', sefId, runtimeError = null, transformStage = 'idle' }: Props = $props();
+	let {
+		title = '',
+		sefId,
+		runtimeError = null,
+		transformStage = 'idle',
+		transformMessages = []
+	}: Props = $props();
 	let loadStage = $state<StylesheetLoadStage>('idle');
 	let loadSource = $state<StylesheetLoadSource>('unknown');
 	let cancelCompile: (() => void) | null = null;
@@ -249,6 +259,17 @@
 		{#if isLoading}
 			<div class="tool-panel__loading"></div>
 		{:else}
+			{#if transformMessages.length > 0}
+				<p class="tool-panel__section-title">Transform messages</p>
+				<div class="tool-panel__transform-messages">
+					{#each transformMessages as message, index (`${message.time}-${index}`)}
+						<p>
+							<span class="tool-panel__transform-message-time">{message.time}</span>
+							<span>{message.message}</span>
+						</p>
+					{/each}
+				</div>
+			{/if}
 			{#if noStylesheetLoaded}
 				<p class="tool-panel__empty">{emptyMessage}</p>
 			{/if}

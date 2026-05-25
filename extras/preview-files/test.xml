@@ -1,0 +1,2545 @@
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PR-INCU-09380" xml:lang="eng">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Incunable 9380</title>
+        <funder>Arts and Humanities Research Council (AHRC)</funder>
+        <principal>Guyda Armstrong</principal>
+        <respStmt>
+          <resp>Principal Investigator (PI)</resp>
+          <persName>Professor Guyda Armstrong</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Co-Investigator</resp>
+          <persName>Professor Simon Gilson</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Research Fellow</resp>
+          <persName>Dr. Giles Bergel</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Postdoctoral research assistant</resp>
+          <persName>Dr. Rebecca Bowen</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Postdoctoral research assistant</resp>
+          <persName>Dr. Gloria Moorman</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Project Photographer</resp>
+          <resp>Digitisation</resp>
+          <persName>Samuel Simpson</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Manchester Digital Collections (MDC) Content Coordinator</resp>
+          <resp>Conversion to TEI-XML from ALMA-MARC</resp>
+          <persName>Charlotte Hoare</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Digital Metadata Specialist</resp>
+          <resp>TEI-XML editing and encoding standardisation, reviewing and supervision</resp>
+          <persName>Ourania Karapasia</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Metadata Assistant</resp>
+          <resp>Conversion to TEI-XML from ALMA-MARC</resp>
+          <resp>TEI-XML proofreading, editing and encoding</resp>
+          <persName>Joe Devlin</persName>
+        </respStmt>
+        <respStmt>
+          <resp>Senior Software Developer</resp>
+          <resp>Metadata processing</resp>
+          <persName>Thomas Higgins</persName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>The University of Manchester Library</publisher>
+        <date calendar="gregorian">2024</date>
+        <pubPlace>
+          <address>
+            <addrLine>The John Rylands Research Institute and Library</addrLine>
+            <street>150 Deansgate</street>
+            <settlement>Manchester</settlement>
+            <postCode>M3 3EH</postCode>
+            <addrLine><ref target="https://www.library.manchester.ac.uk/rylands/special-collections/">The John Rylands Research Institute and Library</ref></addrLine>
+            <addrLine><email>uml.special-collections@manchester.ac.uk</email></addrLine>
+          </address>
+        </pubPlace>
+        <availability xml:id="displayImageRights" status="restricted">
+          <p>Zooming image © University of Manchester Library. All rights reserved.</p>
+        </availability>
+        <availability xml:id="downloadImageRights" status="restricted">
+          <licence>Images made available for download are licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).</licence>
+        </availability>
+        <availability xml:id="metadataRights" status="restricted">
+          <licence>Metadata made available for download is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).</licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <country>United Kingdom</country>
+            <region type="county">Greater Manchester</region>
+            <settlement>Manchester</settlement>
+            <institution>The University of Manchester</institution>
+            <repository>The John Rylands Research Institute and Library</repository>
+            <collection>Incunable Collection</collection>
+            <idno>9380</idno>
+          </msIdentifier>
+          <msContents>
+            <summary><seg type="para">This edition of the Commedia is one of three printed in 1472. The name of the printer, Magistro Federico Veronensi, is recorded in the colophon as well as the
+                date the book was produced ‘MCCCCLXXII quintodecimo [cal]alendas Augusti [i.e. 18 July 1472]. It was probably printed in Venice, but this information is not recorded inside the edition
+                itself.</seg>
+              <seg type="para">The poem is printed in a single column of roman type, with a typeface somewhat smaller than that of the edition printed in Foligno in 1472. Less attention
+                seems to have been paid to the printing in comparison to the other copies printed in 1472, with no foliation, signatures, or catchwords. There is, moreover, a marked inconsistency in
+                the way the cantos are titled. Some canti are introduced with short rubrics noting a major feature of the narrative, others are marked only by a blank space for the initial capital,
+                and some are separated by two blank lines. Guide letters are occasionally present in the blank spaces at the start of the canti. The start of Paradiso is marked with a larger blank
+                space for the initial capital but is not given a new page. The start of Purgatorio is marked with a smaller space for the initial capital but is placed at the top of a new page. No
+                editor is named in the closing colophon.</seg>
+              <seg type="para">The Rylands copy has a number of the original printed pages missing, which have been skilfully replaced by manuscript
+                facsimiles, including the hand-decorated first page of the text [fol. a1]. Other manuscript interventions are present sporadically throughout the text. </seg></summary>
+            <msItem>
+              <title xml:lang="ita">[N]el mezo del camin di nostra uita mi ritrouai per una selua oscura chela diricta uia era smarrita</title>
+              <title type="uniform" xml:lang="ita">Divina Commedia</title>
+              <title type="alt" xml:lang="ita">Nel mezo del camin di nostra uita mi ritrouai per una selua oscura chela diricta uia era smarrita</title>
+              <title type="alt" xml:lang="ita">Nel mezo del camin di nostra vita mi ritrouai per una selua oscura chela diricta via era smarrita</title>
+              <title type="alt" xml:lang="ita">La Commedia</title>
+              <textLang mainLang="ita">Italian</textLang>
+              <author key="person_v97105654">Dante Alighieri, 1265-1321</author>
+              <editor key="person_v16003979" role="prt">Comitibus, Fredericus de, active 1472-1475</editor>
+              <colophon><locus from="y9v" to="y9v">y9v</locus>  Explicit. liber. Dantis. Impressus. a. magistro. Federico. Veronensi. M. CCCC. LXXII.
+                Quintodecimo. [C]alendas. Augusti.</colophon>
+              <note>
+                <p>Title from first three lines of incipit on leaf <locus from="a1r" to="a1r">[a1] recto</locus>.</p>
+                <p>Title as cited by ISTC: La Commedia.</p>
+                <p>Attributed to Iesi by Proctor, but see V. Scholderer in Gb Jb 1932, pages 110-13 (reprinted in Fifty Essays pages 131-34).</p>
+                <p>On leaf <locus from="b8r" to="b8r">[b8]r</locus>, the last <hi rend="italic">terzina</hi> duplicated with variants (<hi rend="italic">O uoi che haueti ..., Vui che hauete ...
+                  </hi>); on leaf <locus from="b8v" to="b8v">[b8]v</locus>, the last two <hi rend="italic">terzine</hi> duplicate, also with variants (<hi rend="italic">E tosco che per la cita ..., O
+                    tosco ...</hi>), the last two <hi rend="italic">terzine</hi> on leaf <locus from="b9v" to="b9v">[b9]v</locus> where they are in their proper place; three lines have dropped out
+                  between the last line on <locus from="b9r" to="b9r">[b9]r</locus> (<hi rend="italic">che ben parean ...offesi</hi>) and the first on <locus from="b9v" to="b9v">[b9]v</locus> (Et egli
+                  a me ... eresiarche").</p>
+              </note>
+              <!--the contents of the manuscript-->
+              <msItem n="Inferno">
+                <locus from="a1r" to="a1r">a1r</locus>
+                <title>Inferno</title>
+                <msItem n="1">
+                  <locus from="a1r" to="a1r">a1r</locus>
+                  <title>Canto I</title>
+                </msItem>
+                <msItem n="2">
+                  <locus from="a3r" to="a3r">a3r</locus>
+                  <title>Canto II</title>
+                </msItem>
+                <msItem n="3">
+                  <locus from="a5r" to="a5r">a5r</locus>
+                  <title>Canto III</title>
+                </msItem>
+                <msItem n="4">
+                  <locus from="a7r" to="a7r">a7r</locus>
+                  <title>Canto IV</title>
+                </msItem>
+                <msItem n="5">
+                  <locus from="a9v" to="a9v">a9v</locus>
+                  <title>Canto V</title>
+                </msItem>
+                <msItem n="6">
+                  <locus from="b1v" to="b1v">b1v</locus>
+                  <title>Canto VI</title>
+                </msItem>
+                <msItem n="7">
+                  <locus from="b3v" to="b3v">b3v</locus>
+                  <title>Canto VII</title>
+                </msItem>
+                <msItem n="8">
+                  <locus from="b5v" to="b5v">b5v</locus>
+                  <title>Canto VIII</title>
+                </msItem>
+                <msItem n="9">
+                  <locus from="b7r" to="b7r">b7r</locus>
+                  <title>Canto IX</title>
+                </msItem>
+                <msItem n="10">
+                  <locus from="b9v" to="b9v">b9v</locus>
+                  <title>Canto X</title>
+                </msItem>
+                <msItem n="11">
+                  <locus from="c1v" to="c1v">c1v</locus>
+                  <title>Canto XI</title>
+                </msItem>
+                <msItem n="12">
+                  <locus from="c3r" to="c3r">c3r</locus>
+                  <title>Canto XII</title>
+                </msItem>
+                <msItem n="13">
+                  <locus from="c5v" to="c5v">c5v</locus>
+                  <title>Canto XIII</title>
+                </msItem>
+                <msItem n="14">
+                  <locus from="c7v" to="c7v">c7v</locus>
+                  <title>Canto XIV</title>
+                </msItem>
+                <msItem n="15">
+                  <locus from="c10r" to="c10r">c10r</locus>
+                  <title>Canto XV</title>
+                </msItem>
+                <msItem n="16">
+                  <locus from="d1v" to="d1v">d1v</locus>
+                  <title>Canto XVI</title>
+                </msItem>
+                <msItem n="17">
+                  <locus from="d4r" to="d4r">d4r</locus>
+                  <title>Canto XVII</title>
+                </msItem>
+                <msItem n="18">
+                  <locus from="d6r" to="d6r">d6r</locus>
+                  <title>Canto XVIII</title>
+                </msItem>
+                <msItem n="19">
+                  <locus from="d8r" to="d8r">d8r</locus>
+                  <title>Canto XIX</title>
+                </msItem>
+                <msItem n="20">
+                  <locus from="d10r" to="d10r">d10r</locus>
+                  <title>Canto XX</title>
+                </msItem>
+                <msItem n="21">
+                  <locus from="e2r" to="e2r">e2r</locus>
+                  <title>Canto XXI</title>
+                </msItem>
+                <msItem n="22">
+                  <locus from="e4r" to="e4r">e4r</locus>
+                  <title>Canto XXII</title>
+                </msItem>
+                <msItem n="23">
+                  <locus from="e6v" to="e6v">e6v</locus>
+                  <title>Canto XXIII</title>
+                </msItem>
+                <msItem n="24">
+                  <locus from="e8v" to="e8v">e8v</locus>
+                  <title>Canto XXIV</title>
+                </msItem>
+                <msItem n="25">
+                  <locus from="f1r" to="f1r">f1r</locus>
+                  <title>Canto XXV</title>
+                </msItem>
+                <msItem n="26">
+                  <locus from="f3v" to="f3v">f3v</locus>
+                  <title>Canto XXVI</title>
+                </msItem>
+                <msItem n="27">
+                  <locus from="f5v" to="f5v">f5v</locus>
+                  <title>Canto XXVII</title>
+                </msItem>
+                <msItem n="28">
+                  <locus from="f7v" to="f7v">f7v</locus>
+                  <title>Canto XXVIII</title>
+                </msItem>
+                <msItem n="29">
+                  <locus from="f10r" to="f10r">f10r</locus>
+                  <title>Canto XXIX</title>
+                </msItem>
+                <msItem n="30">
+                  <locus from="g2r" to="g2r">g2r</locus>
+                  <title>Canto XXX</title>
+                </msItem>
+                <msItem n="31">
+                  <locus from="g4v" to="g4v">g4v</locus>
+                  <title>Canto XXXI</title>
+                </msItem>
+                <msItem n="32">
+                  <locus from="g6v" to="g6v">g6v</locus>
+                  <title>Canto XXXII</title>
+                </msItem>
+                <msItem n="33">
+                  <locus from="g8v" to="g8v">g8v</locus>
+                  <title>Canto XXXIII</title>
+                </msItem>
+                <msItem n="34">
+                  <locus from="h1r" to="h1r">h1r</locus>
+                  <title>Canto XXXIV</title>
+                </msItem>
+              </msItem>
+              <msItem n="Purgatorio">
+                <locus from="h3v" to="h3v">h3v</locus>
+                <title>Purgatorio</title>
+                <msItem n="35">
+                  <locus from="h3v" to="h3v">h3v</locus>
+                  <title>Canto I</title>
+                </msItem>
+                <msItem n="36">
+                  <locus from="h5v" to="h5v">h5v</locus>
+                  <title>Canto II</title>
+                </msItem>
+                <msItem n="37">
+                  <locus from="h7v" to="h7v">h7v</locus>
+                  <title>Canto III</title>
+                </msItem>
+                <msItem n="38">
+                  <locus from="h9v" to="h9v">h9v</locus>
+                  <title>Canto IV</title>
+                </msItem>
+                <msItem n="39">
+                  <locus from="i2r" to="i2r">i2r</locus>
+                  <title>Canto V</title>
+                </msItem>
+                <msItem n="40">
+                  <locus from="i4r" to="i4r">i4r</locus>
+                  <title>Canto VI</title>
+                </msItem>
+                <msItem n="41">
+                  <locus from="i6r" to="i6r">i6r</locus>
+                  <title>Canto VII</title>
+                </msItem>
+                <msItem n="42">
+                  <locus from="i8v" to="i8v">i8v</locus>
+                  <title>Canto VIII</title>
+                </msItem>
+                <msItem n="43">
+                  <locus from="i10v" to="i10v">i10v</locus>
+                  <title>Canto IX</title>
+                </msItem>
+                <msItem n="44">
+                  <locus from="k2v" to="k2v">k2v</locus>
+                  <title>Canto X</title>
+                </msItem>
+                <msItem n="45">
+                  <locus from="k5r" to="k5r">k5r</locus>
+                  <title>Canto XI</title>
+                </msItem>
+                <msItem n="46">
+                  <locus from="k7r" to="k7r">k7r</locus>
+                  <title>Canto XII</title>
+                </msItem>
+                <msItem n="47">
+                  <locus from="k9r" to="k9r">k9r</locus>
+                  <title>Canto XIII</title>
+                </msItem>
+                <msItem n="48">
+                  <locus from="l1v" to="l1v">l1v</locus>
+                  <title>Canto XIV</title>
+                </msItem>
+                <msItem n="49">
+                  <locus from="l3v" to="l3v">l3v</locus>
+                  <title>Canto XV</title>
+                </msItem>
+                <msItem n="50">
+                  <locus from="l6r" to="l6r">l6r</locus>
+                  <title>Canto XVI</title>
+                </msItem>
+                <msItem n="51">
+                  <locus from="l8r" to="l8r">l8r</locus>
+                  <title>Canto XVII</title>
+                </msItem>
+                <msItem n="52">
+                  <locus from="l10v" to="l10v">l10v</locus>
+                  <title>Canto XVIII</title>
+                </msItem>
+                <msItem n="53">
+                  <locus from="m2v" to="m2v">m2v</locus>
+                  <title>Canto XIX</title>
+                </msItem>
+                <msItem n="54">
+                  <locus from="m5r" to="m5r">m5r</locus>
+                  <title>Canto XX</title>
+                </msItem>
+                <msItem n="55">
+                  <locus from="m7r" to="m7r">m7r</locus>
+                  <title>Canto XXI</title>
+                </msItem>
+                <msItem n="56">
+                  <locus from="m9r" to="m9r">m9r</locus>
+                  <title>Canto XXII</title>
+                </msItem>
+                <msItem n="57">
+                  <locus from="n1v" to="n1v">n1v</locus>
+                  <title>Canto XXIII</title>
+                </msItem>
+                <msItem n="58">
+                  <locus from="n3v" to="n3v">n3v</locus>
+                  <title>Canto XXIV</title>
+                </msItem>
+                <msItem n="59">
+                  <locus from="n6r" to="n6r">n6r</locus>
+                  <title>Canto XXV</title>
+                </msItem>
+                <msItem n="60">
+                  <locus from="n8r" to="n8r">n8r</locus>
+                  <title>Canto XXVI</title>
+                </msItem>
+                <msItem n="61">
+                  <locus from="n10v" to="n10v">n10v</locus>
+                  <title>Canto XXVII</title>
+                </msItem>
+                <msItem n="62">
+                  <locus from="o2v" to="o2v">o2v</locus>
+                  <title>Canto XXVIII</title>
+                </msItem>
+                <msItem n="63">
+                  <locus from="o5r" to="o5r">o5r</locus>
+                  <title>Canto XXIX</title>
+                </msItem>
+                <msItem n="64">
+                  <locus from="o6v" to="o6v">o6v</locus>
+                  <title>Canto XXX</title>
+                </msItem>
+                <msItem n="65">
+                  <locus from="o9r" to="o9r">o9r</locus>
+                  <title>Canto XXXI</title>
+                </msItem>
+                <msItem n="66">
+                  <locus from="p1r" to="p1r">p1r</locus>
+                  <title>Canto XXXII</title>
+                </msItem>
+                <msItem n="67">
+                  <locus from="p3v" to="p3v">p3v</locus>
+                  <title>Canto XXXIII</title>
+                </msItem>
+              </msItem>
+              <msItem n="Paradiso">
+                <locus from="p6r" to="p6r">p6r</locus>
+                <title>Paradiso</title>
+                <msItem n="68">
+                  <locus from="p6r" to="p6r">p6r</locus>
+                  <title>Canto I</title>
+                </msItem>
+                <msItem n="69">
+                  <locus from="p8r" to="p8r">p8r</locus>
+                  <title>Canto II</title>
+                </msItem>
+                <msItem n="70">
+                  <locus from="p10v" to="p10v">p10v</locus>
+                  <title>Canto III</title>
+                </msItem>
+                <msItem n="71">
+                  <locus from="q2v" to="q2v">q2v</locus>
+                  <title>Canto IV</title>
+                </msItem>
+                <msItem n="72">
+                  <locus from="q4v" to="q4v">q4v</locus>
+                  <title>Canto V</title>
+                </msItem>
+                <msItem n="73">
+                  <locus from="q6v" to="q6v">q6v</locus>
+                  <title>Canto VI</title>
+                </msItem>
+                <msItem n="74">
+                  <locus from="q9r" to="q9r">q9r</locus>
+                  <title>Canto VII</title>
+                </msItem>
+                <msItem n="75">
+                  <locus from="r1r" to="r1r">r1r</locus>
+                  <title>Canto VIII</title>
+                </msItem>
+                <msItem n="76">
+                  <locus from="r3v" to="r3v">r3v</locus>
+                  <title>Canto IX</title>
+                </msItem>
+                <msItem n="77">
+                  <locus from="r5v" to="r5v">r5v</locus>
+                  <title>Canto X</title>
+                </msItem>
+                <msItem n="78">
+                  <locus from="r8r" to="r8r">r8r</locus>
+                  <title>Canto XI</title>
+                </msItem>
+                <msItem n="79">
+                  <locus from="r10r" to="r10r">r10r</locus>
+                  <title>Canto XII</title>
+                </msItem>
+                <msItem n="80">
+                  <locus from="s2v" to="s2v">s2v</locus>
+                  <title>Canto XIII</title>
+                </msItem>
+                <msItem n="81">
+                  <locus from="s4v" to="s4v">s4v</locus>
+                  <title>Canto XIV</title>
+                </msItem>
+                <msItem n="82">
+                  <locus from="s7r" to="s7r">s7r</locus>
+                  <title>Canto XV</title>
+                </msItem>
+                <msItem n="83">
+                  <locus from="s9v" to="s9v">s9v</locus>
+                  <title>Canto XVI</title>
+                </msItem>
+                <msItem n="84">
+                  <locus from="t1v" to="t1v">t1v</locus>
+                  <title>Canto XVII</title>
+                </msItem>
+                <msItem n="85">
+                  <locus from="t4r" to="t4r">t4r</locus>
+                  <title>Canto XVIII</title>
+                </msItem>
+                <msItem n="86">
+                  <locus from="t6r" to="t6r">t6r</locus>
+                  <title>Canto XIX</title>
+                </msItem>
+                <msItem n="87">
+                  <locus from="t8v" to="t8v">t8v</locus>
+                  <title>Canto XX</title>
+                </msItem>
+                <msItem n="88">
+                  <locus from="t10v" to="t10v">t10v</locus>
+                  <title>Canto XXI</title>
+                </msItem>
+                <msItem n="89">
+                  <locus from="u2v" to="u2v">u2v</locus>
+                  <title>Canto XXII</title>
+                </msItem>
+                <msItem n="90">
+                  <locus from="u5r" to="u5r">u5r</locus>
+                  <title>Canto XXIII</title>
+                </msItem>
+                <msItem n="91">
+                  <locus from="u7r" to="u7r">u7r</locus>
+                  <title>Canto XXIV</title>
+                </msItem>
+                <msItem n="92">
+                  <locus from="u9v" to="u9v">u9v</locus>
+                  <title>Canto XXV</title>
+                </msItem>
+                <msItem n="93">
+                  <locus from="x1v" to="x1v">x1v</locus>
+                  <title>Canto XXVI</title>
+                </msItem>
+                <msItem n="94">
+                  <locus from="x4r" to="x4r">x4r</locus>
+                  <title>Canto XXVII</title>
+                </msItem>
+                <msItem n="95">
+                  <locus from="x6r" to="x6r">x6r</locus>
+                  <title>Canto XXVIII</title>
+                </msItem>
+                <msItem n="96">
+                  <locus from="x8v" to="x8v">x8v</locus>
+                  <title>Canto XXIX</title>
+                </msItem>
+                <msItem n="97">
+                  <locus from="x10v" to="x10v">x10v</locus>
+                  <title>Canto XXX</title>
+                </msItem>
+                <msItem n="98">
+                  <locus from="y3r" to="y3r">y3r</locus>
+                  <title>Canto XXXI</title>
+                </msItem>
+                <msItem n="99">
+                  <locus from="y5r" to="y5r">y5r</locus>
+                  <title>Canto XXXII</title>
+                </msItem>
+                <msItem n="100">
+                  <locus from="y7v" to="y7v">y7v</locus>
+                  <title>Canto XXXIII</title>
+                </msItem>
+              </msItem>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc form="codex">
+              <supportDesc material="paper">
+                <support>
+                  <material>Paper</material>, folded in <measure type="folding">Fo (folio)</measure> and <measure type="folding">4to (quarto)</measure>.
+                  <p>Leaves [e2], [e3], [f1], [f2], [p5] and [p6] are folio, the rest quarto.</p>
+                </support>
+                <extent>220 leaves. <dimensions type="leaf" unit="mm">
+                    <height>279</height>
+                    <width>186</width>
+                  </dimensions>
+                </extent>
+                <foliation>
+                  <p>Pencil foliation, probably by George Appleyard, on the upper right corner of rectos.</p>
+                  <p>Eighteenth-century[?] red ink foliation on the upper outer corner of rectos, many partially cropped.</p></foliation>
+                <collation><signatures>Signatures: [a-y<hi rend="superscript">10</hi>].</signatures>
+                  <p>Leaf [y10] blank.</p>
+                </collation>
+                <condition><p>Imperfect: wanting leaves [a1],[a10],[b1], which are supplied in manuscript facsimile; leaves [b9],[b10], [e1], [e10], [n1], [n10] from another copy (see: Ragazzini, S.
+                      <hi rend="italic">Liber Dantis. L'edizione principe jesina della Commedia</hi>. Mantova: Editoriale Padus, 1974); wanting final blank leaf [y10].</p></condition>
+              </supportDesc>
+              <layoutDesc>
+                <layout columns="1">
+                  <p>Printed in one column, 33 lines.</p>
+                </layout>
+              </layoutDesc>
+            </objectDesc>
+            <typeDesc>
+              <typeNote scope="sole">Printed in <term>roman type</term>.</typeNote>
+            </typeDesc>
+            <decoDesc>
+              <decoNote type="initial">
+                <p><locus from="a1r" to="a1r">[a1]r</locus>: illuminated initial in gold with white vine-stem decoration in blue, green and maroon.</p>
+                <p>Several hand-drawn initials.</p>
+                <p>Blank spaces for initials are marked with printed guide letters.</p>
+              </decoNote>
+              <decoNote type="border">
+                <p><locus from="a1r" to="a1r">[a1]r</locus>: painted border with classical decoration.</p></decoNote>
+            </decoDesc>
+            <additions>
+              <p>Frequent manuscript <hi rend="italic">nota</hi> marks in a sixteenth-century hand; occasional marginalia and maniculae; ink and red pencil underlining.</p>
+              <p>Seventeenth-century manuscript headline on <locus from="h3v" to="h3v">[h3]v</locus>: <hi rend="italic">Comedia 2.a di Dante dove si tratta del Purgatorio</hi>.</p>
+              <p>Nineteenth-century pencil note in an unknown hand on recto of rear fly-leaf<!-- locus -->: <hi rend="italic">This Volume is printed in the same character as the Constitutiones
+                  Marchiae Anconitanae, printed by Federico Veronensis in the following year, in the colophon of which it is said to be printed in civitate Exii</hi>.</p></additions>
+            <bindingDesc>
+              <binding contemporary="false" notBefore="1750" notAfter="1850">
+                <p>Late eighteenth- or early nineteenth-century binding in dark green straight-grained goatskin over wooden boards.</p>
+                <p>The binding features a blind-tooled border of a palmette roll between fillets, with an inner panel of blind double fillets and curved lines at the corners. It is sewn on five
+                  supports, with five double raised bands. The board edges have a single gilt fillet, and the turn-ins are decorated with a gilt zig-zag and annulet roll. The endpapers are
+                  marbled.</p>
+                <p>The <locus from="Front_cover" to="Front_cover">front cover</locus> features the nineteenth-century monogram of The John Rylands Library, <hi rend="italic">JR</hi> within a roundel,
+                  stamped in gilt.</p>
+                <p>The <locus from="Spine" to="Spine">spine</locus> is diveded in six compartments, heavily blind-tooled, with five gilt-tooled raised bands. The second and fifthe comartments are
+                  gilt-lettered: <hi rend="italic">DANTE | A FEDERICO VERONENSI 1472</hi></p>
+                <p>All are edges gilt. </p>
+                <p><dimensions type="binding" unit="mm">
+                    <height>288</height>
+                    <width>203</width>
+                  </dimensions></p>
+              </binding>
+            </bindingDesc>
+            <accMat><p>Ephemera: folded leaf of paper loosely inserted at front, with nineteenth-century manuscript annotation, which documents the missing leaves: <hi rend="italic">Dante - Iesi -
+                  1472. P copy can supply Leaf 19 ... 20 ... 41 ... 50 ... 121 ... 130 ... 6 leaves. Still wanting Leaf 1 ... 10 ... 11 ... which are in MS. in S copy, &amp; are not in P copy. Leaf
+                  175 ... reprinted on the reverse, word for word. 2 omission or dup: see another Dante</hi>.</p></accMat>
+          </physDesc>
+          <history>
+            <origin>
+              <origDate calendar="gregorian" when="1472-07-18">18 July 1472</origDate>
+              <origPlace key="place_g7018159">Italy, Venice</origPlace>
+              <note type="publisher">Venice?: Federicus de Comitibus, Veronensis</note>
+            </origin>
+            <provenance>
+              <p>▪ <name key="person_v17584030" role="fmo"><persName type="display">George John Spencer, 2nd Earl Spencer (1758-1834), politician and book collector</persName><persName type="standard">Spencer, George John Spencer, Earl, 1758-1834</persName>
+                </name></p>
+              <p>▪ <name key="person_v54160187" role="fmo"><persName type="display">John Poyntz Spencer, 5th Earl Spencer (1835-1910), politician and viceroy of Ireland</persName><persName type="standard">Spencer, John Poyntz Spencer, Earl, 1835-1910</persName></name></p>
+              <p>Originally part of the Spencer Library at Althorp, Northamptonshire, which was largely assembled by George Spencer, 2nd Earl Spencer, the collection later passed by descent to John
+                Spencer, 5th Earl Spencer.</p>
+              <p>Oval leather label on the <locus from="Inner_front_cover" to="Inner_front_cover">inner front cover</locus>: <hi rend="italic">E BIBLIOTHECA SPENCERIANA</hi>.</p>
+              <p>Manuscript pencil annotation by <name role="asn"><persName type="display">George Appleyard (-1855), secretary and librarian to Earl Spencer</persName><persName type="standard">Appleyard, George, -1855</persName></name>, <locus from="Front_endpaper_v" to="Front_endpaper_v">front endpaper verso</locus>: <hi rend="italic">Three leaves are fac-similes;
+                  vizt. The first leaf - Nel mezzo. Tenth - Or incomincian. Eleventh - Se fossamica. Collated, with Mr. Payne's copy [i.e. John Thomas Payne], with Mr. Foss [i.e. Henry Foss] - 19
+                  March 1855 Geo. Appleyard</hi>.</p>
+              <p>Dibdin describes this copy (Bibliotheca Spenceriana, volume 4, number 813): <hi rend="italic">The first leaf of the copy before us is supplied by a most skilfully executed ms.
+                  facsimile ... two leaves of ms. are unluckily introduced into the Vth Canto; and another similar leaf is in the Xth Canto</hi>.</p>
+            </provenance>
+            <acquisition>
+              <p>Acquired in <date calendar="gregorian" when="1892">1892</date> by <name role="dnr"><persName type="display">Enriqueta Rylands (1843-1908)</persName><persName type="standard">Rylands,
+                    Enriqueta, 1843-1908</persName></name> from John Poyntz Spencer, 5th Earl Spencer (1835-1910), for <name key="org_v152274029" role="own"><orgName type="display">The John Rylands
+                    Library</orgName></name>.</p>
+            </acquisition>
+          </history>
+          <additional>
+            <adminInfo>
+              <availability status="restricted">
+                <p>The item is available for consultation by any accredited reader.</p>
+                <p> For information on eligibility and admissions procedures, see <ref target="https://www.library.manchester.ac.uk/rylands/special-collections/using-the-reading-rooms/john-rylands-library/">Using Special Collections at the John Rylands Research
+                    Institute and Library</ref>.</p>
+                <p>For further information on the availability of the item, please contact the <ref target="uml.special-collections@manchester.ac.uk">Special Collections Reader Services</ref>.</p>
+              </availability>
+            </adminInfo>
+            <listBibl>
+              <bibl>Recorded in University of Manchester <ref target="https://www.librarysearch.manchester.ac.uk/permalink/44MAN_INST/elks2a/alma9913563564401631">Library Search</ref></bibl>
+              <bibl><ref target="https://search.worldcat.org/title/54558236">British Museum. Catalogue of books printed in the XVth century now in the British Museum. 7, Italy: Genoa - Unassigned
+                  addenda. Trustees of the British Museum, 1935, page 1135</ref></bibl>
+              <bibl><ref target="https://search.worldcat.org/title/832166672">Dibdin, Thomas Frognall. Bibliotheca Spenceriana, or, A descriptive catalogue of the books printed in the fifteenth
+                  century, and of many valuable first editions, in the library of George John, earl Spencer. W. Bulmer and Co. Shakspeare Press, 1815, volume 4, page 103 (number 813)</ref></bibl>
+              <bibl>Staatsbibliothek zu Berlin. Gesamtkatalog der Wiegendrucke (GW): <ref target="https://gesamtkatalogderwiegendrucke.de/docs/GW07960.htm">7960</ref></bibl>
+              <bibl><ref target="https://search.worldcat.org/title/245837069">Goff, Frederick Richmond. Incunabula in American libraries: a third census of fifteenth-century books recorded in North
+                  American collections. Bibliographical Society of America, 1964, D23</ref></bibl>
+              <bibl>British Library. Incunabula Short Title Catalogue (ISTC): <ref target="https://data.cerl.org/istc/id00024000">id00024000</ref></bibl>
+              <bibl><ref target="https://search.worldcat.org/en/title/10818913">Mambelli, Giuliano. Gli annali delle edizioni dantesche: con XLVI tavole fuori testo. N. Zanichelli, 1931,
+                3</ref></bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p>Created as part of the AHRC-funded research project: “Envisioning Dante, c. 1472-c. 1630: Seeing and Reading the Early Printed Page” (AH/W005220/1), on the Dante Alighieri early printed editions held at The John Rylands Research Institute and Library, led by Professor Guyda Armstrong (Principal Investigator, School of Arts, Languages and Cultures, The University of Manchester); Professor Simon Gilson (Co-Investigator, Faculty of Medieval and Modern Languages, University of Oxford); Dr Giles Bergel, Research Fellow (Visual Geometry Group, Department of Engineering Science, University of Oxford); Dr Rebecca Bowen, Postdoctoral Research Associate (Faculty of Medieval and Modern Languages, University of Oxford), and Dr Gloria Moorman (School of Arts, Languages and Cultures, The University of Manchester).</p>
+      </projectDesc>
+      <classDecl>
+        <taxonomy xml:id="LCSH">
+          <bibl><ref target="http://id.loc.gov/authorities/subjects.html">Library of Congress Subject Headings (LCSH)</ref></bibl>
+        </taxonomy>
+        <taxonomy xml:id="LCLC-ISO-6392">
+          <bibl><ref target="https://www.loc.gov/standards/iso639-2/php/code_list.php">ISO 639-2 Codes for Representation of Names of Languages (LC)</ref></bibl>
+        </taxonomy>
+        <taxonomy xml:id="LC-MARCrelator">
+          <bibl><ref target="https://www.loc.gov/marc/relators/relaterm.html">MARC Code List for Relators (LC)</ref></bibl>
+        </taxonomy>
+        <taxonomy xml:id="VIAF">
+          <bibl><ref target="https://viaf.org/">The Virtual International Authority File (VIAF)</ref></bibl>
+        </taxonomy>
+        <taxonomy xml:id="GETTY-TGN">
+          <bibl><ref target="https://www.getty.edu/research/tools/vocabularies/tgn/index.html">Getty Thesaurus of Geographic Names (TGN)</ref></bibl>
+        </taxonomy>
+        <taxonomy xml:id="GETTY-AAT">
+          <bibl><ref target="https://www.getty.edu/research/tools/vocabularies/aat/">Getty Art &amp; Architecture (AAT)</ref></bibl>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <textClass>
+        <keywords scheme="#LCSH">
+          <list>
+            <item><term key="subject_sh85044332">Epic poetry, Italian</term></item>
+            <item><term key="subject_sh2010013804">Early works to 1800</term></item>
+            <item><term key="subject_sh2008121534">Hell--Poetry</term></item>
+            <item><term key="subject_sh85068842">Italian poetry--To 1400</term></item>
+          </list>
+        </keywords>
+      </textClass>
+      <textClass>
+        <keywords>
+          <list>
+            <item><term>Divina Commedia</term></item>
+            <item><term>Divine Comedy</term></item>
+            <item><term>Annotations (Provenance)--16th century </term></item>
+            <item><term>Manicules (Annotations)--16th century</term></item>
+            <item><term>Illuminations (Visual works)--Italy--15th century</term></item>
+            <item><term>Ornamental letters (Decoration)--Italy--15th century </term></item>
+          </list>
+        </keywords>
+      </textClass>
+    </profileDesc>
+    <!--<revisionDesc>
+<change when="2024-02-15"><persName>joe Devlin</persName>
+</change>
+</revisionDesc>-->
+    <!--<revisionDesc>
+<change when="2025-03-20"><persName>Briony Cheetham</persName>
+</change>
+</revisionDesc>-->
+  </teiHeader>
+  <facsimile>
+        <graphic decls="#document-thumbnail" rend="portrait" url="PR-INCU-09380-000-00001.jp2"/>
+        <surface xml:id="i1" n="Front_cover">
+            <graphic n="JRL221703201" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4828px" url="PR-INCU-09380-000-00001.jp2"/>
+        </surface>
+        <surface xml:id="i2" n="Inner_front_cover">
+            <graphic n="JRL221703202" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4456px" url="PR-INCU-09380-000-00002.jp2"/>
+        </surface>
+        <surface xml:id="i3" n="Front_endpaper_r">
+            <graphic n="JRL221703203" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4389px" url="PR-INCU-09380-000-00003.jp2"/>
+        </surface>
+        <surface xml:id="i4" n="Front_endpaper_v">
+            <graphic n="JRL221703204" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4232px" url="PR-INCU-09380-000-00004.jp2"/>
+        </surface>
+        <surface xml:id="i5" n="Flyleaf_[1r]">
+            <graphic n="JRL221703205" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00005.jp2"/>
+        </surface>
+        <surface xml:id="i6" n="Flyleaf_[1v]">
+            <graphic n="JRL221703206" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4232px" url="PR-INCU-09380-000-00006.jp2"/>
+        </surface>
+        <surface xml:id="i7" n="a1r">
+            <graphic n="JRL221703207" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00007.jp2"/>
+        </surface>
+        <surface xml:id="i8" n="a1v">
+            <graphic n="JRL221703208" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4232px" url="PR-INCU-09380-000-00008.jp2"/>
+        </surface>
+        <surface xml:id="i9" n="a2r">
+            <graphic n="JRL221703209" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00009.jp2"/>
+        </surface>
+        <surface xml:id="i10" n="a2v">
+            <graphic n="JRL221703210" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4260px" url="PR-INCU-09380-000-00010.jp2"/>
+        </surface>
+        <surface xml:id="i11" n="a3r">
+            <graphic n="JRL221703211" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00011.jp2"/>
+        </surface>
+        <surface xml:id="i12" n="a3v">
+            <graphic n="JRL221703212" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00012.jp2"/>
+        </surface>
+        <surface xml:id="i13" n="a4r">
+            <graphic n="JRL221703213" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00013.jp2"/>
+        </surface>
+        <surface xml:id="i14" n="a4v">
+            <graphic n="JRL221703214" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00014.jp2"/>
+        </surface>
+        <surface xml:id="i15" n="a5r">
+            <graphic n="JRL221703215" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00015.jp2"/>
+        </surface>
+        <surface xml:id="i16" n="a5v">
+            <graphic n="JRL221703216" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00016.jp2"/>
+        </surface>
+        <surface xml:id="i17" n="a6r">
+            <graphic n="JRL221703217" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00017.jp2"/>
+        </surface>
+        <surface xml:id="i18" n="a6v">
+            <graphic n="JRL221703218" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00018.jp2"/>
+        </surface>
+        <surface xml:id="i19" n="a7r">
+            <graphic n="JRL221703219" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00019.jp2"/>
+        </surface>
+        <surface xml:id="i20" n="a7v">
+            <graphic n="JRL221703220" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00020.jp2"/>
+        </surface>
+        <surface xml:id="i21" n="a8r">
+            <graphic n="JRL221703221" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00021.jp2"/>
+        </surface>
+        <surface xml:id="i22" n="a8v">
+            <graphic n="JRL221703222" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00022.jp2"/>
+        </surface>
+        <surface xml:id="i23" n="a9r">
+            <graphic n="JRL221703223" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4253px" url="PR-INCU-09380-000-00023.jp2"/>
+        </surface>
+        <surface xml:id="i24" n="a9v">
+            <graphic n="JRL221703224" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00024.jp2"/>
+        </surface>
+        <surface xml:id="i25" n="a10r">
+            <graphic n="JRL221703225" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00025.jp2"/>
+        </surface>
+        <surface xml:id="i26" n="a10v">
+            <graphic n="JRL221703226" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00026.jp2"/>
+        </surface>
+        <surface xml:id="i27" n="b1r">
+            <graphic n="JRL221703227" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00027.jp2"/>
+        </surface>
+        <surface xml:id="i28" n="b1v">
+            <graphic n="JRL221703228" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00028.jp2"/>
+        </surface>
+        <surface xml:id="i29" n="b2r">
+            <graphic n="JRL221703229" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00029.jp2"/>
+        </surface>
+        <surface xml:id="i30" n="b2v">
+            <graphic n="JRL221703230" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00030.jp2"/>
+        </surface>
+        <surface xml:id="i31" n="b3r">
+            <graphic n="JRL221703231" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00031.jp2"/>
+        </surface>
+        <surface xml:id="i32" n="b3v">
+            <graphic n="JRL221703232" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00032.jp2"/>
+        </surface>
+        <surface xml:id="i33" n="b4r">
+            <graphic n="JRL221703233" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00033.jp2"/>
+        </surface>
+        <surface xml:id="i34" n="b4v">
+            <graphic n="JRL221703234" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00034.jp2"/>
+        </surface>
+        <surface xml:id="i35" n="b5r">
+            <graphic n="JRL221703235" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00035.jp2"/>
+        </surface>
+        <surface xml:id="i36" n="b5v">
+            <graphic n="JRL221703236" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00036.jp2"/>
+        </surface>
+        <surface xml:id="i37" n="b6r">
+            <graphic n="JRL221703237" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00037.jp2"/>
+        </surface>
+        <surface xml:id="i38" n="b6v">
+            <graphic n="JRL221703238" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00038.jp2"/>
+        </surface>
+        <surface xml:id="i39" n="b7r">
+            <graphic n="JRL221703239" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4271px" url="PR-INCU-09380-000-00039.jp2"/>
+        </surface>
+        <surface xml:id="i40" n="b7v">
+            <graphic n="JRL221703240" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4284px" url="PR-INCU-09380-000-00040.jp2"/>
+        </surface>
+        <surface xml:id="i41" n="b8r">
+            <graphic n="JRL221703241" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00041.jp2"/>
+        </surface>
+        <surface xml:id="i42" n="b8v">
+            <graphic n="JRL221703242" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4262px" url="PR-INCU-09380-000-00042.jp2"/>
+        </surface>
+        <surface xml:id="i43" n="b9r">
+            <graphic n="JRL221703243" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00043.jp2"/>
+        </surface>
+        <surface xml:id="i44" n="b9v">
+            <graphic n="JRL221703244" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4262px" url="PR-INCU-09380-000-00044.jp2"/>
+        </surface>
+        <surface xml:id="i45" n="b10r">
+            <graphic n="JRL221703245" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00045.jp2"/>
+        </surface>
+        <surface xml:id="i46" n="b10v">
+            <graphic n="JRL221703246" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4262px" url="PR-INCU-09380-000-00046.jp2"/>
+        </surface>
+        <surface xml:id="i47" n="c1r">
+            <graphic n="JRL221703247" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00047.jp2"/>
+        </surface>
+        <surface xml:id="i48" n="c1v">
+            <graphic n="JRL221703248" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00048.jp2"/>
+        </surface>
+        <surface xml:id="i49" n="c2r">
+            <graphic n="JRL221703249" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00049.jp2"/>
+        </surface>
+        <surface xml:id="i50" n="c2v">
+            <graphic n="JRL221703250" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00050.jp2"/>
+        </surface>
+        <surface xml:id="i51" n="c3r">
+            <graphic n="JRL221703251" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00051.jp2"/>
+        </surface>
+        <surface xml:id="i52" n="c3v">
+            <graphic n="JRL221703252" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00052.jp2"/>
+        </surface>
+        <surface xml:id="i53" n="c4r">
+            <graphic n="JRL221703253" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00053.jp2"/>
+        </surface>
+        <surface xml:id="i54" n="c4v">
+            <graphic n="JRL221703254" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00054.jp2"/>
+        </surface>
+        <surface xml:id="i55" n="c5r">
+            <graphic n="JRL221703255" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00055.jp2"/>
+        </surface>
+        <surface xml:id="i56" n="c5v">
+            <graphic n="JRL221703256" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00056.jp2"/>
+        </surface>
+        <surface xml:id="i57" n="c6r">
+            <graphic n="JRL221703257" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00057.jp2"/>
+        </surface>
+        <surface xml:id="i58" n="c6v">
+            <graphic n="JRL221703258" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00058.jp2"/>
+        </surface>
+        <surface xml:id="i59" n="c7r">
+            <graphic n="JRL221703259" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4266px" url="PR-INCU-09380-000-00059.jp2"/>
+        </surface>
+        <surface xml:id="i60" n="c7v">
+            <graphic n="JRL221703260" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00060.jp2"/>
+        </surface>
+        <surface xml:id="i61" n="c8r">
+            <graphic n="JRL221703261" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4224px" url="PR-INCU-09380-000-00061.jp2"/>
+        </surface>
+        <surface xml:id="i62" n="c8v">
+            <graphic n="JRL221703262" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00062.jp2"/>
+        </surface>
+        <surface xml:id="i63" n="c9r">
+            <graphic n="JRL221703263" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4224px" url="PR-INCU-09380-000-00063.jp2"/>
+        </surface>
+        <surface xml:id="i64" n="c9v">
+            <graphic n="JRL221703264" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4230px" url="PR-INCU-09380-000-00064.jp2"/>
+        </surface>
+        <surface xml:id="i65" n="c10r">
+            <graphic n="JRL221703265" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4224px" url="PR-INCU-09380-000-00065.jp2"/>
+        </surface>
+        <surface xml:id="i66" n="c10v">
+            <graphic n="JRL221703266" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4202px" url="PR-INCU-09380-000-00066.jp2"/>
+        </surface>
+        <surface xml:id="i67" n="d1r">
+            <graphic n="JRL221703267" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4224px" url="PR-INCU-09380-000-00067.jp2"/>
+        </surface>
+        <surface xml:id="i68" n="d1v">
+            <graphic n="JRL221703268" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4202px" url="PR-INCU-09380-000-00068.jp2"/>
+        </surface>
+        <surface xml:id="i69" n="d2r">
+            <graphic n="JRL221703269" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00069.jp2"/>
+        </surface>
+        <surface xml:id="i70" n="d2v">
+            <graphic n="JRL221703270" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4202px" url="PR-INCU-09380-000-00070.jp2"/>
+        </surface>
+        <surface xml:id="i71" n="d3r">
+            <graphic n="JRL221703271" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00071.jp2"/>
+        </surface>
+        <surface xml:id="i72" n="d3v">
+            <graphic n="JRL221703272" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4202px" url="PR-INCU-09380-000-00072.jp2"/>
+        </surface>
+        <surface xml:id="i73" n="d4r">
+            <graphic n="JRL221703273" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00073.jp2"/>
+        </surface>
+        <surface xml:id="i74" n="d4v">
+            <graphic n="JRL221703274" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4202px" url="PR-INCU-09380-000-00074.jp2"/>
+        </surface>
+        <surface xml:id="i75" n="d5r">
+            <graphic n="JRL221703275" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00075.jp2"/>
+        </surface>
+        <surface xml:id="i76" n="d5v">
+            <graphic n="JRL221703276" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4202px" url="PR-INCU-09380-000-00076.jp2"/>
+        </surface>
+        <surface xml:id="i77" n="d6r">
+            <graphic n="JRL221703277" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00077.jp2"/>
+        </surface>
+        <surface xml:id="i78" n="d6v">
+            <graphic n="JRL221703278" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4181px" url="PR-INCU-09380-000-00078.jp2"/>
+        </surface>
+        <surface xml:id="i79" n="d7r">
+            <graphic n="JRL221703279" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00079.jp2"/>
+        </surface>
+        <surface xml:id="i80" n="d7v">
+            <graphic n="JRL221703280" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4181px" url="PR-INCU-09380-000-00080.jp2"/>
+        </surface>
+        <surface xml:id="i81" n="d8r">
+            <graphic n="JRL221703281" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00081.jp2"/>
+        </surface>
+        <surface xml:id="i82" n="d8v">
+            <graphic n="JRL221703282" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4181px" url="PR-INCU-09380-000-00082.jp2"/>
+        </surface>
+        <surface xml:id="i83" n="d9r">
+            <graphic n="JRL221703283" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00083.jp2"/>
+        </surface>
+        <surface xml:id="i84" n="d9v">
+            <graphic n="JRL221703284" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4181px" url="PR-INCU-09380-000-00084.jp2"/>
+        </surface>
+        <surface xml:id="i85" n="d10r">
+            <graphic n="JRL221703285" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00085.jp2"/>
+        </surface>
+        <surface xml:id="i86" n="d10v">
+            <graphic n="JRL221703286" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4181px" url="PR-INCU-09380-000-00086.jp2"/>
+        </surface>
+        <surface xml:id="i87" n="e1r">
+            <graphic n="JRL221703287" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00087.jp2"/>
+        </surface>
+        <surface xml:id="i88" n="e1v">
+            <graphic n="JRL221703288" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4181px" url="PR-INCU-09380-000-00088.jp2"/>
+        </surface>
+        <surface xml:id="i89" n="e2r">
+            <graphic n="JRL221703289" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00089.jp2"/>
+        </surface>
+        <surface xml:id="i90" n="e2v">
+            <graphic n="JRL221703290" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4130px" url="PR-INCU-09380-000-00090.jp2"/>
+        </surface>
+        <surface xml:id="i91" n="e3r">
+            <graphic n="JRL221703291" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00091.jp2"/>
+        </surface>
+        <surface xml:id="i92" n="e3v">
+            <graphic n="JRL221703292" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4130px" url="PR-INCU-09380-000-00092.jp2"/>
+        </surface>
+        <surface xml:id="i93" n="e4r">
+            <graphic n="JRL221703293" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00093.jp2"/>
+        </surface>
+        <surface xml:id="i94" n="e4v">
+            <graphic n="JRL221703294" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4130px" url="PR-INCU-09380-000-00094.jp2"/>
+        </surface>
+        <surface xml:id="i95" n="e5r">
+            <graphic n="JRL221703295" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00095.jp2"/>
+        </surface>
+        <surface xml:id="i96" n="e5v">
+            <graphic n="JRL221703296" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4130px" url="PR-INCU-09380-000-00096.jp2"/>
+        </surface>
+        <surface xml:id="i97" n="e6r">
+            <graphic n="JRL221703297" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00097.jp2"/>
+        </surface>
+        <surface xml:id="i98" n="e6v">
+            <graphic n="JRL221703298" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00098.jp2"/>
+        </surface>
+        <surface xml:id="i99" n="e7r">
+            <graphic n="JRL221703299" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00099.jp2"/>
+        </surface>
+        <surface xml:id="i100" n="e7v">
+            <graphic n="JRL221703300" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00100.jp2"/>
+        </surface>
+        <surface xml:id="i101" n="e8r">
+            <graphic n="JRL221703301" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4275px" url="PR-INCU-09380-000-00101.jp2"/>
+        </surface>
+        <surface xml:id="i102" n="e8v">
+            <graphic n="JRL221703302" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00102.jp2"/>
+        </surface>
+        <surface xml:id="i103" n="e9r">
+            <graphic n="JRL221703303" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4225px" url="PR-INCU-09380-000-00103.jp2"/>
+        </surface>
+        <surface xml:id="i104" n="e9v">
+            <graphic n="JRL221703304" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00104.jp2"/>
+        </surface>
+        <surface xml:id="i105" n="e10r">
+            <graphic n="JRL221703305" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4225px" url="PR-INCU-09380-000-00105.jp2"/>
+        </surface>
+        <surface xml:id="i106" n="e10v">
+            <graphic n="JRL221703306" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00106.jp2"/>
+        </surface>
+        <surface xml:id="i107" n="f1r">
+            <graphic n="JRL221703307" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4225px" url="PR-INCU-09380-000-00107.jp2"/>
+        </surface>
+        <surface xml:id="i108" n="f1v">
+            <graphic n="JRL221703308" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00108.jp2"/>
+        </surface>
+        <surface xml:id="i109" n="f2r">
+            <graphic n="JRL221703309" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4225px" url="PR-INCU-09380-000-00109.jp2"/>
+        </surface>
+        <surface xml:id="i110" n="f2v">
+            <graphic n="JRL221703310" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00110.jp2"/>
+        </surface>
+        <surface xml:id="i111" n="f3r">
+            <graphic n="JRL221703311" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4225px" url="PR-INCU-09380-000-00111.jp2"/>
+        </surface>
+        <surface xml:id="i112" n="f3v">
+            <graphic n="JRL221703312" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00112.jp2"/>
+        </surface>
+        <surface xml:id="i113" n="f4r">
+            <graphic n="JRL221703313" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4225px" url="PR-INCU-09380-000-00113.jp2"/>
+        </surface>
+        <surface xml:id="i114" n="f4v">
+            <graphic n="JRL221703314" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00114.jp2"/>
+        </surface>
+        <surface xml:id="i115" n="f5r">
+            <graphic n="JRL221703315" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00115.jp2"/>
+        </surface>
+        <surface xml:id="i116" n="f5v">
+            <graphic n="JRL221703316" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00116.jp2"/>
+        </surface>
+        <surface xml:id="i117" n="f6r">
+            <graphic n="JRL221703317" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00117.jp2"/>
+        </surface>
+        <surface xml:id="i118" n="f6v">
+            <graphic n="JRL221703318" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00118.jp2"/>
+        </surface>
+        <surface xml:id="i119" n="f7r">
+            <graphic n="JRL221703319" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00119.jp2"/>
+        </surface>
+        <surface xml:id="i120" n="f7v">
+            <graphic n="JRL221703320" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4126px" url="PR-INCU-09380-000-00120.jp2"/>
+        </surface>
+        <surface xml:id="i121" n="f8r">
+            <graphic n="JRL221703321" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00121.jp2"/>
+        </surface>
+        <surface xml:id="i122" n="f8v">
+            <graphic n="JRL221703322" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4126px" url="PR-INCU-09380-000-00122.jp2"/>
+        </surface>
+        <surface xml:id="i123" n="f9r">
+            <graphic n="JRL221703323" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00123.jp2"/>
+        </surface>
+        <surface xml:id="i124" n="f9v">
+            <graphic n="JRL221703324" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4126px" url="PR-INCU-09380-000-00124.jp2"/>
+        </surface>
+        <surface xml:id="i125" n="f10r">
+            <graphic n="JRL221703325" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00125.jp2"/>
+        </surface>
+        <surface xml:id="i126" n="f10v">
+            <graphic n="JRL221703326" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4126px" url="PR-INCU-09380-000-00126.jp2"/>
+        </surface>
+        <surface xml:id="i127" n="g1r">
+            <graphic n="JRL221703327" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00127.jp2"/>
+        </surface>
+        <surface xml:id="i128" n="g1v">
+            <graphic n="JRL221703328" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4126px" url="PR-INCU-09380-000-00128.jp2"/>
+        </surface>
+        <surface xml:id="i129" n="g2r">
+            <graphic n="JRL221703329" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00129.jp2"/>
+        </surface>
+        <surface xml:id="i130" n="g2v">
+            <graphic n="JRL221703330" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4126px" url="PR-INCU-09380-000-00130.jp2"/>
+        </surface>
+        <surface xml:id="i131" n="g3r">
+            <graphic n="JRL221703331" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00131.jp2"/>
+        </surface>
+        <surface xml:id="i132" n="g3v">
+            <graphic n="JRL221703332" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4172px" url="PR-INCU-09380-000-00132.jp2"/>
+        </surface>
+        <surface xml:id="i133" n="g4r">
+            <graphic n="JRL221703333" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00133.jp2"/>
+        </surface>
+        <surface xml:id="i134" n="g4v">
+            <graphic n="JRL221703334" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4172px" url="PR-INCU-09380-000-00134.jp2"/>
+        </surface>
+        <surface xml:id="i135" n="g5r">
+            <graphic n="JRL221703335" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00135.jp2"/>
+        </surface>
+        <surface xml:id="i136" n="g5v">
+            <graphic n="JRL221703336" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4154px" url="PR-INCU-09380-000-00136.jp2"/>
+        </surface>
+        <surface xml:id="i137" n="g6r">
+            <graphic n="JRL221703337" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00137.jp2"/>
+        </surface>
+        <surface xml:id="i138" n="g6v">
+            <graphic n="JRL221703338" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4154px" url="PR-INCU-09380-000-00138.jp2"/>
+        </surface>
+        <surface xml:id="i139" n="g7r">
+            <graphic n="JRL221703339" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00139.jp2"/>
+        </surface>
+        <surface xml:id="i140" n="g7v">
+            <graphic n="JRL221703340" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4154px" url="PR-INCU-09380-000-00140.jp2"/>
+        </surface>
+        <surface xml:id="i141" n="g8r">
+            <graphic n="JRL221703341" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00141.jp2"/>
+        </surface>
+        <surface xml:id="i142" n="g8v">
+            <graphic n="JRL221703342" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4154px" url="PR-INCU-09380-000-00142.jp2"/>
+        </surface>
+        <surface xml:id="i143" n="g9r">
+            <graphic n="JRL221703343" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4270px" url="PR-INCU-09380-000-00143.jp2"/>
+        </surface>
+        <surface xml:id="i144" n="g9v">
+            <graphic n="JRL221703344" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4154px" url="PR-INCU-09380-000-00144.jp2"/>
+        </surface>
+        <surface xml:id="i145" n="g10r">
+            <graphic n="JRL221703345" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00145.jp2"/>
+        </surface>
+        <surface xml:id="i146" n="g10v">
+            <graphic n="JRL221703346" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4154px" url="PR-INCU-09380-000-00146.jp2"/>
+        </surface>
+        <surface xml:id="i147" n="h1r">
+            <graphic n="JRL221703347" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00147.jp2"/>
+        </surface>
+        <surface xml:id="i148" n="h1v">
+            <graphic n="JRL221703348" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4154px" url="PR-INCU-09380-000-00148.jp2"/>
+        </surface>
+        <surface xml:id="i149" n="h2r">
+            <graphic n="JRL221703349" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00149.jp2"/>
+        </surface>
+        <surface xml:id="i150" n="h2v">
+            <graphic n="JRL221703350" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00150.jp2"/>
+        </surface>
+        <surface xml:id="i151" n="h3r">
+            <graphic n="JRL221703351" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00151.jp2"/>
+        </surface>
+        <surface xml:id="i152" n="h3v">
+            <graphic n="JRL221703352" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00152.jp2"/>
+        </surface>
+        <surface xml:id="i153" n="h4r">
+            <graphic n="JRL221703353" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00153.jp2"/>
+        </surface>
+        <surface xml:id="i154" n="h4v">
+            <graphic n="JRL221703354" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00154.jp2"/>
+        </surface>
+        <surface xml:id="i155" n="h5r">
+            <graphic n="JRL221703355" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00155.jp2"/>
+        </surface>
+        <surface xml:id="i156" n="h5v">
+            <graphic n="JRL221703356" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00156.jp2"/>
+        </surface>
+        <surface xml:id="i157" n="h6r">
+            <graphic n="JRL221703357" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00157.jp2"/>
+        </surface>
+        <surface xml:id="i158" n="h6v">
+            <graphic n="JRL221703358" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00158.jp2"/>
+        </surface>
+        <surface xml:id="i159" n="h7r">
+            <graphic n="JRL221703359" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00159.jp2"/>
+        </surface>
+        <surface xml:id="i160" n="h7v">
+            <graphic n="JRL221703360" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00160.jp2"/>
+        </surface>
+        <surface xml:id="i161" n="h8r">
+            <graphic n="JRL221703361" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4288px" url="PR-INCU-09380-000-00161.jp2"/>
+        </surface>
+        <surface xml:id="i162" n="h8v">
+            <graphic n="JRL221703362" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00162.jp2"/>
+        </surface>
+        <surface xml:id="i163" n="h9r">
+            <graphic n="JRL221703363" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00163.jp2"/>
+        </surface>
+        <surface xml:id="i164" n="h9v">
+            <graphic n="JRL221703364" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00164.jp2"/>
+        </surface>
+        <surface xml:id="i165" n="h10r">
+            <graphic n="JRL221703365" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00165.jp2"/>
+        </surface>
+        <surface xml:id="i166" n="h10v">
+            <graphic n="JRL221703366" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4133px" url="PR-INCU-09380-000-00166.jp2"/>
+        </surface>
+        <surface xml:id="i167" n="i1r">
+            <graphic n="JRL221703367" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4242px" url="PR-INCU-09380-000-00167.jp2"/>
+        </surface>
+        <surface xml:id="i168" n="i1v">
+            <graphic n="JRL221703368" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4121px" url="PR-INCU-09380-000-00168.jp2"/>
+        </surface>
+        <surface xml:id="i169" n="i2r">
+            <graphic n="JRL221703369" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4183px" url="PR-INCU-09380-000-00169.jp2"/>
+        </surface>
+        <surface xml:id="i170" n="i2v">
+            <graphic n="JRL221703370" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4121px" url="PR-INCU-09380-000-00170.jp2"/>
+        </surface>
+        <surface xml:id="i171" n="i3r">
+            <graphic n="JRL221703371" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4183px" url="PR-INCU-09380-000-00171.jp2"/>
+        </surface>
+        <surface xml:id="i172" n="i3v">
+            <graphic n="JRL221703372" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4121px" url="PR-INCU-09380-000-00172.jp2"/>
+        </surface>
+        <surface xml:id="i173" n="i4r">
+            <graphic n="JRL221703373" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4183px" url="PR-INCU-09380-000-00173.jp2"/>
+        </surface>
+        <surface xml:id="i174" n="i4v">
+            <graphic n="JRL221703374" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4121px" url="PR-INCU-09380-000-00174.jp2"/>
+        </surface>
+        <surface xml:id="i175" n="i5r">
+            <graphic n="JRL221703375" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00175.jp2"/>
+        </surface>
+        <surface xml:id="i176" n="i5v">
+            <graphic n="JRL221703376" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4121px" url="PR-INCU-09380-000-00176.jp2"/>
+        </surface>
+        <surface xml:id="i177" n="i6r">
+            <graphic n="JRL221703377" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00177.jp2"/>
+        </surface>
+        <surface xml:id="i178" n="i6v">
+            <graphic n="JRL221703378" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4121px" url="PR-INCU-09380-000-00178.jp2"/>
+        </surface>
+        <surface xml:id="i179" n="i7r">
+            <graphic n="JRL221703379" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00179.jp2"/>
+        </surface>
+        <surface xml:id="i180" n="i7v">
+            <graphic n="JRL221703380" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4137px" url="PR-INCU-09380-000-00180.jp2"/>
+        </surface>
+        <surface xml:id="i181" n="i8r">
+            <graphic n="JRL221703381" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00181.jp2"/>
+        </surface>
+        <surface xml:id="i182" n="i8v">
+            <graphic n="JRL221703382" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4137px" url="PR-INCU-09380-000-00182.jp2"/>
+        </surface>
+        <surface xml:id="i183" n="i9r">
+            <graphic n="JRL221703383" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00183.jp2"/>
+        </surface>
+        <surface xml:id="i184" n="i9v">
+            <graphic n="JRL221703384" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4137px" url="PR-INCU-09380-000-00184.jp2"/>
+        </surface>
+        <surface xml:id="i185" n="i10r">
+            <graphic n="JRL221703385" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00185.jp2"/>
+        </surface>
+        <surface xml:id="i186" n="i10v">
+            <graphic n="JRL221703386" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4125px" url="PR-INCU-09380-000-00186.jp2"/>
+        </surface>
+        <surface xml:id="i187" n="k1r">
+            <graphic n="JRL221703387" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00187.jp2"/>
+        </surface>
+        <surface xml:id="i188" n="k1v">
+            <graphic n="JRL221703388" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4125px" url="PR-INCU-09380-000-00188.jp2"/>
+        </surface>
+        <surface xml:id="i189" n="k2r">
+            <graphic n="JRL221703389" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00189.jp2"/>
+        </surface>
+        <surface xml:id="i190" n="k2v">
+            <graphic n="JRL221703390" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4125px" url="PR-INCU-09380-000-00190.jp2"/>
+        </surface>
+        <surface xml:id="i191" n="k3r">
+            <graphic n="JRL221703391" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4238px" url="PR-INCU-09380-000-00191.jp2"/>
+        </surface>
+        <surface xml:id="i192" n="k3v">
+            <graphic n="JRL221703392" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4125px" url="PR-INCU-09380-000-00192.jp2"/>
+        </surface>
+        <surface xml:id="i193" n="k4r">
+            <graphic n="JRL221703393" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00193.jp2"/>
+        </surface>
+        <surface xml:id="i194" n="k4v">
+            <graphic n="JRL221703394" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4125px" url="PR-INCU-09380-000-00194.jp2"/>
+        </surface>
+        <surface xml:id="i195" n="k5r">
+            <graphic n="JRL221703395" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00195.jp2"/>
+        </surface>
+        <surface xml:id="i196" n="k5v">
+            <graphic n="JRL221703396" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4125px" url="PR-INCU-09380-000-00196.jp2"/>
+        </surface>
+        <surface xml:id="i197" n="k6r">
+            <graphic n="JRL221703397" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00197.jp2"/>
+        </surface>
+        <surface xml:id="i198" n="k6v">
+            <graphic n="JRL221703398" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00198.jp2"/>
+        </surface>
+        <surface xml:id="i199" n="k7r">
+            <graphic n="JRL221703399" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00199.jp2"/>
+        </surface>
+        <surface xml:id="i200" n="k7v">
+            <graphic n="JRL221703400" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00200.jp2"/>
+        </surface>
+        <surface xml:id="i201" n="k8r">
+            <graphic n="JRL221703401" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00201.jp2"/>
+        </surface>
+        <surface xml:id="i202" n="k8v">
+            <graphic n="JRL221703402" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00202.jp2"/>
+        </surface>
+        <surface xml:id="i203" n="k9r">
+            <graphic n="JRL221703403" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00203.jp2"/>
+        </surface>
+        <surface xml:id="i204" n="k9v">
+            <graphic n="JRL221703404" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00204.jp2"/>
+        </surface>
+        <surface xml:id="i205" n="k10r">
+            <graphic n="JRL221703405" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00205.jp2"/>
+        </surface>
+        <surface xml:id="i206" n="k10v">
+            <graphic n="JRL221703406" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00206.jp2"/>
+        </surface>
+        <surface xml:id="i207" n="l1r">
+            <graphic n="JRL221703407" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4220px" url="PR-INCU-09380-000-00207.jp2"/>
+        </surface>
+        <surface xml:id="i208" n="l1v">
+            <graphic n="JRL221703408" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4144px" url="PR-INCU-09380-000-00208.jp2"/>
+        </surface>
+        <surface xml:id="i209" n="l2r">
+            <graphic n="JRL221703409" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00209.jp2"/>
+        </surface>
+        <surface xml:id="i210" n="l2v">
+            <graphic n="JRL221703410" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4122px" url="PR-INCU-09380-000-00210.jp2"/>
+        </surface>
+        <surface xml:id="i211" n="l3r">
+            <graphic n="JRL221703411" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00211.jp2"/>
+        </surface>
+        <surface xml:id="i212" n="l3v">
+            <graphic n="JRL221703412" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4122px" url="PR-INCU-09380-000-00212.jp2"/>
+        </surface>
+        <surface xml:id="i213" n="l4r">
+            <graphic n="JRL221703413" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00213.jp2"/>
+        </surface>
+        <surface xml:id="i214" n="l4v">
+            <graphic n="JRL221703414" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4122px" url="PR-INCU-09380-000-00214.jp2"/>
+        </surface>
+        <surface xml:id="i215" n="l5r">
+            <graphic n="JRL221703415" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00215.jp2"/>
+        </surface>
+        <surface xml:id="i216" n="l5v">
+            <graphic n="JRL221703416" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00216.jp2"/>
+        </surface>
+        <surface xml:id="i217" n="l6r">
+            <graphic n="JRL221703417" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00217.jp2"/>
+        </surface>
+        <surface xml:id="i218" n="l6v">
+            <graphic n="JRL221703418" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00218.jp2"/>
+        </surface>
+        <surface xml:id="i219" n="l7r">
+            <graphic n="JRL221703419" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00219.jp2"/>
+        </surface>
+        <surface xml:id="i220" n="l7v">
+            <graphic n="JRL221703420" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00220.jp2"/>
+        </surface>
+        <surface xml:id="i221" n="l8r">
+            <graphic n="JRL221703421" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00221.jp2"/>
+        </surface>
+        <surface xml:id="i222" n="l8v">
+            <graphic n="JRL221703422" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00222.jp2"/>
+        </surface>
+        <surface xml:id="i223" n="l9r">
+            <graphic n="JRL221703423" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00223.jp2"/>
+        </surface>
+        <surface xml:id="i224" n="l9v">
+            <graphic n="JRL221703424" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00224.jp2"/>
+        </surface>
+        <surface xml:id="i225" n="l10r">
+            <graphic n="JRL221703425" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4240px" url="PR-INCU-09380-000-00225.jp2"/>
+        </surface>
+        <surface xml:id="i226" n="l10v">
+            <graphic n="JRL221703426" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00226.jp2"/>
+        </surface>
+        <surface xml:id="i227" n="m1r">
+            <graphic n="JRL221703427" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4173px" url="PR-INCU-09380-000-00227.jp2"/>
+        </surface>
+        <surface xml:id="i228" n="m1v">
+            <graphic n="JRL221703428" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00228.jp2"/>
+        </surface>
+        <surface xml:id="i229" n="m2r">
+            <graphic n="JRL221703429" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4235px" url="PR-INCU-09380-000-00229.jp2"/>
+        </surface>
+        <surface xml:id="i230" n="m2v">
+            <graphic n="JRL221703430" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00230.jp2"/>
+        </surface>
+        <surface xml:id="i231" n="m3r">
+            <graphic n="JRL221703431" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4235px" url="PR-INCU-09380-000-00231.jp2"/>
+        </surface>
+        <surface xml:id="i232" n="m3v">
+            <graphic n="JRL221703432" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4118px" url="PR-INCU-09380-000-00232.jp2"/>
+        </surface>
+        <surface xml:id="i233" n="m4r">
+            <graphic n="JRL221703433" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4235px" url="PR-INCU-09380-000-00233.jp2"/>
+        </surface>
+        <surface xml:id="i234" n="m4v">
+            <graphic n="JRL221703434" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4142px" url="PR-INCU-09380-000-00234.jp2"/>
+        </surface>
+        <surface xml:id="i235" n="m5r">
+            <graphic n="JRL221703435" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4261px" url="PR-INCU-09380-000-00235.jp2"/>
+        </surface>
+        <surface xml:id="i236" n="m5v">
+            <graphic n="JRL221703436" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4142px" url="PR-INCU-09380-000-00236.jp2"/>
+        </surface>
+        <surface xml:id="i237" n="m6r">
+            <graphic n="JRL221703437" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4261px" url="PR-INCU-09380-000-00237.jp2"/>
+        </surface>
+        <surface xml:id="i238" n="m6v">
+            <graphic n="JRL221703438" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4142px" url="PR-INCU-09380-000-00238.jp2"/>
+        </surface>
+        <surface xml:id="i239" n="m7r">
+            <graphic n="JRL221703439" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4261px" url="PR-INCU-09380-000-00239.jp2"/>
+        </surface>
+        <surface xml:id="i240" n="m7v">
+            <graphic n="JRL221703440" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4142px" url="PR-INCU-09380-000-00240.jp2"/>
+        </surface>
+        <surface xml:id="i241" n="m8r">
+            <graphic n="JRL221703441" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4228px" url="PR-INCU-09380-000-00241.jp2"/>
+        </surface>
+        <surface xml:id="i242" n="m8v">
+            <graphic n="JRL221703442" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4142px" url="PR-INCU-09380-000-00242.jp2"/>
+        </surface>
+        <surface xml:id="i243" n="m9r">
+            <graphic n="JRL221703443" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4228px" url="PR-INCU-09380-000-00243.jp2"/>
+        </surface>
+        <surface xml:id="i244" n="m9v">
+            <graphic n="JRL221703444" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4142px" url="PR-INCU-09380-000-00244.jp2"/>
+        </surface>
+        <surface xml:id="i245" n="m10r">
+            <graphic n="JRL221703445" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4228px" url="PR-INCU-09380-000-00245.jp2"/>
+        </surface>
+        <surface xml:id="i246" n="m10v">
+            <graphic n="JRL221703446" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00246.jp2"/>
+        </surface>
+        <surface xml:id="i247" n="n1r">
+            <graphic n="JRL221703447" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4228px" url="PR-INCU-09380-000-00247.jp2"/>
+        </surface>
+        <surface xml:id="i248" n="n1v">
+            <graphic n="JRL221703448" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00248.jp2"/>
+        </surface>
+        <surface xml:id="i249" n="n2r">
+            <graphic n="JRL221703449" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4228px" url="PR-INCU-09380-000-00249.jp2"/>
+        </surface>
+        <surface xml:id="i250" n="n2v">
+            <graphic n="JRL221703450" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00250.jp2"/>
+        </surface>
+        <surface xml:id="i251" n="n3r">
+            <graphic n="JRL221703451" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4228px" url="PR-INCU-09380-000-00251.jp2"/>
+        </surface>
+        <surface xml:id="i252" n="n3v">
+            <graphic n="JRL221703452" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00252.jp2"/>
+        </surface>
+        <surface xml:id="i253" n="n4r">
+            <graphic n="JRL221703453" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00253.jp2"/>
+        </surface>
+        <surface xml:id="i254" n="n4v">
+            <graphic n="JRL221703454" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00254.jp2"/>
+        </surface>
+        <surface xml:id="i255" n="n5r">
+            <graphic n="JRL221703455" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00255.jp2"/>
+        </surface>
+        <surface xml:id="i256" n="n5v">
+            <graphic n="JRL221703456" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00256.jp2"/>
+        </surface>
+        <surface xml:id="i257" n="n6r">
+            <graphic n="JRL221703457" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00257.jp2"/>
+        </surface>
+        <surface xml:id="i258" n="n6v">
+            <graphic n="JRL221703458" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00258.jp2"/>
+        </surface>
+        <surface xml:id="i259" n="n7r">
+            <graphic n="JRL221703459" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00259.jp2"/>
+        </surface>
+        <surface xml:id="i260" n="n7v">
+            <graphic n="JRL221703460" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00260.jp2"/>
+        </surface>
+        <surface xml:id="i261" n="n8r">
+            <graphic n="JRL221703461" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00261.jp2"/>
+        </surface>
+        <surface xml:id="i262" n="n8v">
+            <graphic n="JRL221703462" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4168px" url="PR-INCU-09380-000-00262.jp2"/>
+        </surface>
+        <surface xml:id="i263" n="n9r">
+            <graphic n="JRL221703463" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00263.jp2"/>
+        </surface>
+        <surface xml:id="i264" n="n9v">
+            <graphic n="JRL221703464" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4155px" url="PR-INCU-09380-000-00264.jp2"/>
+        </surface>
+        <surface xml:id="i265" n="n10r">
+            <graphic n="JRL221703465" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00265.jp2"/>
+        </surface>
+        <surface xml:id="i266" n="n10v">
+            <graphic n="JRL221703466" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4155px" url="PR-INCU-09380-000-00266.jp2"/>
+        </surface>
+        <surface xml:id="i267" n="o1r">
+            <graphic n="JRL221703467" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00267.jp2"/>
+        </surface>
+        <surface xml:id="i268" n="o1v">
+            <graphic n="JRL221703468" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4155px" url="PR-INCU-09380-000-00268.jp2"/>
+        </surface>
+        <surface xml:id="i269" n="o2r">
+            <graphic n="JRL221703469" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00269.jp2"/>
+        </surface>
+        <surface xml:id="i270" n="o2v">
+            <graphic n="JRL221703470" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00270.jp2"/>
+        </surface>
+        <surface xml:id="i271" n="o3r">
+            <graphic n="JRL221703471" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00271.jp2"/>
+        </surface>
+        <surface xml:id="i272" n="o3v">
+            <graphic n="JRL221703472" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00272.jp2"/>
+        </surface>
+        <surface xml:id="i273" n="o4r">
+            <graphic n="JRL221703473" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00273.jp2"/>
+        </surface>
+        <surface xml:id="i274" n="o4v">
+            <graphic n="JRL221703474" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00274.jp2"/>
+        </surface>
+        <surface xml:id="i275" n="o5r">
+            <graphic n="JRL221703475" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00275.jp2"/>
+        </surface>
+        <surface xml:id="i276" n="o5v">
+            <graphic n="JRL221703476" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00276.jp2"/>
+        </surface>
+        <surface xml:id="i277" n="o6r">
+            <graphic n="JRL221703477" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00277.jp2"/>
+        </surface>
+        <surface xml:id="i278" n="o6v">
+            <graphic n="JRL221703478" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00278.jp2"/>
+        </surface>
+        <surface xml:id="i279" n="o7r">
+            <graphic n="JRL221703479" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00279.jp2"/>
+        </surface>
+        <surface xml:id="i280" n="o7v">
+            <graphic n="JRL221703480" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00280.jp2"/>
+        </surface>
+        <surface xml:id="i281" n="o8r">
+            <graphic n="JRL221703481" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00281.jp2"/>
+        </surface>
+        <surface xml:id="i282" n="o8v">
+            <graphic n="JRL221703482" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00282.jp2"/>
+        </surface>
+        <surface xml:id="i283" n="o9r">
+            <graphic n="JRL221703483" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00283.jp2"/>
+        </surface>
+        <surface xml:id="i284" n="o9v">
+            <graphic n="JRL221703484" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4169px" url="PR-INCU-09380-000-00284.jp2"/>
+        </surface>
+        <surface xml:id="i285" n="o10r">
+            <graphic n="JRL221703485" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00285.jp2"/>
+        </surface>
+        <surface xml:id="i286" n="o10v">
+            <graphic n="JRL221703486" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4215px" url="PR-INCU-09380-000-00286.jp2"/>
+        </surface>
+        <surface xml:id="i287" n="p1r">
+            <graphic n="JRL221703487" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4256px" url="PR-INCU-09380-000-00287.jp2"/>
+        </surface>
+        <surface xml:id="i288" n="p1v">
+            <graphic n="JRL221703488" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4215px" url="PR-INCU-09380-000-00288.jp2"/>
+        </surface>
+        <surface xml:id="i289" n="p2r">
+            <graphic n="JRL221703489" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4215px" url="PR-INCU-09380-000-00289.jp2"/>
+        </surface>
+        <surface xml:id="i290" n="p2v">
+            <graphic n="JRL221703490" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00290.jp2"/>
+        </surface>
+        <surface xml:id="i291" n="p3r">
+            <graphic n="JRL221703491" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4215px" url="PR-INCU-09380-000-00291.jp2"/>
+        </surface>
+        <surface xml:id="i292" n="p3v">
+            <graphic n="JRL221703492" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00292.jp2"/>
+        </surface>
+        <surface xml:id="i293" n="p4r">
+            <graphic n="JRL221703493" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4244px" url="PR-INCU-09380-000-00293.jp2"/>
+        </surface>
+        <surface xml:id="i294" n="p4v">
+            <graphic n="JRL221703494" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00294.jp2"/>
+        </surface>
+        <surface xml:id="i295" n="p5r">
+            <graphic n="JRL221703495" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4244px" url="PR-INCU-09380-000-00295.jp2"/>
+        </surface>
+        <surface xml:id="i296" n="p5v">
+            <graphic n="JRL221703496" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00296.jp2"/>
+        </surface>
+        <surface xml:id="i297" n="p6r">
+            <graphic n="JRL221703497" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4244px" url="PR-INCU-09380-000-00297.jp2"/>
+        </surface>
+        <surface xml:id="i298" n="p6v">
+            <graphic n="JRL221703498" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00298.jp2"/>
+        </surface>
+        <surface xml:id="i299" n="p7r">
+            <graphic n="JRL221703499" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4244px" url="PR-INCU-09380-000-00299.jp2"/>
+        </surface>
+        <surface xml:id="i300" n="p7v">
+            <graphic n="JRL221703500" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00300.jp2"/>
+        </surface>
+        <surface xml:id="i301" n="p8r">
+            <graphic n="JRL221703501" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4244px" url="PR-INCU-09380-000-00301.jp2"/>
+        </surface>
+        <surface xml:id="i302" n="p8v">
+            <graphic n="JRL221703502" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00302.jp2"/>
+        </surface>
+        <surface xml:id="i303" n="p9r">
+            <graphic n="JRL221703503" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4244px" url="PR-INCU-09380-000-00303.jp2"/>
+        </surface>
+        <surface xml:id="i304" n="p9v">
+            <graphic n="JRL221703504" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00304.jp2"/>
+        </surface>
+        <surface xml:id="i305" n="p10r">
+            <graphic n="JRL221703505" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4221px" url="PR-INCU-09380-000-00305.jp2"/>
+        </surface>
+        <surface xml:id="i306" n="p10v">
+            <graphic n="JRL221703506" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00306.jp2"/>
+        </surface>
+        <surface xml:id="i307" n="q1r">
+            <graphic n="JRL221703507" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4221px" url="PR-INCU-09380-000-00307.jp2"/>
+        </surface>
+        <surface xml:id="i308" n="q1v">
+            <graphic n="JRL221703508" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00308.jp2"/>
+        </surface>
+        <surface xml:id="i309" n="q2r">
+            <graphic n="JRL221703509" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4221px" url="PR-INCU-09380-000-00309.jp2"/>
+        </surface>
+        <surface xml:id="i310" n="q2v">
+            <graphic n="JRL221703510" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4212px" url="PR-INCU-09380-000-00310.jp2"/>
+        </surface>
+        <surface xml:id="i311" n="q3r">
+            <graphic n="JRL221703511" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4221px" url="PR-INCU-09380-000-00311.jp2"/>
+        </surface>
+        <surface xml:id="i312" n="q3v">
+            <graphic n="JRL221703512" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00312.jp2"/>
+        </surface>
+        <surface xml:id="i313" n="q4r">
+            <graphic n="JRL221703513" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00313.jp2"/>
+        </surface>
+        <surface xml:id="i314" n="q4v">
+            <graphic n="JRL221703514" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00314.jp2"/>
+        </surface>
+        <surface xml:id="i315" n="q5r">
+            <graphic n="JRL221703515" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00315.jp2"/>
+        </surface>
+        <surface xml:id="i316" n="q5v">
+            <graphic n="JRL221703516" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00316.jp2"/>
+        </surface>
+        <surface xml:id="i317" n="q6r">
+            <graphic n="JRL221703517" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00317.jp2"/>
+        </surface>
+        <surface xml:id="i318" n="q6v">
+            <graphic n="JRL221703518" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00318.jp2"/>
+        </surface>
+        <surface xml:id="i319" n="q7r">
+            <graphic n="JRL221703519" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00319.jp2"/>
+        </surface>
+        <surface xml:id="i320" n="q7v">
+            <graphic n="JRL221703520" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00320.jp2"/>
+        </surface>
+        <surface xml:id="i321" n="q8r">
+            <graphic n="JRL221703521" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00321.jp2"/>
+        </surface>
+        <surface xml:id="i322" n="q8v">
+            <graphic n="JRL221703522" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00322.jp2"/>
+        </surface>
+        <surface xml:id="i323" n="q9r">
+            <graphic n="JRL221703523" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00323.jp2"/>
+        </surface>
+        <surface xml:id="i324" n="q9v">
+            <graphic n="JRL221703524" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00324.jp2"/>
+        </surface>
+        <surface xml:id="i325" n="q10r">
+            <graphic n="JRL221703525" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00325.jp2"/>
+        </surface>
+        <surface xml:id="i326" n="q10v">
+            <graphic n="JRL221703526" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00326.jp2"/>
+        </surface>
+        <surface xml:id="i327" n="r1r">
+            <graphic n="JRL221703527" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00327.jp2"/>
+        </surface>
+        <surface xml:id="i328" n="r1v">
+            <graphic n="JRL221703528" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00328.jp2"/>
+        </surface>
+        <surface xml:id="i329" n="r2r">
+            <graphic n="JRL221703529" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00329.jp2"/>
+        </surface>
+        <surface xml:id="i330" n="r2v">
+            <graphic n="JRL221703530" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00330.jp2"/>
+        </surface>
+        <surface xml:id="i331" n="r3r">
+            <graphic n="JRL221703531" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00331.jp2"/>
+        </surface>
+        <surface xml:id="i332" n="r3v">
+            <graphic n="JRL221703532" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00332.jp2"/>
+        </surface>
+        <surface xml:id="i333" n="r4r">
+            <graphic n="JRL221703533" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00333.jp2"/>
+        </surface>
+        <surface xml:id="i334" n="r4v">
+            <graphic n="JRL221703534" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00334.jp2"/>
+        </surface>
+        <surface xml:id="i335" n="r5r">
+            <graphic n="JRL221703535" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00335.jp2"/>
+        </surface>
+        <surface xml:id="i336" n="r5v">
+            <graphic n="JRL221703536" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00336.jp2"/>
+        </surface>
+        <surface xml:id="i337" n="r6r">
+            <graphic n="JRL221703537" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00337.jp2"/>
+        </surface>
+        <surface xml:id="i338" n="r6v">
+            <graphic n="JRL221703538" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4204px" url="PR-INCU-09380-000-00338.jp2"/>
+        </surface>
+        <surface xml:id="i339" n="r7r">
+            <graphic n="JRL221703539" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00339.jp2"/>
+        </surface>
+        <surface xml:id="i340" n="r7v">
+            <graphic n="JRL221703540" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00340.jp2"/>
+        </surface>
+        <surface xml:id="i341" n="r8r">
+            <graphic n="JRL221703541" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00341.jp2"/>
+        </surface>
+        <surface xml:id="i342" n="r8v">
+            <graphic n="JRL221703542" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00342.jp2"/>
+        </surface>
+        <surface xml:id="i343" n="r9r">
+            <graphic n="JRL221703543" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00343.jp2"/>
+        </surface>
+        <surface xml:id="i344" n="r9v">
+            <graphic n="JRL221703544" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00344.jp2"/>
+        </surface>
+        <surface xml:id="i345" n="r10r">
+            <graphic n="JRL221703545" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4197px" url="PR-INCU-09380-000-00345.jp2"/>
+        </surface>
+        <surface xml:id="i346" n="r10v">
+            <graphic n="JRL221703546" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00346.jp2"/>
+        </surface>
+        <surface xml:id="i347" n="s1r">
+            <graphic n="JRL221703547" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4207px" url="PR-INCU-09380-000-00347.jp2"/>
+        </surface>
+        <surface xml:id="i348" n="s1v">
+            <graphic n="JRL221703548" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00348.jp2"/>
+        </surface>
+        <surface xml:id="i349" n="s2r">
+            <graphic n="JRL221703549" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4207px" url="PR-INCU-09380-000-00349.jp2"/>
+        </surface>
+        <surface xml:id="i350" n="s2v">
+            <graphic n="JRL221703550" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00350.jp2"/>
+        </surface>
+        <surface xml:id="i351" n="s3r">
+            <graphic n="JRL221703551" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4207px" url="PR-INCU-09380-000-00351.jp2"/>
+        </surface>
+        <surface xml:id="i352" n="s3v">
+            <graphic n="JRL221703552" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4227px" url="PR-INCU-09380-000-00352.jp2"/>
+        </surface>
+        <surface xml:id="i353" n="s4r">
+            <graphic n="JRL221703553" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4207px" url="PR-INCU-09380-000-00353.jp2"/>
+        </surface>
+        <surface xml:id="i354" n="s4v">
+            <graphic n="JRL221703554" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00354.jp2"/>
+        </surface>
+        <surface xml:id="i355" n="s5r">
+            <graphic n="JRL221703555" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4207px" url="PR-INCU-09380-000-00355.jp2"/>
+        </surface>
+        <surface xml:id="i356" n="s5v">
+            <graphic n="JRL221703556" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00356.jp2"/>
+        </surface>
+        <surface xml:id="i357" n="s6r">
+            <graphic n="JRL221703557" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4207px" url="PR-INCU-09380-000-00357.jp2"/>
+        </surface>
+        <surface xml:id="i358" n="s6v">
+            <graphic n="JRL221703558" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00358.jp2"/>
+        </surface>
+        <surface xml:id="i359" n="s7r">
+            <graphic n="JRL221703559" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4207px" url="PR-INCU-09380-000-00359.jp2"/>
+        </surface>
+        <surface xml:id="i360" n="s7v">
+            <graphic n="JRL221703560" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00360.jp2"/>
+        </surface>
+        <surface xml:id="i361" n="s8r">
+            <graphic n="JRL221703561" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4194px" url="PR-INCU-09380-000-00361.jp2"/>
+        </surface>
+        <surface xml:id="i362" n="s8v">
+            <graphic n="JRL221703562" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00362.jp2"/>
+        </surface>
+        <surface xml:id="i363" n="s9r">
+            <graphic n="JRL221703563" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4194px" url="PR-INCU-09380-000-00363.jp2"/>
+        </surface>
+        <surface xml:id="i364" n="s9v">
+            <graphic n="JRL221703564" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00364.jp2"/>
+        </surface>
+        <surface xml:id="i365" n="s10r">
+            <graphic n="JRL221703565" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4194px" url="PR-INCU-09380-000-00365.jp2"/>
+        </surface>
+        <surface xml:id="i366" n="s10v">
+            <graphic n="JRL221703566" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00366.jp2"/>
+        </surface>
+        <surface xml:id="i367" n="t1r">
+            <graphic n="JRL221703567" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4194px" url="PR-INCU-09380-000-00367.jp2"/>
+        </surface>
+        <surface xml:id="i368" n="t1v">
+            <graphic n="JRL221703568" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00368.jp2"/>
+        </surface>
+        <surface xml:id="i369" n="t2r">
+            <graphic n="JRL221703569" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4194px" url="PR-INCU-09380-000-00369.jp2"/>
+        </surface>
+        <surface xml:id="i370" n="t2v">
+            <graphic n="JRL221703570" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00370.jp2"/>
+        </surface>
+        <surface xml:id="i371" n="t3r">
+            <graphic n="JRL221703571" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4194px" url="PR-INCU-09380-000-00371.jp2"/>
+        </surface>
+        <surface xml:id="i372" n="t3v">
+            <graphic n="JRL221703572" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00372.jp2"/>
+        </surface>
+        <surface xml:id="i373" n="t4r">
+            <graphic n="JRL221703573" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4183px" url="PR-INCU-09380-000-00373.jp2"/>
+        </surface>
+        <surface xml:id="i374" n="t4v">
+            <graphic n="JRL221703574" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00374.jp2"/>
+        </surface>
+        <surface xml:id="i375" n="t5r">
+            <graphic n="JRL221703575" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4183px" url="PR-INCU-09380-000-00375.jp2"/>
+        </surface>
+        <surface xml:id="i376" n="t5v">
+            <graphic n="JRL221703576" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00376.jp2"/>
+        </surface>
+        <surface xml:id="i377" n="t6r">
+            <graphic n="JRL221703577" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4183px" url="PR-INCU-09380-000-00377.jp2"/>
+        </surface>
+        <surface xml:id="i378" n="t6v">
+            <graphic n="JRL221703578" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00378.jp2"/>
+        </surface>
+        <surface xml:id="i379" n="t7r">
+            <graphic n="JRL221703579" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00379.jp2"/>
+        </surface>
+        <surface xml:id="i380" n="t7v">
+            <graphic n="JRL221703580" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4217px" url="PR-INCU-09380-000-00380.jp2"/>
+        </surface>
+        <surface xml:id="i381" n="t8r">
+            <graphic n="JRL221703581" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00381.jp2"/>
+        </surface>
+        <surface xml:id="i382" n="t8v">
+            <graphic n="JRL221703582" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4199px" url="PR-INCU-09380-000-00382.jp2"/>
+        </surface>
+        <surface xml:id="i383" n="t9r">
+            <graphic n="JRL221703583" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00383.jp2"/>
+        </surface>
+        <surface xml:id="i384" n="t9v">
+            <graphic n="JRL221703584" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4181px" url="PR-INCU-09380-000-00384.jp2"/>
+        </surface>
+        <surface xml:id="i385" n="t10r">
+            <graphic n="JRL221703585" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00385.jp2"/>
+        </surface>
+        <surface xml:id="i386" n="t10v">
+            <graphic n="JRL221703586" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4222px" url="PR-INCU-09380-000-00386.jp2"/>
+        </surface>
+        <surface xml:id="i387" n="u1r">
+            <graphic n="JRL221703587" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00387.jp2"/>
+        </surface>
+        <surface xml:id="i388" n="u1v">
+            <graphic n="JRL221703588" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4222px" url="PR-INCU-09380-000-00388.jp2"/>
+        </surface>
+        <surface xml:id="i389" n="u2r">
+            <graphic n="JRL221703589" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00389.jp2"/>
+        </surface>
+        <surface xml:id="i390" n="u2v">
+            <graphic n="JRL221703590" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4201px" url="PR-INCU-09380-000-00390.jp2"/>
+        </surface>
+        <surface xml:id="i391" n="u3r">
+            <graphic n="JRL221703591" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00391.jp2"/>
+        </surface>
+        <surface xml:id="i392" n="u3v">
+            <graphic n="JRL221703592" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4201px" url="PR-INCU-09380-000-00392.jp2"/>
+        </surface>
+        <surface xml:id="i393" n="u4r">
+            <graphic n="JRL221703593" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00393.jp2"/>
+        </surface>
+        <surface xml:id="i394" n="u4v">
+            <graphic n="JRL221703594" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4201px" url="PR-INCU-09380-000-00394.jp2"/>
+        </surface>
+        <surface xml:id="i395" n="u5r">
+            <graphic n="JRL221703595" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4210px" url="PR-INCU-09380-000-00395.jp2"/>
+        </surface>
+        <surface xml:id="i396" n="u5v">
+            <graphic n="JRL221703596" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4201px" url="PR-INCU-09380-000-00396.jp2"/>
+        </surface>
+        <surface xml:id="i397" n="u6r">
+            <graphic n="JRL221703597" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00397.jp2"/>
+        </surface>
+        <surface xml:id="i398" n="u6v">
+            <graphic n="JRL221703598" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4201px" url="PR-INCU-09380-000-00398.jp2"/>
+        </surface>
+        <surface xml:id="i399" n="u7r">
+            <graphic n="JRL221703599" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00399.jp2"/>
+        </surface>
+        <surface xml:id="i400" n="u7v">
+            <graphic n="JRL221703600" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4201px" url="PR-INCU-09380-000-00400.jp2"/>
+        </surface>
+        <surface xml:id="i401" n="u8r">
+            <graphic n="JRL221703601" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00401.jp2"/>
+        </surface>
+        <surface xml:id="i402" n="u8v">
+            <graphic n="JRL221703602" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00402.jp2"/>
+        </surface>
+        <surface xml:id="i403" n="u9r">
+            <graphic n="JRL221703603" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00403.jp2"/>
+        </surface>
+        <surface xml:id="i404" n="u9v">
+            <graphic n="JRL221703604" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00404.jp2"/>
+        </surface>
+        <surface xml:id="i405" n="u10r">
+            <graphic n="JRL221703605" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00405.jp2"/>
+        </surface>
+        <surface xml:id="i406" n="u10v">
+            <graphic n="JRL221703606" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00406.jp2"/>
+        </surface>
+        <surface xml:id="i407" n="x1r">
+            <graphic n="JRL221703607" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00407.jp2"/>
+        </surface>
+        <surface xml:id="i408" n="x1v">
+            <graphic n="JRL221703608" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4246px" url="PR-INCU-09380-000-00408.jp2"/>
+        </surface>
+        <surface xml:id="i409" n="x2r">
+            <graphic n="JRL221703609" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00409.jp2"/>
+        </surface>
+        <surface xml:id="i410" n="x2v">
+            <graphic n="JRL221703610" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4246px" url="PR-INCU-09380-000-00410.jp2"/>
+        </surface>
+        <surface xml:id="i411" n="x3r">
+            <graphic n="JRL221703611" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00411.jp2"/>
+        </surface>
+        <surface xml:id="i412" n="x3v">
+            <graphic n="JRL221703612" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4246px" url="PR-INCU-09380-000-00412.jp2"/>
+        </surface>
+        <surface xml:id="i413" n="x4r">
+            <graphic n="JRL221703613" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4237px" url="PR-INCU-09380-000-00413.jp2"/>
+        </surface>
+        <surface xml:id="i414" n="x4v">
+            <graphic n="JRL221703614" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4165px" url="PR-INCU-09380-000-00414.jp2"/>
+        </surface>
+        <surface xml:id="i415" n="x5r">
+            <graphic n="JRL221703615" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00415.jp2"/>
+        </surface>
+        <surface xml:id="i416" n="x5v">
+            <graphic n="JRL221703616" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4250px" url="PR-INCU-09380-000-00416.jp2"/>
+        </surface>
+        <surface xml:id="i417" n="x6r">
+            <graphic n="JRL221703617" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00417.jp2"/>
+        </surface>
+        <surface xml:id="i418" n="x6v">
+            <graphic n="JRL221703618" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4228px" url="PR-INCU-09380-000-00418.jp2"/>
+        </surface>
+        <surface xml:id="i419" n="x7r">
+            <graphic n="JRL221703619" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00419.jp2"/>
+        </surface>
+        <surface xml:id="i420" n="x7v">
+            <graphic n="JRL221703620" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4250px" url="PR-INCU-09380-000-00420.jp2"/>
+        </surface>
+        <surface xml:id="i421" n="x8r">
+            <graphic n="JRL221703621" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00421.jp2"/>
+        </surface>
+        <surface xml:id="i422" n="x8v">
+            <graphic n="JRL221703622" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4250px" url="PR-INCU-09380-000-00422.jp2"/>
+        </surface>
+        <surface xml:id="i423" n="x9r">
+            <graphic n="JRL221703623" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00423.jp2"/>
+        </surface>
+        <surface xml:id="i424" n="x9v">
+            <graphic n="JRL221703624" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4250px" url="PR-INCU-09380-000-00424.jp2"/>
+        </surface>
+        <surface xml:id="i425" n="x10r">
+            <graphic n="JRL221703625" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4252px" url="PR-INCU-09380-000-00425.jp2"/>
+        </surface>
+        <surface xml:id="i426" n="x10v">
+            <graphic n="JRL221703626" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4250px" url="PR-INCU-09380-000-00426.jp2"/>
+        </surface>
+        <surface xml:id="i427" n="y1r">
+            <graphic n="JRL221703627" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00427.jp2"/>
+        </surface>
+        <surface xml:id="i428" n="y1v">
+            <graphic n="JRL221703628" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4236px" url="PR-INCU-09380-000-00428.jp2"/>
+        </surface>
+        <surface xml:id="i429" n="y2r">
+            <graphic n="JRL221703629" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00429.jp2"/>
+        </surface>
+        <surface xml:id="i430" n="y2v">
+            <graphic n="JRL221703630" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00430.jp2"/>
+        </surface>
+        <surface xml:id="i431" n="y3r">
+            <graphic n="JRL221703631" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00431.jp2"/>
+        </surface>
+        <surface xml:id="i432" n="y3v">
+            <graphic n="JRL221703632" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00432.jp2"/>
+        </surface>
+        <surface xml:id="i433" n="y4r">
+            <graphic n="JRL221703633" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00433.jp2"/>
+        </surface>
+        <surface xml:id="i434" n="y4v">
+            <graphic n="JRL221703634" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00434.jp2"/>
+        </surface>
+        <surface xml:id="i435" n="y5r">
+            <graphic n="JRL221703635" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00435.jp2"/>
+        </surface>
+        <surface xml:id="i436" n="y5v">
+            <graphic n="JRL221703636" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00436.jp2"/>
+        </surface>
+        <surface xml:id="i437" n="y6r">
+            <graphic n="JRL221703637" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00437.jp2"/>
+        </surface>
+        <surface xml:id="i438" n="y6v">
+            <graphic n="JRL221703638" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00438.jp2"/>
+        </surface>
+        <surface xml:id="i439" n="y7r">
+            <graphic n="JRL221703639" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00439.jp2"/>
+        </surface>
+        <surface xml:id="i440" n="y7v">
+            <graphic n="JRL221703640" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00440.jp2"/>
+        </surface>
+        <surface xml:id="i441" n="y8r">
+            <graphic n="JRL221703641" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00441.jp2"/>
+        </surface>
+        <surface xml:id="i442" n="y8v">
+            <graphic n="JRL221703642" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00442.jp2"/>
+        </surface>
+        <surface xml:id="i443" n="y9r">
+            <graphic n="JRL221703643" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4280px" url="PR-INCU-09380-000-00443.jp2"/>
+        </surface>
+        <surface xml:id="i444" n="y9v">
+            <graphic n="JRL221703644" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4263px" url="PR-INCU-09380-000-00444.jp2"/>
+        </surface>
+        <surface xml:id="i445" n="y10r">
+            <graphic n="JRL221703645" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4294px" url="PR-INCU-09380-000-00445.jp2"/>
+        </surface>
+        <surface xml:id="i446" n="y10v">
+            <graphic n="JRL221703646" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4263px" url="PR-INCU-09380-000-00446.jp2"/>
+        </surface>
+        <surface xml:id="i447" n="Endleaf_[1r]">
+            <graphic n="JRL221703647" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4294px" url="PR-INCU-09380-000-00447.jp2"/>
+        </surface>
+        <surface xml:id="i448" n="Endleaf_[1v]">
+            <graphic n="JRL221703648" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4290px" url="PR-INCU-09380-000-00448.jp2"/>
+        </surface>
+        <surface xml:id="i449" n="Rear_endpaper_r">
+            <graphic n="JRL221703649" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4247px" url="PR-INCU-09380-000-00449.jp2"/>
+        </surface>
+        <surface xml:id="i450" n="Rear_endpaper_v">
+            <graphic n="JRL221703650" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4399px" url="PR-INCU-09380-000-00450.jp2"/>
+        </surface>
+        <surface xml:id="i451" n="Inner_back_cover">
+            <graphic n="JRL221703651" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4439px" url="PR-INCU-09380-000-00451.jp2"/>
+        </surface>
+        <surface xml:id="i452" n="Back_cover">
+            <graphic n="JRL221703652" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="4571px" url="PR-INCU-09380-000-00452.jp2"/>
+        </surface>
+        <surface xml:id="i453" n="Spine">
+            <graphic n="JRL221703653" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="1144px" url="PR-INCU-09380-000-00453.jp2"/>
+        </surface>
+        <surface xml:id="i454" n="Top">
+            <graphic n="JRL221703654" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="1159px" url="PR-INCU-09380-000-00454.jp2"/>
+        </surface>
+        <surface xml:id="i455" n="Fore_edge">
+            <graphic n="JRL221703655" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="1691px" url="PR-INCU-09380-000-00455.jp2"/>
+        </surface>
+        <surface xml:id="i456" n="Tail">
+            <graphic n="JRL221703656" decls="#downloadImageRights #download" rend="portrait" height="6500px" width="1705px" url="PR-INCU-09380-000-00456.jp2"/>
+        </surface>
+    </facsimile>
+    <text>
+        <body>
+            <div>
+                <pb n="Front_cover" xml:id="pb-Front_cover" facs="#i1"/>
+                <pb n="Inner_front_cover" xml:id="pb-Inner_front_cover" facs="#i2"/>
+                <pb n="Front_endpaper_r" xml:id="pb-Front_endpaper_r" facs="#i3"/>
+                <pb n="Front_endpaper_v" xml:id="pb-Front_endpaper_v" facs="#i4"/>
+                <pb n="Flyleaf_[1r]" xml:id="pb-Flyleaf_[1r]" facs="#i5"/>
+                <pb n="Flyleaf_[1v]" xml:id="pb-Flyleaf_[1v]" facs="#i6"/>
+                <pb n="a1r" xml:id="pb-a1r" facs="#i7"/>
+                <pb n="a1v" xml:id="pb-a1v" facs="#i8"/>
+                <pb n="a2r" xml:id="pb-a2r" facs="#i9"/>
+                <pb n="a2v" xml:id="pb-a2v" facs="#i10"/>
+                <pb n="a3r" xml:id="pb-a3r" facs="#i11"/>
+                <pb n="a3v" xml:id="pb-a3v" facs="#i12"/>
+                <pb n="a4r" xml:id="pb-a4r" facs="#i13"/>
+                <pb n="a4v" xml:id="pb-a4v" facs="#i14"/>
+                <pb n="a5r" xml:id="pb-a5r" facs="#i15"/>
+                <pb n="a5v" xml:id="pb-a5v" facs="#i16"/>
+                <pb n="a6r" xml:id="pb-a6r" facs="#i17"/>
+                <pb n="a6v" xml:id="pb-a6v" facs="#i18"/>
+                <pb n="a7r" xml:id="pb-a7r" facs="#i19"/>
+                <pb n="a7v" xml:id="pb-a7v" facs="#i20"/>
+                <pb n="a8r" xml:id="pb-a8r" facs="#i21"/>
+                <pb n="a8v" xml:id="pb-a8v" facs="#i22"/>
+                <pb n="a9r" xml:id="pb-a9r" facs="#i23"/>
+                <pb n="a9v" xml:id="pb-a9v" facs="#i24"/>
+                <pb n="a10r" xml:id="pb-a10r" facs="#i25"/>
+                <pb n="a10v" xml:id="pb-a10v" facs="#i26"/>
+                <pb n="b1r" xml:id="pb-b1r" facs="#i27"/>
+                <pb n="b1v" xml:id="pb-b1v" facs="#i28"/>
+                <pb n="b2r" xml:id="pb-b2r" facs="#i29"/>
+                <pb n="b2v" xml:id="pb-b2v" facs="#i30"/>
+                <pb n="b3r" xml:id="pb-b3r" facs="#i31"/>
+                <pb n="b3v" xml:id="pb-b3v" facs="#i32"/>
+                <pb n="b4r" xml:id="pb-b4r" facs="#i33"/>
+                <pb n="b4v" xml:id="pb-b4v" facs="#i34"/>
+                <pb n="b5r" xml:id="pb-b5r" facs="#i35"/>
+                <pb n="b5v" xml:id="pb-b5v" facs="#i36"/>
+                <pb n="b6r" xml:id="pb-b6r" facs="#i37"/>
+                <pb n="b6v" xml:id="pb-b6v" facs="#i38"/>
+                <pb n="b7r" xml:id="pb-b7r" facs="#i39"/>
+                <pb n="b7v" xml:id="pb-b7v" facs="#i40"/>
+                <pb n="b8r" xml:id="pb-b8r" facs="#i41"/>
+                <pb n="b8v" xml:id="pb-b8v" facs="#i42"/>
+                <pb n="b9r" xml:id="pb-b9r" facs="#i43"/>
+                <pb n="b9v" xml:id="pb-b9v" facs="#i44"/>
+                <pb n="b10r" xml:id="pb-b10r" facs="#i45"/>
+                <pb n="b10v" xml:id="pb-b10v" facs="#i46"/>
+                <pb n="c1r" xml:id="pb-c1r" facs="#i47"/>
+                <pb n="c1v" xml:id="pb-c1v" facs="#i48"/>
+                <pb n="c2r" xml:id="pb-c2r" facs="#i49"/>
+                <pb n="c2v" xml:id="pb-c2v" facs="#i50"/>
+                <pb n="c3r" xml:id="pb-c3r" facs="#i51"/>
+                <pb n="c3v" xml:id="pb-c3v" facs="#i52"/>
+                <pb n="c4r" xml:id="pb-c4r" facs="#i53"/>
+                <pb n="c4v" xml:id="pb-c4v" facs="#i54"/>
+                <pb n="c5r" xml:id="pb-c5r" facs="#i55"/>
+                <pb n="c5v" xml:id="pb-c5v" facs="#i56"/>
+                <pb n="c6r" xml:id="pb-c6r" facs="#i57"/>
+                <pb n="c6v" xml:id="pb-c6v" facs="#i58"/>
+                <pb n="c7r" xml:id="pb-c7r" facs="#i59"/>
+                <pb n="c7v" xml:id="pb-c7v" facs="#i60"/>
+                <pb n="c8r" xml:id="pb-c8r" facs="#i61"/>
+                <pb n="c8v" xml:id="pb-c8v" facs="#i62"/>
+                <pb n="c9r" xml:id="pb-c9r" facs="#i63"/>
+                <pb n="c9v" xml:id="pb-c9v" facs="#i64"/>
+                <pb n="c10r" xml:id="pb-c10r" facs="#i65"/>
+                <pb n="c10v" xml:id="pb-c10v" facs="#i66"/>
+                <pb n="d1r" xml:id="pb-d1r" facs="#i67"/>
+                <pb n="d1v" xml:id="pb-d1v" facs="#i68"/>
+                <pb n="d2r" xml:id="pb-d2r" facs="#i69"/>
+                <pb n="d2v" xml:id="pb-d2v" facs="#i70"/>
+                <pb n="d3r" xml:id="pb-d3r" facs="#i71"/>
+                <pb n="d3v" xml:id="pb-d3v" facs="#i72"/>
+                <pb n="d4r" xml:id="pb-d4r" facs="#i73"/>
+                <pb n="d4v" xml:id="pb-d4v" facs="#i74"/>
+                <pb n="d5r" xml:id="pb-d5r" facs="#i75"/>
+                <pb n="d5v" xml:id="pb-d5v" facs="#i76"/>
+                <pb n="d6r" xml:id="pb-d6r" facs="#i77"/>
+                <pb n="d6v" xml:id="pb-d6v" facs="#i78"/>
+                <pb n="d7r" xml:id="pb-d7r" facs="#i79"/>
+                <pb n="d7v" xml:id="pb-d7v" facs="#i80"/>
+                <pb n="d8r" xml:id="pb-d8r" facs="#i81"/>
+                <pb n="d8v" xml:id="pb-d8v" facs="#i82"/>
+                <pb n="d9r" xml:id="pb-d9r" facs="#i83"/>
+                <pb n="d9v" xml:id="pb-d9v" facs="#i84"/>
+                <pb n="d10r" xml:id="pb-d10r" facs="#i85"/>
+                <pb n="d10v" xml:id="pb-d10v" facs="#i86"/>
+                <pb n="e1r" xml:id="pb-e1r" facs="#i87"/>
+                <pb n="e1v" xml:id="pb-e1v" facs="#i88"/>
+                <pb n="e2r" xml:id="pb-e2r" facs="#i89"/>
+                <pb n="e2v" xml:id="pb-e2v" facs="#i90"/>
+                <pb n="e3r" xml:id="pb-e3r" facs="#i91"/>
+                <pb n="e3v" xml:id="pb-e3v" facs="#i92"/>
+                <pb n="e4r" xml:id="pb-e4r" facs="#i93"/>
+                <pb n="e4v" xml:id="pb-e4v" facs="#i94"/>
+                <pb n="e5r" xml:id="pb-e5r" facs="#i95"/>
+                <pb n="e5v" xml:id="pb-e5v" facs="#i96"/>
+                <pb n="e6r" xml:id="pb-e6r" facs="#i97"/>
+                <pb n="e6v" xml:id="pb-e6v" facs="#i98"/>
+                <pb n="e7r" xml:id="pb-e7r" facs="#i99"/>
+                <pb n="e7v" xml:id="pb-e7v" facs="#i100"/>
+                <pb n="e8r" xml:id="pb-e8r" facs="#i101"/>
+                <pb n="e8v" xml:id="pb-e8v" facs="#i102"/>
+                <pb n="e9r" xml:id="pb-e9r" facs="#i103"/>
+                <pb n="e9v" xml:id="pb-e9v" facs="#i104"/>
+                <pb n="e10r" xml:id="pb-e10r" facs="#i105"/>
+                <pb n="e10v" xml:id="pb-e10v" facs="#i106"/>
+                <pb n="f1r" xml:id="pb-f1r" facs="#i107"/>
+                <pb n="f1v" xml:id="pb-f1v" facs="#i108"/>
+                <pb n="f2r" xml:id="pb-f2r" facs="#i109"/>
+                <pb n="f2v" xml:id="pb-f2v" facs="#i110"/>
+                <pb n="f3r" xml:id="pb-f3r" facs="#i111"/>
+                <pb n="f3v" xml:id="pb-f3v" facs="#i112"/>
+                <pb n="f4r" xml:id="pb-f4r" facs="#i113"/>
+                <pb n="f4v" xml:id="pb-f4v" facs="#i114"/>
+                <pb n="f5r" xml:id="pb-f5r" facs="#i115"/>
+                <pb n="f5v" xml:id="pb-f5v" facs="#i116"/>
+                <pb n="f6r" xml:id="pb-f6r" facs="#i117"/>
+                <pb n="f6v" xml:id="pb-f6v" facs="#i118"/>
+                <pb n="f7r" xml:id="pb-f7r" facs="#i119"/>
+                <pb n="f7v" xml:id="pb-f7v" facs="#i120"/>
+                <pb n="f8r" xml:id="pb-f8r" facs="#i121"/>
+                <pb n="f8v" xml:id="pb-f8v" facs="#i122"/>
+                <pb n="f9r" xml:id="pb-f9r" facs="#i123"/>
+                <pb n="f9v" xml:id="pb-f9v" facs="#i124"/>
+                <pb n="f10r" xml:id="pb-f10r" facs="#i125"/>
+                <pb n="f10v" xml:id="pb-f10v" facs="#i126"/>
+                <pb n="g1r" xml:id="pb-g1r" facs="#i127"/>
+                <pb n="g1v" xml:id="pb-g1v" facs="#i128"/>
+                <pb n="g2r" xml:id="pb-g2r" facs="#i129"/>
+                <pb n="g2v" xml:id="pb-g2v" facs="#i130"/>
+                <pb n="g3r" xml:id="pb-g3r" facs="#i131"/>
+                <pb n="g3v" xml:id="pb-g3v" facs="#i132"/>
+                <pb n="g4r" xml:id="pb-g4r" facs="#i133"/>
+                <pb n="g4v" xml:id="pb-g4v" facs="#i134"/>
+                <pb n="g5r" xml:id="pb-g5r" facs="#i135"/>
+                <pb n="g5v" xml:id="pb-g5v" facs="#i136"/>
+                <pb n="g6r" xml:id="pb-g6r" facs="#i137"/>
+                <pb n="g6v" xml:id="pb-g6v" facs="#i138"/>
+                <pb n="g7r" xml:id="pb-g7r" facs="#i139"/>
+                <pb n="g7v" xml:id="pb-g7v" facs="#i140"/>
+                <pb n="g8r" xml:id="pb-g8r" facs="#i141"/>
+                <pb n="g8v" xml:id="pb-g8v" facs="#i142"/>
+                <pb n="g9r" xml:id="pb-g9r" facs="#i143"/>
+                <pb n="g9v" xml:id="pb-g9v" facs="#i144"/>
+                <pb n="g10r" xml:id="pb-g10r" facs="#i145"/>
+                <pb n="g10v" xml:id="pb-g10v" facs="#i146"/>
+                <pb n="h1r" xml:id="pb-h1r" facs="#i147"/>
+                <pb n="h1v" xml:id="pb-h1v" facs="#i148"/>
+                <pb n="h2r" xml:id="pb-h2r" facs="#i149"/>
+                <pb n="h2v" xml:id="pb-h2v" facs="#i150"/>
+                <pb n="h3r" xml:id="pb-h3r" facs="#i151"/>
+                <pb n="h3v" xml:id="pb-h3v" facs="#i152"/>
+                <pb n="h4r" xml:id="pb-h4r" facs="#i153"/>
+                <pb n="h4v" xml:id="pb-h4v" facs="#i154"/>
+                <pb n="h5r" xml:id="pb-h5r" facs="#i155"/>
+                <pb n="h5v" xml:id="pb-h5v" facs="#i156"/>
+                <pb n="h6r" xml:id="pb-h6r" facs="#i157"/>
+                <pb n="h6v" xml:id="pb-h6v" facs="#i158"/>
+                <pb n="h7r" xml:id="pb-h7r" facs="#i159"/>
+                <pb n="h7v" xml:id="pb-h7v" facs="#i160"/>
+                <pb n="h8r" xml:id="pb-h8r" facs="#i161"/>
+                <pb n="h8v" xml:id="pb-h8v" facs="#i162"/>
+                <pb n="h9r" xml:id="pb-h9r" facs="#i163"/>
+                <pb n="h9v" xml:id="pb-h9v" facs="#i164"/>
+                <pb n="h10r" xml:id="pb-h10r" facs="#i165"/>
+                <pb n="h10v" xml:id="pb-h10v" facs="#i166"/>
+                <pb n="i1r" xml:id="pb-i1r" facs="#i167"/>
+                <pb n="i1v" xml:id="pb-i1v" facs="#i168"/>
+                <pb n="i2r" xml:id="pb-i2r" facs="#i169"/>
+                <pb n="i2v" xml:id="pb-i2v" facs="#i170"/>
+                <pb n="i3r" xml:id="pb-i3r" facs="#i171"/>
+                <pb n="i3v" xml:id="pb-i3v" facs="#i172"/>
+                <pb n="i4r" xml:id="pb-i4r" facs="#i173"/>
+                <pb n="i4v" xml:id="pb-i4v" facs="#i174"/>
+                <pb n="i5r" xml:id="pb-i5r" facs="#i175"/>
+                <pb n="i5v" xml:id="pb-i5v" facs="#i176"/>
+                <pb n="i6r" xml:id="pb-i6r" facs="#i177"/>
+                <pb n="i6v" xml:id="pb-i6v" facs="#i178"/>
+                <pb n="i7r" xml:id="pb-i7r" facs="#i179"/>
+                <pb n="i7v" xml:id="pb-i7v" facs="#i180"/>
+                <pb n="i8r" xml:id="pb-i8r" facs="#i181"/>
+                <pb n="i8v" xml:id="pb-i8v" facs="#i182"/>
+                <pb n="i9r" xml:id="pb-i9r" facs="#i183"/>
+                <pb n="i9v" xml:id="pb-i9v" facs="#i184"/>
+                <pb n="i10r" xml:id="pb-i10r" facs="#i185"/>
+                <pb n="i10v" xml:id="pb-i10v" facs="#i186"/>
+                <pb n="k1r" xml:id="pb-k1r" facs="#i187"/>
+                <pb n="k1v" xml:id="pb-k1v" facs="#i188"/>
+                <pb n="k2r" xml:id="pb-k2r" facs="#i189"/>
+                <pb n="k2v" xml:id="pb-k2v" facs="#i190"/>
+                <pb n="k3r" xml:id="pb-k3r" facs="#i191"/>
+                <pb n="k3v" xml:id="pb-k3v" facs="#i192"/>
+                <pb n="k4r" xml:id="pb-k4r" facs="#i193"/>
+                <pb n="k4v" xml:id="pb-k4v" facs="#i194"/>
+                <pb n="k5r" xml:id="pb-k5r" facs="#i195"/>
+                <pb n="k5v" xml:id="pb-k5v" facs="#i196"/>
+                <pb n="k6r" xml:id="pb-k6r" facs="#i197"/>
+                <pb n="k6v" xml:id="pb-k6v" facs="#i198"/>
+                <pb n="k7r" xml:id="pb-k7r" facs="#i199"/>
+                <pb n="k7v" xml:id="pb-k7v" facs="#i200"/>
+                <pb n="k8r" xml:id="pb-k8r" facs="#i201"/>
+                <pb n="k8v" xml:id="pb-k8v" facs="#i202"/>
+                <pb n="k9r" xml:id="pb-k9r" facs="#i203"/>
+                <pb n="k9v" xml:id="pb-k9v" facs="#i204"/>
+                <pb n="k10r" xml:id="pb-k10r" facs="#i205"/>
+                <pb n="k10v" xml:id="pb-k10v" facs="#i206"/>
+                <pb n="l1r" xml:id="pb-l1r" facs="#i207"/>
+                <pb n="l1v" xml:id="pb-l1v" facs="#i208"/>
+                <pb n="l2r" xml:id="pb-l2r" facs="#i209"/>
+                <pb n="l2v" xml:id="pb-l2v" facs="#i210"/>
+                <pb n="l3r" xml:id="pb-l3r" facs="#i211"/>
+                <pb n="l3v" xml:id="pb-l3v" facs="#i212"/>
+                <pb n="l4r" xml:id="pb-l4r" facs="#i213"/>
+                <pb n="l4v" xml:id="pb-l4v" facs="#i214"/>
+                <pb n="l5r" xml:id="pb-l5r" facs="#i215"/>
+                <pb n="l5v" xml:id="pb-l5v" facs="#i216"/>
+                <pb n="l6r" xml:id="pb-l6r" facs="#i217"/>
+                <pb n="l6v" xml:id="pb-l6v" facs="#i218"/>
+                <pb n="l7r" xml:id="pb-l7r" facs="#i219"/>
+                <pb n="l7v" xml:id="pb-l7v" facs="#i220"/>
+                <pb n="l8r" xml:id="pb-l8r" facs="#i221"/>
+                <pb n="l8v" xml:id="pb-l8v" facs="#i222"/>
+                <pb n="l9r" xml:id="pb-l9r" facs="#i223"/>
+                <pb n="l9v" xml:id="pb-l9v" facs="#i224"/>
+                <pb n="l10r" xml:id="pb-l10r" facs="#i225"/>
+                <pb n="l10v" xml:id="pb-l10v" facs="#i226"/>
+                <pb n="m1r" xml:id="pb-m1r" facs="#i227"/>
+                <pb n="m1v" xml:id="pb-m1v" facs="#i228"/>
+                <pb n="m2r" xml:id="pb-m2r" facs="#i229"/>
+                <pb n="m2v" xml:id="pb-m2v" facs="#i230"/>
+                <pb n="m3r" xml:id="pb-m3r" facs="#i231"/>
+                <pb n="m3v" xml:id="pb-m3v" facs="#i232"/>
+                <pb n="m4r" xml:id="pb-m4r" facs="#i233"/>
+                <pb n="m4v" xml:id="pb-m4v" facs="#i234"/>
+                <pb n="m5r" xml:id="pb-m5r" facs="#i235"/>
+                <pb n="m5v" xml:id="pb-m5v" facs="#i236"/>
+                <pb n="m6r" xml:id="pb-m6r" facs="#i237"/>
+                <pb n="m6v" xml:id="pb-m6v" facs="#i238"/>
+                <pb n="m7r" xml:id="pb-m7r" facs="#i239"/>
+                <pb n="m7v" xml:id="pb-m7v" facs="#i240"/>
+                <pb n="m8r" xml:id="pb-m8r" facs="#i241"/>
+                <pb n="m8v" xml:id="pb-m8v" facs="#i242"/>
+                <pb n="m9r" xml:id="pb-m9r" facs="#i243"/>
+                <pb n="m9v" xml:id="pb-m9v" facs="#i244"/>
+                <pb n="m10r" xml:id="pb-m10r" facs="#i245"/>
+                <pb n="m10v" xml:id="pb-m10v" facs="#i246"/>
+                <pb n="n1r" xml:id="pb-n1r" facs="#i247"/>
+                <pb n="n1v" xml:id="pb-n1v" facs="#i248"/>
+                <pb n="n2r" xml:id="pb-n2r" facs="#i249"/>
+                <pb n="n2v" xml:id="pb-n2v" facs="#i250"/>
+                <pb n="n3r" xml:id="pb-n3r" facs="#i251"/>
+                <pb n="n3v" xml:id="pb-n3v" facs="#i252"/>
+                <pb n="n4r" xml:id="pb-n4r" facs="#i253"/>
+                <pb n="n4v" xml:id="pb-n4v" facs="#i254"/>
+                <pb n="n5r" xml:id="pb-n5r" facs="#i255"/>
+                <pb n="n5v" xml:id="pb-n5v" facs="#i256"/>
+                <pb n="n6r" xml:id="pb-n6r" facs="#i257"/>
+                <pb n="n6v" xml:id="pb-n6v" facs="#i258"/>
+                <pb n="n7r" xml:id="pb-n7r" facs="#i259"/>
+                <pb n="n7v" xml:id="pb-n7v" facs="#i260"/>
+                <pb n="n8r" xml:id="pb-n8r" facs="#i261"/>
+                <pb n="n8v" xml:id="pb-n8v" facs="#i262"/>
+                <pb n="n9r" xml:id="pb-n9r" facs="#i263"/>
+                <pb n="n9v" xml:id="pb-n9v" facs="#i264"/>
+                <pb n="n10r" xml:id="pb-n10r" facs="#i265"/>
+                <pb n="n10v" xml:id="pb-n10v" facs="#i266"/>
+                <pb n="o1r" xml:id="pb-o1r" facs="#i267"/>
+                <pb n="o1v" xml:id="pb-o1v" facs="#i268"/>
+                <pb n="o2r" xml:id="pb-o2r" facs="#i269"/>
+                <pb n="o2v" xml:id="pb-o2v" facs="#i270"/>
+                <pb n="o3r" xml:id="pb-o3r" facs="#i271"/>
+                <pb n="o3v" xml:id="pb-o3v" facs="#i272"/>
+                <pb n="o4r" xml:id="pb-o4r" facs="#i273"/>
+                <pb n="o4v" xml:id="pb-o4v" facs="#i274"/>
+                <pb n="o5r" xml:id="pb-o5r" facs="#i275"/>
+                <pb n="o5v" xml:id="pb-o5v" facs="#i276"/>
+                <pb n="o6r" xml:id="pb-o6r" facs="#i277"/>
+                <pb n="o6v" xml:id="pb-o6v" facs="#i278"/>
+                <pb n="o7r" xml:id="pb-o7r" facs="#i279"/>
+                <pb n="o7v" xml:id="pb-o7v" facs="#i280"/>
+                <pb n="o8r" xml:id="pb-o8r" facs="#i281"/>
+                <pb n="o8v" xml:id="pb-o8v" facs="#i282"/>
+                <pb n="o9r" xml:id="pb-o9r" facs="#i283"/>
+                <pb n="o9v" xml:id="pb-o9v" facs="#i284"/>
+                <pb n="o10r" xml:id="pb-o10r" facs="#i285"/>
+                <pb n="o10v" xml:id="pb-o10v" facs="#i286"/>
+                <pb n="p1r" xml:id="pb-p1r" facs="#i287"/>
+                <pb n="p1v" xml:id="pb-p1v" facs="#i288"/>
+                <pb n="p2r" xml:id="pb-p2r" facs="#i289"/>
+                <pb n="p2v" xml:id="pb-p2v" facs="#i290"/>
+                <pb n="p3r" xml:id="pb-p3r" facs="#i291"/>
+                <pb n="p3v" xml:id="pb-p3v" facs="#i292"/>
+                <pb n="p4r" xml:id="pb-p4r" facs="#i293"/>
+                <pb n="p4v" xml:id="pb-p4v" facs="#i294"/>
+                <pb n="p5r" xml:id="pb-p5r" facs="#i295"/>
+                <pb n="p5v" xml:id="pb-p5v" facs="#i296"/>
+                <pb n="p6r" xml:id="pb-p6r" facs="#i297"/>
+                <pb n="p6v" xml:id="pb-p6v" facs="#i298"/>
+                <pb n="p7r" xml:id="pb-p7r" facs="#i299"/>
+                <pb n="p7v" xml:id="pb-p7v" facs="#i300"/>
+                <pb n="p8r" xml:id="pb-p8r" facs="#i301"/>
+                <pb n="p8v" xml:id="pb-p8v" facs="#i302"/>
+                <pb n="p9r" xml:id="pb-p9r" facs="#i303"/>
+                <pb n="p9v" xml:id="pb-p9v" facs="#i304"/>
+                <pb n="p10r" xml:id="pb-p10r" facs="#i305"/>
+                <pb n="p10v" xml:id="pb-p10v" facs="#i306"/>
+                <pb n="q1r" xml:id="pb-q1r" facs="#i307"/>
+                <pb n="q1v" xml:id="pb-q1v" facs="#i308"/>
+                <pb n="q2r" xml:id="pb-q2r" facs="#i309"/>
+                <pb n="q2v" xml:id="pb-q2v" facs="#i310"/>
+                <pb n="q3r" xml:id="pb-q3r" facs="#i311"/>
+                <pb n="q3v" xml:id="pb-q3v" facs="#i312"/>
+                <pb n="q4r" xml:id="pb-q4r" facs="#i313"/>
+                <pb n="q4v" xml:id="pb-q4v" facs="#i314"/>
+                <pb n="q5r" xml:id="pb-q5r" facs="#i315"/>
+                <pb n="q5v" xml:id="pb-q5v" facs="#i316"/>
+                <pb n="q6r" xml:id="pb-q6r" facs="#i317"/>
+                <pb n="q6v" xml:id="pb-q6v" facs="#i318"/>
+                <pb n="q7r" xml:id="pb-q7r" facs="#i319"/>
+                <pb n="q7v" xml:id="pb-q7v" facs="#i320"/>
+                <pb n="q8r" xml:id="pb-q8r" facs="#i321"/>
+                <pb n="q8v" xml:id="pb-q8v" facs="#i322"/>
+                <pb n="q9r" xml:id="pb-q9r" facs="#i323"/>
+                <pb n="q9v" xml:id="pb-q9v" facs="#i324"/>
+                <pb n="q10r" xml:id="pb-q10r" facs="#i325"/>
+                <pb n="q10v" xml:id="pb-q10v" facs="#i326"/>
+                <pb n="r1r" xml:id="pb-r1r" facs="#i327"/>
+                <pb n="r1v" xml:id="pb-r1v" facs="#i328"/>
+                <pb n="r2r" xml:id="pb-r2r" facs="#i329"/>
+                <pb n="r2v" xml:id="pb-r2v" facs="#i330"/>
+                <pb n="r3r" xml:id="pb-r3r" facs="#i331"/>
+                <pb n="r3v" xml:id="pb-r3v" facs="#i332"/>
+                <pb n="r4r" xml:id="pb-r4r" facs="#i333"/>
+                <pb n="r4v" xml:id="pb-r4v" facs="#i334"/>
+                <pb n="r5r" xml:id="pb-r5r" facs="#i335"/>
+                <pb n="r5v" xml:id="pb-r5v" facs="#i336"/>
+                <pb n="r6r" xml:id="pb-r6r" facs="#i337"/>
+                <pb n="r6v" xml:id="pb-r6v" facs="#i338"/>
+                <pb n="r7r" xml:id="pb-r7r" facs="#i339"/>
+                <pb n="r7v" xml:id="pb-r7v" facs="#i340"/>
+                <pb n="r8r" xml:id="pb-r8r" facs="#i341"/>
+                <pb n="r8v" xml:id="pb-r8v" facs="#i342"/>
+                <pb n="r9r" xml:id="pb-r9r" facs="#i343"/>
+                <pb n="r9v" xml:id="pb-r9v" facs="#i344"/>
+                <pb n="r10r" xml:id="pb-r10r" facs="#i345"/>
+                <pb n="r10v" xml:id="pb-r10v" facs="#i346"/>
+                <pb n="s1r" xml:id="pb-s1r" facs="#i347"/>
+                <pb n="s1v" xml:id="pb-s1v" facs="#i348"/>
+                <pb n="s2r" xml:id="pb-s2r" facs="#i349"/>
+                <pb n="s2v" xml:id="pb-s2v" facs="#i350"/>
+                <pb n="s3r" xml:id="pb-s3r" facs="#i351"/>
+                <pb n="s3v" xml:id="pb-s3v" facs="#i352"/>
+                <pb n="s4r" xml:id="pb-s4r" facs="#i353"/>
+                <pb n="s4v" xml:id="pb-s4v" facs="#i354"/>
+                <pb n="s5r" xml:id="pb-s5r" facs="#i355"/>
+                <pb n="s5v" xml:id="pb-s5v" facs="#i356"/>
+                <pb n="s6r" xml:id="pb-s6r" facs="#i357"/>
+                <pb n="s6v" xml:id="pb-s6v" facs="#i358"/>
+                <pb n="s7r" xml:id="pb-s7r" facs="#i359"/>
+                <pb n="s7v" xml:id="pb-s7v" facs="#i360"/>
+                <pb n="s8r" xml:id="pb-s8r" facs="#i361"/>
+                <pb n="s8v" xml:id="pb-s8v" facs="#i362"/>
+                <pb n="s9r" xml:id="pb-s9r" facs="#i363"/>
+                <pb n="s9v" xml:id="pb-s9v" facs="#i364"/>
+                <pb n="s10r" xml:id="pb-s10r" facs="#i365"/>
+                <pb n="s10v" xml:id="pb-s10v" facs="#i366"/>
+                <pb n="t1r" xml:id="pb-t1r" facs="#i367"/>
+                <pb n="t1v" xml:id="pb-t1v" facs="#i368"/>
+                <pb n="t2r" xml:id="pb-t2r" facs="#i369"/>
+                <pb n="t2v" xml:id="pb-t2v" facs="#i370"/>
+                <pb n="t3r" xml:id="pb-t3r" facs="#i371"/>
+                <pb n="t3v" xml:id="pb-t3v" facs="#i372"/>
+                <pb n="t4r" xml:id="pb-t4r" facs="#i373"/>
+                <pb n="t4v" xml:id="pb-t4v" facs="#i374"/>
+                <pb n="t5r" xml:id="pb-t5r" facs="#i375"/>
+                <pb n="t5v" xml:id="pb-t5v" facs="#i376"/>
+                <pb n="t6r" xml:id="pb-t6r" facs="#i377"/>
+                <pb n="t6v" xml:id="pb-t6v" facs="#i378"/>
+                <pb n="t7r" xml:id="pb-t7r" facs="#i379"/>
+                <pb n="t7v" xml:id="pb-t7v" facs="#i380"/>
+                <pb n="t8r" xml:id="pb-t8r" facs="#i381"/>
+                <pb n="t8v" xml:id="pb-t8v" facs="#i382"/>
+                <pb n="t9r" xml:id="pb-t9r" facs="#i383"/>
+                <pb n="t9v" xml:id="pb-t9v" facs="#i384"/>
+                <pb n="t10r" xml:id="pb-t10r" facs="#i385"/>
+                <pb n="t10v" xml:id="pb-t10v" facs="#i386"/>
+                <pb n="u1r" xml:id="pb-u1r" facs="#i387"/>
+                <pb n="u1v" xml:id="pb-u1v" facs="#i388"/>
+                <pb n="u2r" xml:id="pb-u2r" facs="#i389"/>
+                <pb n="u2v" xml:id="pb-u2v" facs="#i390"/>
+                <pb n="u3r" xml:id="pb-u3r" facs="#i391"/>
+                <pb n="u3v" xml:id="pb-u3v" facs="#i392"/>
+                <pb n="u4r" xml:id="pb-u4r" facs="#i393"/>
+                <pb n="u4v" xml:id="pb-u4v" facs="#i394"/>
+                <pb n="u5r" xml:id="pb-u5r" facs="#i395"/>
+                <pb n="u5v" xml:id="pb-u5v" facs="#i396"/>
+                <pb n="u6r" xml:id="pb-u6r" facs="#i397"/>
+                <pb n="u6v" xml:id="pb-u6v" facs="#i398"/>
+                <pb n="u7r" xml:id="pb-u7r" facs="#i399"/>
+                <pb n="u7v" xml:id="pb-u7v" facs="#i400"/>
+                <pb n="u8r" xml:id="pb-u8r" facs="#i401"/>
+                <pb n="u8v" xml:id="pb-u8v" facs="#i402"/>
+                <pb n="u9r" xml:id="pb-u9r" facs="#i403"/>
+                <pb n="u9v" xml:id="pb-u9v" facs="#i404"/>
+                <pb n="u10r" xml:id="pb-u10r" facs="#i405"/>
+                <pb n="u10v" xml:id="pb-u10v" facs="#i406"/>
+                <pb n="x1r" xml:id="pb-x1r" facs="#i407"/>
+                <pb n="x1v" xml:id="pb-x1v" facs="#i408"/>
+                <pb n="x2r" xml:id="pb-x2r" facs="#i409"/>
+                <pb n="x2v" xml:id="pb-x2v" facs="#i410"/>
+                <pb n="x3r" xml:id="pb-x3r" facs="#i411"/>
+                <pb n="x3v" xml:id="pb-x3v" facs="#i412"/>
+                <pb n="x4r" xml:id="pb-x4r" facs="#i413"/>
+                <pb n="x4v" xml:id="pb-x4v" facs="#i414"/>
+                <pb n="x5r" xml:id="pb-x5r" facs="#i415"/>
+                <pb n="x5v" xml:id="pb-x5v" facs="#i416"/>
+                <pb n="x6r" xml:id="pb-x6r" facs="#i417"/>
+                <pb n="x6v" xml:id="pb-x6v" facs="#i418"/>
+                <pb n="x7r" xml:id="pb-x7r" facs="#i419"/>
+                <pb n="x7v" xml:id="pb-x7v" facs="#i420"/>
+                <pb n="x8r" xml:id="pb-x8r" facs="#i421"/>
+                <pb n="x8v" xml:id="pb-x8v" facs="#i422"/>
+                <pb n="x9r" xml:id="pb-x9r" facs="#i423"/>
+                <pb n="x9v" xml:id="pb-x9v" facs="#i424"/>
+                <pb n="x10r" xml:id="pb-x10r" facs="#i425"/>
+                <pb n="x10v" xml:id="pb-x10v" facs="#i426"/>
+                <pb n="y1r" xml:id="pb-y1r" facs="#i427"/>
+                <pb n="y1v" xml:id="pb-y1v" facs="#i428"/>
+                <pb n="y2r" xml:id="pb-y2r" facs="#i429"/>
+                <pb n="y2v" xml:id="pb-y2v" facs="#i430"/>
+                <pb n="y3r" xml:id="pb-y3r" facs="#i431"/>
+                <pb n="y3v" xml:id="pb-y3v" facs="#i432"/>
+                <pb n="y4r" xml:id="pb-y4r" facs="#i433"/>
+                <pb n="y4v" xml:id="pb-y4v" facs="#i434"/>
+                <pb n="y5r" xml:id="pb-y5r" facs="#i435"/>
+                <pb n="y5v" xml:id="pb-y5v" facs="#i436"/>
+                <pb n="y6r" xml:id="pb-y6r" facs="#i437"/>
+                <pb n="y6v" xml:id="pb-y6v" facs="#i438"/>
+                <pb n="y7r" xml:id="pb-y7r" facs="#i439"/>
+                <pb n="y7v" xml:id="pb-y7v" facs="#i440"/>
+                <pb n="y8r" xml:id="pb-y8r" facs="#i441"/>
+                <pb n="y8v" xml:id="pb-y8v" facs="#i442"/>
+                <pb n="y9r" xml:id="pb-y9r" facs="#i443"/>
+                <pb n="y9v" xml:id="pb-y9v" facs="#i444"/>
+                <pb n="y10r" xml:id="pb-y10r" facs="#i445"/>
+                <pb n="y10v" xml:id="pb-y10v" facs="#i446"/>
+                <pb n="Endleaf_[1r]" xml:id="pb-Endleaf_[1r]" facs="#i447"/>
+                <pb n="Endleaf_[1v]" xml:id="pb-Endleaf_[1v]" facs="#i448"/>
+                <pb n="Rear_endpaper_r" xml:id="pb-Rear_endpaper_r" facs="#i449"/>
+                <pb n="Rear_endpaper_v" xml:id="pb-Rear_endpaper_v" facs="#i450"/>
+                <pb n="Inner_back_cover" xml:id="pb-Inner_back_cover" facs="#i451"/>
+                <pb n="Back_cover" xml:id="pb-Back_cover" facs="#i452"/>
+                <pb n="Spine" xml:id="pb-Spine" facs="#i453"/>
+                <pb n="Top" xml:id="pb-Top" facs="#i454"/>
+                <pb n="Fore_edge" xml:id="pb-Fore_edge" facs="#i455"/>
+                <pb n="Tail" xml:id="pb-Tail" facs="#i456"/>
+            </div>
+        </body>
+    </text>
+</TEI>

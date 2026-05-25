@@ -1,0 +1,5 @@
+{
+  "viewerTemplate": "https://image.digitalcollections.manchester.ac.uk/iiif/{imagerefwithpage}/info.json",
+  "thumbnailTemplate": "https://image.digitalcollections.manchester.ac.uk/iiif/{imagerefwithpage}/full/,150/0/default.jpg",
+  "printTemplate": "https://image.digitalcollections.manchester.ac.uk/iiif/{imagerefwithpage}/full/,600/0/default.jpg"
+}

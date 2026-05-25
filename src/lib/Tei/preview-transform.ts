@@ -14,8 +14,15 @@ export interface TransformOutcome<T> {
 	error: TransformDisplayError | null;
 }
 
+export interface TransformProgressMessage {
+	message: string;
+	code?: string;
+	time: string;
+}
+
 interface XmlTransformOptions {
 	cleanFacsimile?: boolean;
+	progress?: (message: TransformProgressMessage) => void;
 }
 
 export async function transformXmlDocToXml(
@@ -34,7 +41,7 @@ async function transformXmlStringToXml(
 	options: XmlTransformOptions = {}
 ): Promise<TransformOutcome<XMLDocument>> {
 	const sourceText = options.cleanFacsimile ? cleanOutFacsimileElement(xmlString) : xmlString;
-	const result = await transformXmlStringToSerialized(sourceText, stylesheetInternal);
+	const result = await transformXmlStringToSerialized(sourceText, stylesheetInternal, options);
 
 	return {
 		value: result.value ? new DOMParser().parseFromString(result.value, 'text/xml') : null,
@@ -44,18 +51,20 @@ async function transformXmlStringToXml(
 
 export async function transformXmlDocToJson(
 	xmlDoc: XMLDocument | null | undefined,
-	stylesheetInternal: unknown
+	stylesheetInternal: unknown,
+	options: XmlTransformOptions = {}
 ): Promise<TransformOutcome<CudlObject>> {
 	if (!xmlDoc?.documentElement) return emptyOutcome();
 
-	return transformXmlStringToJson(serializeXmlDoc(xmlDoc), stylesheetInternal);
+	return transformXmlStringToJson(serializeXmlDoc(xmlDoc), stylesheetInternal, options);
 }
 
 async function transformXmlStringToJson(
 	xmlString: string,
-	stylesheetInternal: unknown
+	stylesheetInternal: unknown,
+	options: XmlTransformOptions = {}
 ): Promise<TransformOutcome<CudlObject>> {
-	const result = await transformXmlStringToSerialized(xmlString, stylesheetInternal);
+	const result = await transformXmlStringToSerialized(xmlString, stylesheetInternal, options);
 	if (result.error || !result.value) return { value: null, error: result.error };
 
 	try {
@@ -67,21 +76,26 @@ async function transformXmlStringToJson(
 
 async function transformXmlStringToSerialized(
 	sourceText: string,
-	stylesheetInternal: unknown
+	stylesheetInternal: unknown,
+	options: XmlTransformOptions = {}
 ): Promise<TransformOutcome<string>> {
 	if (!hasTransformInputs(sourceText, stylesheetInternal)) return emptyOutcome();
 
 	try {
-		const value = await runSerializedTransform(sourceText, stylesheetInternal);
+		const value = await runSerializedTransform(sourceText, stylesheetInternal, options.progress);
 		return { value, error: null };
 	} catch (error) {
 		return { value: null, error: createDisplayError(error) };
 	}
 }
 
-async function runSerializedTransform(sourceText: string, stylesheetInternal: unknown) {
+async function runSerializedTransform(
+	sourceText: string,
+	stylesheetInternal: unknown,
+	progress?: (message: TransformProgressMessage) => void
+) {
 	if (browser) {
-		return transformXmlStringOnServer(sourceText, stylesheetInternal);
+		return transformXmlStringOnServer(sourceText, stylesheetInternal, progress);
 	}
 
 	const transformConfig: SaxonTransformConfig = {
@@ -93,17 +107,68 @@ async function runSerializedTransform(sourceText: string, stylesheetInternal: un
 	return transform.principalResult;
 }
 
-async function transformXmlStringOnServer(sourceText: string, stylesheetInternal: unknown) {
+async function transformXmlStringOnServer(
+	sourceText: string,
+	stylesheetInternal: unknown,
+	progress?: (message: TransformProgressMessage) => void
+) {
 	const response = await fetch('/api/run-xslt-transform', {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { Accept: 'application/x-ndjson', 'Content-Type': 'application/json' },
 		body: JSON.stringify({ sourceText, stylesheetInternal })
 	});
+
+	const contentType = response.headers.get('content-type') ?? '';
+	if (response.body && contentType.includes('application/x-ndjson')) {
+		return readStreamingTransformResponse(response, progress);
+	}
 
 	const payload = (await response.json()) as TransformApiResponse;
 	if (!response.ok || payload.status === 'error') throw createErrorFromTransformApiResponse(payload);
 
 	return payload.result;
+}
+
+async function readStreamingTransformResponse(
+	response: Response,
+	progress?: (message: TransformProgressMessage) => void
+) {
+	const reader = response.body?.getReader();
+	if (!reader) throw new Error('XSLT transform response did not include a readable body.');
+
+	const decoder = new TextDecoder();
+	let bufferedText = '';
+	let result: string | null = null;
+
+	while (true) {
+		const { value, done } = await reader.read();
+		bufferedText += decoder.decode(value, { stream: !done });
+		const lines = bufferedText.split('\n');
+		bufferedText = lines.pop() ?? '';
+
+		for (const line of lines) {
+			const trimmedLine = line.trim();
+			if (!trimmedLine) continue;
+
+			const event = JSON.parse(trimmedLine) as TransformStreamEvent;
+			if (event.type === 'message') {
+				progress?.({
+					message: event.message,
+					code: event.code,
+					time: new Date().toLocaleTimeString()
+				});
+			} else if (event.type === 'success') {
+				result = event.result;
+			} else if (event.type === 'error') {
+				throw createErrorFromTransformApiError(event.error);
+			}
+		}
+
+		if (done) break;
+	}
+
+	if (result === null) throw new Error('XSLT transform ended without returning a result.');
+	return result;
 }
 
 function serializeXmlDoc(xmlDoc: XMLDocument) {
@@ -129,11 +194,23 @@ type TransformApiResponse =
 	| { status: 'success'; result: string }
 	| { status: 'error'; error: TransformDisplayError | string };
 
+type TransformStreamEvent =
+	| { type: 'stage'; message: string }
+	| { type: 'message'; message: string; code?: string }
+	| { type: 'success'; result: string }
+	| { type: 'error'; error: TransformDisplayError | string };
+
 function createErrorFromTransformApiResponse(payload: TransformApiResponse) {
 	const fallbackMessage = 'SaxonJS transform failed.';
 	if (payload.status === 'success') return new Error(fallbackMessage);
 
-	const { error: apiError } = payload;
+	return createErrorFromTransformApiError(payload.error, fallbackMessage);
+}
+
+function createErrorFromTransformApiError(
+	apiError: TransformDisplayError | string,
+	fallbackMessage = 'SaxonJS transform failed.'
+) {
 	if (typeof apiError === 'string') return new Error(apiError || fallbackMessage);
 
 	const error = new Error(apiError.message || fallbackMessage);
