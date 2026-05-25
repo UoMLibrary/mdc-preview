@@ -4,7 +4,7 @@
 		messages?: string[] | null;
 	}
 
-	let { title = 'No project loaded', messages = null }: Props = $props();
+	let { title = 'No TEI file loaded', messages = null }: Props = $props();
 </script>
 
 <section class="empty-workspace" aria-live="polite">

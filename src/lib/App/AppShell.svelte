@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { fade } from 'svelte/transition';
@@ -8,7 +7,6 @@
 	import ThemeSwitch from '$lib/App/ThemeSwitch.svelte';
 	import { closeTeiFile, openTeiFile } from '$lib/Tei/tei-file-actions.js';
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
-	import TeiStore from '$lib/stores/tei-store.js';
 
 	interface Props {
 		children: Snippet;
@@ -36,13 +34,11 @@
 	async function handleOpenTeiFile() {
 		closeFileMenu();
 		await openTeiFile();
-		if (page.route.id !== '/') await goto(previewHref);
 	}
 
 	function handleCloseProject() {
 		closeTeiFile();
 		closeFileMenu();
-		if (page.route.id !== '/') void goto(previewHref);
 	}
 
 	function handleWindowClick(event: MouseEvent) {
@@ -96,48 +92,42 @@
 							class="app-shell__menu-panel"
 							transition:fade={{ duration: 90 }}
 						>
-							<button
-								type="button"
-								class="app-shell__menu-item"
-								onclick={handleOpenTeiFile}
-							>
+							<button type="button" class="app-shell__menu-item" onclick={handleOpenTeiFile}>
 								<span>Open TEI file</span>
 								<span class="app-shell__shortcut">Cmd/Ctrl+O</span>
 							</button>
-								<button
-									type="button"
-									class="app-shell__menu-item"
-									onclick={handleCloseProject}
-								>
+							<button type="button" class="app-shell__menu-item" onclick={handleCloseProject}>
 								<span>Close</span>
 								<span class="app-shell__shortcut">Cmd/Ctrl+W</span>
 							</button>
 							<div class="app-shell__menu-separator"></div>
-							<a class="app-shell__menu-item" href={settingsHref} onclick={closeFileMenu}>Settings</a>
+							<a class="app-shell__menu-item" href={settingsHref} onclick={closeFileMenu}
+								>Settings</a
+							>
 						</div>
 					{/if}
 				</div>
 			</nav>
 		</div>
 
-			<div class="app-shell__right">
-				<ThemeSwitch />
-				{#if isSettingsRoute}
-					<a
-						class="app-shell__icon-button"
-						href={previewHref}
-						aria-label="Close settings"
-						title="Close settings"
-					>
-						<SvgIcon name="xmark" scale="0.82" />
-					</a>
-				{:else}
-					<a
-						class="app-shell__icon-button"
-						href={settingsHref}
-						aria-label="Open settings"
-						title="Settings"
-					>
+		<div class="app-shell__right">
+			<ThemeSwitch />
+			{#if isSettingsRoute}
+				<a
+					class="app-shell__icon-button"
+					href={previewHref}
+					aria-label="Close settings"
+					title="Close settings"
+				>
+					<SvgIcon name="xmark" scale="0.82" />
+				</a>
+			{:else}
+				<a
+					class="app-shell__icon-button"
+					href={settingsHref}
+					aria-label="Open settings"
+					title="Settings"
+				>
 					<SvgIcon name="gear" scale="0.92" />
 				</a>
 			{/if}

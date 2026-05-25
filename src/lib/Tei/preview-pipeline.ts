@@ -2,7 +2,9 @@ import { createViewModel } from './createViewModel.js';
 import type { CudlObject, ViewModel } from './createViewModel.js';
 import {
 	transformXmlDocToJson,
+	transformXmlDocToSerializedXml,
 	transformXmlDocToXml,
+	transformXmlStringToJson,
 	type TransformDisplayError,
 	type TransformOutcome,
 	type TransformProgressMessage
@@ -26,12 +28,31 @@ export async function runPreviewPreTransform(
 	return transformXmlDocToXml(xmlDoc, stylesheetInternal, { cleanFacsimile: true, ...options });
 }
 
+export async function runPreviewPreTransformToString(
+	xmlDoc: XMLDocument | null | undefined,
+	stylesheetInternal: unknown,
+	options: PreviewTransformOptions = {}
+): Promise<TransformOutcome<string>> {
+	return transformXmlDocToSerializedXml(xmlDoc, stylesheetInternal, {
+		cleanFacsimile: true,
+		...options
+	});
+}
+
 export async function runPreviewJsonTransform(
 	xmlDoc: XMLDocument | null | undefined,
 	stylesheetInternal: unknown,
 	options: PreviewTransformOptions = {}
 ): Promise<TransformOutcome<CudlObject>> {
 	return transformXmlDocToJson(xmlDoc, stylesheetInternal, options);
+}
+
+export async function runPreviewJsonTransformFromString(
+	xmlString: string | null | undefined,
+	stylesheetInternal: unknown,
+	options: PreviewTransformOptions = {}
+): Promise<TransformOutcome<CudlObject>> {
+	return transformXmlStringToJson(xmlString ?? '', stylesheetInternal, options);
 }
 
 export function createPreviewViewModel(

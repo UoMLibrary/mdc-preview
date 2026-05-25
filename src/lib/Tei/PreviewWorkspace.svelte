@@ -5,13 +5,15 @@
 	import ConfigPresetSelect from '$lib/Tei/Panels/ConfigPresetSelect.svelte';
 
 	// Stores
+	import SefStore from '$lib/stores/sef-store.js';
 	import TeiStore from '$lib/stores/tei-store.js';
 
+	import { previewSefIds, type PreviewSefId } from '$lib/Tei/preview-sef-ids.js';
 	import { previewConfigData } from '$lib/Tei/preview-utils.js';
 	import {
 		createPreviewViewModel,
-		runPreviewJsonTransform,
-		runPreviewPreTransform,
+		runPreviewJsonTransformFromString,
+		runPreviewPreTransformToString,
 		type CudlObject,
 		type PreviewConfig,
 		type TransformDisplayError,
@@ -19,16 +21,20 @@
 		type ViewModel
 	} from '$lib/Tei/preview-pipeline.js';
 
-	// We load the sef when the page is loaded, this preview page doen't need to react to
-	// live updates in the sef files
-	import { sef as preTransformSef } from '$lib/Tei/default-sefs/preTransform.sef.json';
-	import { sef as jsonTransformSef } from '$lib/Tei/default-sefs/JSONTransform.sef.json';
+	import { sef as defaultPreTransformSef } from '$lib/Tei/default-sefs/preTransform.sef.json';
+	import { sef as defaultJsonTransformSef } from '$lib/Tei/default-sefs/JSONTransform.sef.json';
 
 	let page = $state(0);
 	let selectedOrg = $state('manchester');
 	let selectedConfig = $derived(previewConfigData[selectedOrg]);
+	let activePreTransformSef = $derived(
+		getActiveStylesheet(previewSefIds.preTransform, defaultPreTransformSef)
+	);
+	let activeJsonTransformSef = $derived(
+		getActiveStylesheet(previewSefIds.jsonTransform, defaultJsonTransformSef)
+	);
 
-	let preTransformXmlDocOutput = $state<XMLDocument | null>(null); // the output of the preTransform (transient)
+	let preTransformXmlOutput = $state<string | null>(null); // the serialized output of the preTransform (transient)
 	let JSONTransformObjOutput = $state<CudlObject | null>(null); // the output of the JSON transform (transient)
 	let ViewModelOutput = $state<ViewModel | null>(null); // output of the View model transform (transient)
 	let PreTransformError = $state<TransformDisplayError | null>(null);
@@ -80,32 +86,32 @@
 	}
 
 	$effect(() => {
-		runPreTransform($TeiStore.xmlDoc);
+		runPreTransform($TeiStore.xmlDoc, activePreTransformSef);
 	});
 
 	$effect(() => {
-		runJSONTransform(preTransformXmlDocOutput);
+		runJSONTransform(preTransformXmlOutput, activeJsonTransformSef);
 	});
 
 	$effect(() => {
 		runViewModelTransform(JSONTransformObjOutput, selectedConfig);
 	});
 
-	async function runPreTransform(xmlDoc: XMLDocument | null | undefined) {
+	async function runPreTransform(xmlDoc: XMLDocument | null | undefined, stylesheetInternal: unknown) {
 		const runId = ++preTransformRun;
 		previewCancelled = false;
 		preTransformController?.abort();
-		const controller = xmlDoc?.documentElement ? new AbortController() : null;
+		const controller = xmlDoc?.documentElement && stylesheetInternal ? new AbortController() : null;
 		preTransformController = controller;
-		preTransformXmlDocOutput = null;
+		preTransformXmlOutput = null;
 		JSONTransformObjOutput = null;
 		ViewModelOutput = null;
 		PreTransformError = null;
 		preTransformMessages = [];
-		preTransformStage = xmlDoc?.documentElement ? 'transforming' : 'idle';
+		preTransformStage = xmlDoc?.documentElement && stylesheetInternal ? 'transforming' : 'idle';
 
 		try {
-			const result = await runPreviewPreTransform(xmlDoc, preTransformSef, {
+			const result = await runPreviewPreTransformToString(xmlDoc, stylesheetInternal, {
 				signal: controller?.signal,
 				progress: (message) => {
 					if (runId !== preTransformRun) return;
@@ -114,13 +120,17 @@
 			});
 			if (runId !== preTransformRun) return;
 
-			preTransformXmlDocOutput = result.value;
+			preTransformXmlOutput = result.value;
 			PreTransformError = result.error;
-			preTransformStage = getTransformEndStage(result.value, result.error, xmlDoc);
+			preTransformStage = getTransformEndStage(
+				result.value,
+				result.error,
+				Boolean(xmlDoc?.documentElement)
+			);
 		} catch (error) {
 			if (runId !== preTransformRun) return;
 
-			preTransformXmlDocOutput = null;
+			preTransformXmlOutput = null;
 			PreTransformError = createDisplayError(error);
 			preTransformStage = 'idle';
 		} finally {
@@ -128,19 +138,19 @@
 		}
 	}
 
-	async function runJSONTransform(xmlDoc: XMLDocument | null | undefined) {
+	async function runJSONTransform(xmlString: string | null | undefined, stylesheetInternal: unknown) {
 		const runId = ++jsonTransformRun;
 		jsonTransformController?.abort();
-		const controller = xmlDoc?.documentElement ? new AbortController() : null;
+		const controller = xmlString && stylesheetInternal ? new AbortController() : null;
 		jsonTransformController = controller;
 		JSONTransformObjOutput = null;
 		ViewModelOutput = null;
 		JSONTransformError = null;
 		jsonTransformMessages = [];
-		jsonTransformStage = xmlDoc?.documentElement ? 'transforming' : 'waiting-for-input';
+		jsonTransformStage = xmlString && stylesheetInternal ? 'transforming' : 'waiting-for-input';
 
 		try {
-			const result = await runPreviewJsonTransform(xmlDoc, jsonTransformSef, {
+			const result = await runPreviewJsonTransformFromString(xmlString, stylesheetInternal, {
 				signal: controller?.signal,
 				progress: (message) => {
 					if (runId !== jsonTransformRun) return;
@@ -151,7 +161,7 @@
 
 			JSONTransformObjOutput = result.value;
 			JSONTransformError = result.error;
-			jsonTransformStage = getTransformEndStage(result.value, result.error, xmlDoc);
+			jsonTransformStage = getTransformEndStage(result.value, result.error, Boolean(xmlString));
 		} catch (error) {
 			if (runId !== jsonTransformRun) return;
 
@@ -163,10 +173,7 @@
 		}
 	}
 
-	async function runViewModelTransform(
-		cudlJson: CudlObject | null,
-		config: PreviewConfig | undefined
-	) {
+	function runViewModelTransform(cudlJson: CudlObject | null, config: PreviewConfig | undefined) {
 		ViewModelError = null;
 
 		if (!cudlJson || !config) {
@@ -178,8 +185,9 @@
 		viewModelStage = 'transforming';
 
 		try {
-			ViewModelOutput = createPreviewViewModel(cudlJson, config);
-			viewModelStage = ViewModelOutput ? 'complete' : 'waiting-for-input';
+			const viewModel = createPreviewViewModel(cudlJson, config);
+			ViewModelOutput = viewModel;
+			viewModelStage = viewModel ? 'complete' : 'waiting-for-input';
 		} catch (error) {
 			ViewModelOutput = null;
 			ViewModelError = createDisplayError(error);
@@ -189,6 +197,11 @@
 
 	function selectConfig(org: string) {
 		selectedOrg = org;
+	}
+
+	function getActiveStylesheet(sefId: PreviewSefId, defaultStylesheet: unknown) {
+		const loadedStylesheet = $SefStore?.[sefId]?.sef;
+		return loadedStylesheet ? SefStore.getKeyCopy(sefId) : defaultStylesheet;
 	}
 
 	// Handle page navigation from Preview internal components.
@@ -204,7 +217,7 @@
 		jsonTransformController?.abort();
 		preTransformController = null;
 		jsonTransformController = null;
-		preTransformXmlDocOutput = null;
+		preTransformXmlOutput = null;
 		JSONTransformObjOutput = null;
 		ViewModelOutput = null;
 		PreTransformError = null;
@@ -220,11 +233,11 @@
 	function getTransformEndStage<T>(
 		value: T | null,
 		error: TransformDisplayError | null,
-		xmlDoc: XMLDocument | null | undefined
+		hasTransformInput: boolean
 	): PreviewTransformStage {
 		if (error) return 'idle';
 		if (value) return 'complete';
-		if (!xmlDoc?.documentElement) return 'waiting-for-input';
+		if (!hasTransformInput) return 'waiting-for-input';
 		return 'idle';
 	}
 
@@ -305,11 +318,8 @@
 		onCancel={cancelPreviewProcessing}
 	/>
 
-	<!-- JSON Viewer that contains ViewModel output (not part of existing process) -->
-	<JSONViewer
-		jsonData={ViewModelOutput}
-		title="View Model"
-		savefile="viewmodel.json"
-		message="View Model generation requires a TEI to be loaded"
-	/>
+	{#if ViewModelOutput}
+		<!-- JSON Viewer that contains ViewModel output (not part of existing process) -->
+		<JSONViewer jsonData={ViewModelOutput} title="View Model" savefile="viewmodel.json" />
+	{/if}
 </div>

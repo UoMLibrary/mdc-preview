@@ -40,9 +40,13 @@ const importWorkerThreads = Function('return import("node:worker_threads")') as 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const transformRequest = parseTransformRequest(await request.json());
-		if (acceptsStreamingProgress(request)) return streamTransformRequest(transformRequest, request.signal);
+		if (acceptsStreamingProgress(request))
+			return streamTransformRequest(transformRequest, request.signal);
 
-		const result = await enqueueTransform(() => transformRequestInProcess(transformRequest), request.signal);
+		const result = await enqueueTransform(
+			() => transformRequestInProcess(transformRequest),
+			request.signal
+		);
 		return jsonResponse({ status: 'success', result });
 	} catch (error) {
 		return jsonResponse({ status: 'error', error: createErrorPayload(error) }, 400);
@@ -89,10 +93,11 @@ function streamTransformRequest(transformRequest: TransformRequest, signal: Abor
 				try {
 					writeEvent({ type: 'stage', message: 'Queued for transform' });
 					const result = await enqueueTransform(
-						() => transformRequestInWorker(transformRequest, writeEvent, transformController.signal),
+						() =>
+							transformRequestInWorker(transformRequest, writeEvent, transformController.signal),
 						transformController.signal
 					);
-					writeEvent({ type: 'success', result });
+					writeResultEvents(result, writeEvent);
 				} catch (error) {
 					writeEvent({ type: 'error', error: createErrorPayload(error) });
 				} finally {
@@ -136,6 +141,7 @@ function transformRequestInWorker(
 			try {
 				throwIfAborted(signal);
 				const { Worker } = await importWorkerThreads();
+				progress({ type: 'stage', message: 'Starting transform worker' });
 				const worker = new Worker(transformWorkerSource, {
 					eval: true,
 					workerData: transformRequest
@@ -192,6 +198,17 @@ function transformRequestInWorker(
 	});
 }
 
+function writeResultEvents(result: string, writeEvent: (event: unknown) => void) {
+	const chunkSize = 16_384;
+	writeEvent({ type: 'result-start' });
+
+	for (let start = 0; start < result.length; start += chunkSize) {
+		writeEvent({ type: 'result', chunk: result.slice(start, start + chunkSize) });
+	}
+
+	writeEvent({ type: 'success' });
+}
+
 async function enqueueTransform<T>(transform: () => Promise<T>, signal?: AbortSignal) {
 	const queuedTransform = transformQueue.then(
 		() => runUnlessAborted(transform, signal),
@@ -220,11 +237,7 @@ function acceptsStreamingProgress(request: Request) {
 }
 
 function parseTransformRequest(value: unknown): TransformRequest {
-	if (
-		!isRecord(value) ||
-		typeof value.sourceText !== 'string' ||
-		!value.stylesheetInternal
-	) {
+	if (!isRecord(value) || typeof value.sourceText !== 'string' || !value.stylesheetInternal) {
 		throw new Error('Expected an XSLT transform payload with sourceText and stylesheetInternal.');
 	}
 

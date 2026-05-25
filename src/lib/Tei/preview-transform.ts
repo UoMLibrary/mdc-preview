@@ -36,6 +36,20 @@ export async function transformXmlDocToXml(
 	return transformXmlStringToXml(serializeXmlDoc(xmlDoc), stylesheetInternal, options);
 }
 
+export async function transformXmlDocToSerializedXml(
+	xmlDoc: XMLDocument | null | undefined,
+	stylesheetInternal: unknown,
+	options: XmlTransformOptions = {}
+): Promise<TransformOutcome<string>> {
+	if (!xmlDoc?.documentElement) return emptyOutcome();
+
+	const serializedXml = serializeXmlDoc(xmlDoc);
+	const sourceText = options.cleanFacsimile
+		? cleanOutFacsimileElement(serializedXml)
+		: serializedXml;
+	return transformXmlStringToSerialized(sourceText, stylesheetInternal, options);
+}
+
 async function transformXmlStringToXml(
 	xmlString: string,
 	stylesheetInternal: unknown,
@@ -60,16 +74,27 @@ export async function transformXmlDocToJson(
 	return transformXmlStringToJson(serializeXmlDoc(xmlDoc), stylesheetInternal, options);
 }
 
-async function transformXmlStringToJson(
+export async function transformXmlStringToJson(
 	xmlString: string,
 	stylesheetInternal: unknown,
 	options: XmlTransformOptions = {}
 ): Promise<TransformOutcome<CudlObject>> {
+	if (!xmlString) return emptyOutcome();
+
 	const result = await transformXmlStringToSerialized(xmlString, stylesheetInternal, options);
 	if (result.error || !result.value) return { value: null, error: result.error };
 
 	try {
-		return { value: JSON.parse(result.value) as CudlObject, error: null };
+		throwIfAborted(options.signal);
+		options.progress?.({
+			message: 'Parsing JSON result',
+			code: 'json-parse',
+			time: new Date().toLocaleTimeString()
+		});
+		return {
+			value: (await parseJsonResult(result.value, options.signal)) as CudlObject,
+			error: null
+		};
 	} catch (error) {
 		return { value: null, error: createDisplayError(error) };
 	}
@@ -142,6 +167,7 @@ async function readStreamingTransformResponse(
 	const decoder = new TextDecoder();
 	let bufferedText = '';
 	let result: string | null = null;
+	let resultChunks: string[] = [];
 
 	while (true) {
 		const { value, done } = await reader.read();
@@ -154,14 +180,18 @@ async function readStreamingTransformResponse(
 			if (!trimmedLine) continue;
 
 			const event = JSON.parse(trimmedLine) as TransformStreamEvent;
-			if (event.type === 'message') {
+			if (event.type === 'stage' || event.type === 'message') {
 				progress?.({
 					message: event.message,
-					code: event.code,
+					code: event.type === 'message' ? event.code : 'stage',
 					time: new Date().toLocaleTimeString()
 				});
+			} else if (event.type === 'result-start') {
+				resultChunks = [];
+			} else if (event.type === 'result') {
+				resultChunks.push(event.chunk);
 			} else if (event.type === 'success') {
-				result = event.result;
+				result = event.result ?? resultChunks.join('');
 			} else if (event.type === 'error') {
 				throw createErrorFromTransformApiError(event.error);
 			}
@@ -186,6 +216,55 @@ function hasTransformInputs(sourceText: string, stylesheetInternal: unknown) {
 	return browser && Boolean(sourceText) && Boolean(stylesheetInternal);
 }
 
+function parseJsonResult(jsonText: string, signal?: AbortSignal) {
+	if (!browser || typeof Worker === 'undefined' || typeof Blob === 'undefined') {
+		return Promise.resolve(JSON.parse(jsonText) as unknown);
+	}
+
+	return new Promise<unknown>((resolve, reject) => {
+		throwIfAborted(signal);
+
+		const workerUrl = URL.createObjectURL(
+			new Blob([jsonParseWorkerSource], { type: 'application/javascript' })
+		);
+		const worker = new Worker(workerUrl);
+
+		const cleanup = () => {
+			signal?.removeEventListener('abort', abortParse);
+			worker.terminate();
+			URL.revokeObjectURL(workerUrl);
+		};
+
+		const abortParse = () => {
+			cleanup();
+			reject(new Error('JSON parsing cancelled.'));
+		};
+
+		signal?.addEventListener('abort', abortParse, { once: true });
+
+		worker.onmessage = (event: MessageEvent<JsonParseWorkerMessage>) => {
+			cleanup();
+			if (event.data.status === 'success') {
+				resolve(event.data.value);
+				return;
+			}
+
+			reject(createErrorFromTransformApiError(event.data.error, 'JSON parsing failed.'));
+		};
+
+		worker.onerror = (event) => {
+			cleanup();
+			reject(new Error(event.message || 'JSON parsing failed.'));
+		};
+
+		worker.postMessage(jsonText);
+	});
+}
+
+function throwIfAborted(signal?: AbortSignal) {
+	if (signal?.aborted) throw new Error('XSLT transformation cancelled.');
+}
+
 function createDisplayError(error: unknown): TransformDisplayError {
 	if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
 
@@ -200,8 +279,14 @@ type TransformApiResponse =
 type TransformStreamEvent =
 	| { type: 'stage'; message: string }
 	| { type: 'message'; message: string; code?: string }
-	| { type: 'success'; result: string }
+	| { type: 'result-start' }
+	| { type: 'result'; chunk: string }
+	| { type: 'success'; result?: string }
 	| { type: 'error'; error: TransformDisplayError | string };
+
+type JsonParseWorkerMessage =
+	| { status: 'success'; value: unknown }
+	| { status: 'error'; error: TransformDisplayError | string };
 
 function createErrorFromTransformApiResponse(payload: TransformApiResponse) {
 	const fallbackMessage = 'SaxonJS transform failed.';
@@ -222,3 +307,24 @@ function createErrorFromTransformApiError(
 	(error as Error & { code?: string | number }).code = apiError.code;
 	return error;
 }
+
+const jsonParseWorkerSource = `
+function createErrorPayload(error) {
+	if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
+
+	return {
+		name: error.name,
+		message: error.message,
+		code: error.code,
+		stack: error.stack
+	};
+}
+
+self.onmessage = (event) => {
+	try {
+		self.postMessage({ status: 'success', value: JSON.parse(event.data) });
+	} catch (error) {
+		self.postMessage({ status: 'error', error: createErrorPayload(error) });
+	}
+};
+`;

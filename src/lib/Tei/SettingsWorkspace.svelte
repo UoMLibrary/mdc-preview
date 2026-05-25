@@ -26,7 +26,6 @@
 	import PreviewPanel from '$lib/Tei/Panels/PreviewPanel.svelte';
 
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
-	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
 	type StylesheetTransformStage = 'idle' | 'waiting-for-input' | 'transforming' | 'complete';
 	interface TransformInputState {
@@ -261,19 +260,6 @@
 	<!-- UI to specify url paths etc for transform into final JSON ViewModel -->
 	<Config title="Configuration" />
 
-	<!-- down arrow (decorative) -->
-	<div class="preview-flow-marker">
-		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
-	</div>
-
-	<!-- JSON Viewer that contains ViewModel output (not part of existing process) -->
-	<JSONViewer
-		jsonData={ViewModelOutput}
-		title="View Model"
-		savefile="viewmodel.json"
-		message="View Model generation requires Cudl Output and Configuration be configured"
-	/>
-
 	{#if ViewModelError}
 		<div class="preview-error">
 			<p class="preview-error__line">
@@ -291,14 +277,6 @@
 		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
 	</div>
 
-	<!-- Print panel to give option of downloading a pdf of available images -->
-	<PrintPanel title="Print pdf" data={ViewModelOutput?.pdfObj} />
-
-	<!-- down arrow (decorative) -->
-	<div class="preview-flow-marker">
-		<SvgIcon name="arrow-down" color="#666666" scale="1.2" />
-	</div>
-
 	<!-- Preview panel showing an example of the final viewer output, contains an embedded
 		 Preview component. TODO: specify 'Preview' here to swap between a pure data view 
 		 and a styled view for a particular organisation.  -->
@@ -309,6 +287,11 @@
 		{page}
 		updatepage={changePage}
 	/>
+
+	{#if ViewModelOutput}
+		<!-- JSON Viewer that contains ViewModel output (not part of existing process) -->
+		<JSONViewer jsonData={ViewModelOutput} title="View Model" savefile="viewmodel.json" />
+	{/if}
 
 	<!-- Transcriptions/translations XSLT -->
 </div>
