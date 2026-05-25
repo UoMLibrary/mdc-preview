@@ -3655,7 +3655,7 @@ Description: A prefilter for the TEI doc to an intermediate XML doc
                     <xsl:for-each select="//*:facsimile/*:surface">
 
                         <xsl:if test="position() = 1 or position() mod 10 = 0 or position() = last()">
-                            <xsl:message select="concat('Processing page ', position(), ' of ', last(), if (normalize-space(@n)) then concat(' (', normalize-space(@n), ')') else '')"/>
+                            <xsl:message select="concat('Processing page ', position(), ' of ', last())"/>
                         </xsl:if>
 
                         <xsl:variable name="label" select="normalize-space(@n)"/>
