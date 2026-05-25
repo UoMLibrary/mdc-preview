@@ -3,6 +3,13 @@
 	import TeiStore from '$lib/stores/tei-store.js';
 	import SefStore from '$lib/stores/sef-store.js';
 	import ConfigStore from '$lib/stores/config-store.js';
+	import { createDisplayError } from '$lib/Tei/transform-errors.js';
+	import {
+		getStylesheetTransformEndStage,
+		getTransformInputStage,
+		runGuardedTransform,
+		type TransformStage
+	} from '$lib/Tei/transform-progress.js';
 
 	import {
 		createPreviewViewModel,
@@ -27,10 +34,13 @@
 
 	import SvgIcon from '$lib/UI/SvgIcon.svelte';
 
-	type StylesheetTransformStage = 'idle' | 'waiting-for-input' | 'transforming' | 'complete';
 	interface TransformInputState {
 		xmlDoc: XMLDocument | null | undefined;
 		stylesheet: unknown;
+	}
+
+	interface TransformInputChange extends TransformInputState {
+		sefObj: SefItem | null | undefined;
 	}
 
 	let page = $state(0);
@@ -41,8 +51,8 @@
 	let PreTransformError = $state<TransformDisplayError | null>(null);
 	let JSONtransformError = $state<TransformDisplayError | null>(null);
 	let ViewModelError = $state<TransformDisplayError | null>(null);
-	let preTransformStage = $state<StylesheetTransformStage>('idle');
-	let jsonTransformStage = $state<StylesheetTransformStage>('idle');
+	let preTransformStage = $state<TransformStage>('idle');
+	let jsonTransformStage = $state<TransformStage>('idle');
 	let preTransformMessages = $state<TransformProgressMessage[]>([]);
 	let jsonTransformMessages = $state<TransformProgressMessage[]>([]);
 	let preTransformRun = 0;
@@ -50,60 +60,59 @@
 	let previousPreTransformInput: TransformInputState | null = null;
 	let previousJsonTransformInput: TransformInputState | null = null;
 
-	$effect(() => {
-		const xmlDoc = $TeiStore.xmlDoc;
-		const sefObj = $SefStore?.[previewSefIds.preTransform];
-		if (!hasTransformInputChanged(previousPreTransformInput, xmlDoc, sefObj?.sef)) return;
-
-		previousPreTransformInput = { xmlDoc, stylesheet: sefObj?.sef };
-		runPreTransform(xmlDoc, sefObj);
-	});
-
-	$effect(() => {
-		const xmlDoc = preTransformXmlDocOutput;
-		const sefObj = $SefStore?.[previewSefIds.jsonTransform];
-		if (!hasTransformInputChanged(previousJsonTransformInput, xmlDoc, sefObj?.sef)) return;
-
-		previousJsonTransformInput = { xmlDoc, stylesheet: sefObj?.sef };
-		runJSONTransform(xmlDoc, sefObj);
-	});
+	$effect(runPreTransformWhenInputChanges);
+	$effect(runJsonTransformWhenInputChanges);
 
 	$effect(() => {
 		runViewModelTransform(JSONTransformObjOutput, $ConfigStore);
 	});
+
+	function runPreTransformWhenInputChanges() {
+		const input = getPreTransformInput();
+		if (!hasTransformInputChanged(previousPreTransformInput, input)) return;
+
+		previousPreTransformInput = input;
+		runPreTransform(input.xmlDoc, input.sefObj);
+	}
+
+	function runJsonTransformWhenInputChanges() {
+		const input = getJsonTransformInput();
+		if (!hasTransformInputChanged(previousJsonTransformInput, input)) return;
+
+		previousJsonTransformInput = input;
+		runJSONTransform(input.xmlDoc, input.sefObj);
+	}
+
+	function getPreTransformInput(): TransformInputChange {
+		const sefObj = $SefStore?.[previewSefIds.preTransform];
+		return { xmlDoc: $TeiStore.xmlDoc, stylesheet: sefObj?.sef, sefObj };
+	}
+
+	function getJsonTransformInput(): TransformInputChange {
+		const sefObj = $SefStore?.[previewSefIds.jsonTransform];
+		return { xmlDoc: preTransformXmlDocOutput, stylesheet: sefObj?.sef, sefObj };
+	}
 
 	async function runPreTransform(
 		xmlDoc: XMLDocument | null | undefined,
 		sefObj: SefItem | null | undefined
 	) {
 		const runId = ++preTransformRun;
-		PreTransformError = null;
-		preTransformStage = getTransformStartStage(xmlDoc, sefObj);
-		preTransformMessages = [];
+		const stylesheet = preparePreTransformRun(xmlDoc, sefObj);
 
-		try {
-			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.preTransform) : null;
-			if (xmlDoc?.documentElement && stylesheet) preTransformStage = 'transforming';
+		await runGuardedTransform({
+			isStale: () => runId !== preTransformRun,
+			run: () =>
+				runPreviewPreTransform(xmlDoc, stylesheet, {
+					progress: (message) => {
+						if (runId !== preTransformRun) return;
 
-			const result = await runPreviewPreTransform(xmlDoc, stylesheet, {
-				progress: (message) => {
-					if (runId !== preTransformRun) return;
-
-					preTransformMessages = [...preTransformMessages.slice(-5), message];
-				}
-			});
-			if (runId !== preTransformRun) return;
-
-			preTransformXmlDocOutput = result.value;
-			PreTransformError = result.error;
-			preTransformStage = getTransformEndStage(result.value, result.error, xmlDoc, stylesheet);
-		} catch (error) {
-			if (runId !== preTransformRun) return;
-
-			preTransformXmlDocOutput = null;
-			PreTransformError = createDisplayError(error);
-			preTransformStage = 'idle';
-		}
+						preTransformMessages = [...preTransformMessages.slice(-5), message];
+					}
+				}),
+			applyResult: (result) => applyPreTransformResult(result, xmlDoc, stylesheet),
+			applyError: applyPreTransformError
+		});
 	}
 
 	async function runJSONTransform(
@@ -111,33 +120,83 @@
 		sefObj: SefItem | null | undefined
 	) {
 		const runId = ++jsonTransformRun;
+		const stylesheet = prepareJsonTransformRun(xmlDoc, sefObj);
+
+		await runGuardedTransform({
+			isStale: () => runId !== jsonTransformRun,
+			run: () =>
+				runPreviewJsonTransform(xmlDoc, stylesheet, {
+					progress: (message) => {
+						if (runId !== jsonTransformRun) return;
+
+						jsonTransformMessages = [...jsonTransformMessages.slice(-5), message];
+					}
+				}),
+			applyResult: (result) => applyJsonTransformResult(result, xmlDoc, stylesheet),
+			applyError: applyJsonTransformError
+		});
+	}
+
+	function preparePreTransformRun(
+		xmlDoc: XMLDocument | null | undefined,
+		sefObj: SefItem | null | undefined
+	) {
+		PreTransformError = null;
+		preTransformStage = getStylesheetTransformStartStage(xmlDoc, sefObj);
+		preTransformMessages = [];
+		return getStylesheetCopy(previewSefIds.preTransform, sefObj);
+	}
+
+	function prepareJsonTransformRun(
+		xmlDoc: XMLDocument | null | undefined,
+		sefObj: SefItem | null | undefined
+	) {
 		JSONtransformError = null;
-		jsonTransformStage = getTransformStartStage(xmlDoc, sefObj);
+		jsonTransformStage = getStylesheetTransformStartStage(xmlDoc, sefObj);
 		jsonTransformMessages = [];
+		return getStylesheetCopy(previewSefIds.jsonTransform, sefObj);
+	}
 
-		try {
-			const stylesheet = sefObj?.sef ? SefStore.getKeyCopy(previewSefIds.jsonTransform) : null;
-			if (xmlDoc?.documentElement && stylesheet) jsonTransformStage = 'transforming';
+	function applyPreTransformResult(
+		result: Awaited<ReturnType<typeof runPreviewPreTransform>>,
+		xmlDoc: XMLDocument | null | undefined,
+		stylesheet: unknown
+	) {
+		preTransformXmlDocOutput = result.value;
+		PreTransformError = result.error;
+		preTransformStage = getStylesheetTransformEndStage(
+			result.value,
+			result.error,
+			hasXmlDocument(xmlDoc),
+			Boolean(stylesheet)
+		);
+	}
 
-			const result = await runPreviewJsonTransform(xmlDoc, stylesheet, {
-				progress: (message) => {
-					if (runId !== jsonTransformRun) return;
+	function applyPreTransformError(error: unknown) {
+		preTransformXmlDocOutput = null;
+		PreTransformError = createDisplayError(error);
+		preTransformStage = 'idle';
+	}
 
-					jsonTransformMessages = [...jsonTransformMessages.slice(-5), message];
-				}
-			});
-			if (runId !== jsonTransformRun) return;
+	function applyJsonTransformResult(
+		result: Awaited<ReturnType<typeof runPreviewJsonTransform>>,
+		xmlDoc: XMLDocument | null | undefined,
+		stylesheet: unknown
+	) {
+		JSONTransformObjOutput = result.value;
+		JSONtransformError = result.error;
+		jsonTransformStage = getStylesheetTransformEndStage(
+			result.value,
+			result.error,
+			hasXmlDocument(xmlDoc),
+			Boolean(stylesheet)
+		);
+	}
 
-			JSONTransformObjOutput = result.value;
-			JSONtransformError = result.error;
-			jsonTransformStage = getTransformEndStage(result.value, result.error, xmlDoc, stylesheet);
-		} catch (error) {
-			if (runId !== jsonTransformRun) return;
-
-			JSONTransformObjOutput = null;
-			JSONtransformError = createDisplayError(error);
-			jsonTransformStage = 'idle';
-		}
+	function applyJsonTransformError(error: unknown) {
+		JSONTransformObjOutput = null;
+		JSONtransformError = createDisplayError(error);
+		jsonTransformStage = 'idle';
 	}
 
 	async function runViewModelTransform(cudlJson: CudlObject | null, configObj: PreviewConfig) {
@@ -156,41 +215,29 @@
 		page = nextPage;
 	}
 
-	function createDisplayError(error: unknown): TransformDisplayError {
-		if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
-
-		const code = (error as Error & { code?: string | number }).code;
-		return { name: error.name, message: error.message, stack: error.stack, code };
-	}
-
 	function hasTransformInputChanged(
 		previousInput: TransformInputState | null,
-		xmlDoc: XMLDocument | null | undefined,
-		stylesheet: unknown
+		currentInput: TransformInputState
 	) {
 		if (!previousInput) return true;
-		return previousInput.xmlDoc !== xmlDoc || previousInput.stylesheet !== stylesheet;
+		if (previousInput.xmlDoc !== currentInput.xmlDoc) return true;
+
+		return previousInput.stylesheet !== currentInput.stylesheet;
 	}
 
-	function getTransformStartStage(
+	function getStylesheetTransformStartStage(
 		xmlDoc: XMLDocument | null | undefined,
 		sefObj: SefItem | null | undefined
-	): StylesheetTransformStage {
-		if (xmlDoc?.documentElement && sefObj?.sef) return 'transforming';
-		if (sefObj?.sef) return 'waiting-for-input';
-		return 'idle';
+	): TransformStage {
+		return getTransformInputStage(hasXmlDocument(xmlDoc), Boolean(sefObj?.sef));
 	}
 
-	function getTransformEndStage<T>(
-		value: T | null,
-		error: TransformDisplayError | null,
-		xmlDoc: XMLDocument | null | undefined,
-		stylesheet: unknown
-	): StylesheetTransformStage {
-		if (error) return 'idle';
-		if (value) return 'complete';
-		if (stylesheet && !xmlDoc?.documentElement) return 'waiting-for-input';
-		return 'idle';
+	function getStylesheetCopy(sefId: string, sefObj: SefItem | null | undefined) {
+		return sefObj?.sef ? SefStore.getKeyCopy(sefId) : null;
+	}
+
+	function hasXmlDocument(xmlDoc: XMLDocument | null | undefined) {
+		return Boolean(xmlDoc?.documentElement);
 	}
 </script>
 

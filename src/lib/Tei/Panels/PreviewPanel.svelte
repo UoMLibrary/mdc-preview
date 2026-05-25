@@ -3,7 +3,6 @@
 	// Possibly via a <slot/>
 	// import Preview from '$lib/MDCUI/Preview.svelte';
 	import Preview from '$lib/Tei/MDCPreview/Preview.svelte';
-	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 	import type { ViewModel } from '$lib/Tei/createViewModel.js';
 	import type { Snippet } from 'svelte';
 
@@ -72,11 +71,7 @@
 						{/if}
 						{#each progressSteps as step (step.label)}
 							<div class="tool-panel__progress-step tool-panel__progress-step--{step.status}">
-								<span class="tool-panel__progress-marker" aria-hidden="true">
-									{#if step.status === 'active'}
-										<LoadingSpinner size="12" unit="px" duration="1s" color="purple" />
-									{/if}
-								</span>
+								<span class="tool-panel__progress-marker" aria-hidden="true"></span>
 								<span>
 									{step.label}
 									{#if step.detail}

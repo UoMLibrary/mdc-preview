@@ -1,4 +1,15 @@
 import saxon from 'saxon-js';
+import {
+	createDisplayError,
+	createErrorFromDisplayError,
+	type TransformDisplayError
+} from '$lib/Tei/transform-errors.js';
+import {
+	isRecord,
+	jsonResponse,
+	runUnlessAborted,
+	throwIfRequestAborted
+} from '$lib/server/api-utils.js';
 import type { RequestHandler } from './$types';
 
 interface TransformRequest {
@@ -14,12 +25,7 @@ interface WorkerMessage {
 	error?: TransformErrorPayload;
 }
 
-interface TransformErrorPayload {
-	name: string;
-	message: string;
-	code?: string | number;
-	stack?: string;
-}
+type TransformErrorPayload = TransformDisplayError;
 
 interface WorkerLike {
 	on(event: 'message', listener: (message: WorkerMessage) => void): WorkerLike;
@@ -32,7 +38,16 @@ interface WorkerConstructor {
 	new (source: string, options: { eval: true; workerData: TransformRequest }): WorkerLike;
 }
 
+interface WorkerMessageContext {
+	isSettled: () => boolean;
+	settle: (callback: () => void) => void;
+	resolveResult: (result: string) => void;
+	rejectResult: (error: unknown) => void;
+	progress: (event: unknown) => void;
+}
+
 let transformQueue = Promise.resolve();
+const transformAbortMessage = 'XSLT transformation cancelled.';
 const importWorkerThreads = Function('return import("node:worker_threads")') as () => Promise<{
 	Worker: WorkerConstructor;
 }>;
@@ -139,7 +154,7 @@ function transformRequestInWorker(
 			rejectResult: (error: unknown) => void
 		) {
 			try {
-				throwIfAborted(signal);
+				throwIfRequestAborted(signal, transformAbortMessage);
 				const { Worker } = await importWorkerThreads();
 				progress({ type: 'stage', message: 'Starting transform worker' });
 				const worker = new Worker(transformWorkerSource, {
@@ -163,23 +178,17 @@ function transformRequestInWorker(
 
 				signal.addEventListener('abort', abortTransform, { once: true });
 
-				worker.on('message', (message: WorkerMessage) => {
-					if (settled) return;
+				const messageContext: WorkerMessageContext = {
+					isSettled: () => settled,
+					settle,
+					resolveResult,
+					rejectResult,
+					progress
+				};
 
-					if (message.type === 'message') {
-						progress({ type: 'message', message: message.message ?? '', code: message.code });
-						return;
-					}
-
-					if (message.type === 'success') {
-						settle(() => resolveResult(message.result ?? ''));
-						return;
-					}
-
-					if (message.type === 'error') {
-						settle(() => rejectResult(createErrorFromPayload(message.error)));
-					}
-				});
+				worker.on('message', (message: WorkerMessage) =>
+					handleWorkerMessage(message, messageContext)
+				);
 
 				worker.on('error', (error: Error) => {
 					settle(() => rejectResult(error));
@@ -198,6 +207,26 @@ function transformRequestInWorker(
 	});
 }
 
+type WorkerMessageHandler = (message: WorkerMessage, context: WorkerMessageContext) => void;
+
+const workerMessageHandlers: Record<WorkerMessage['type'], WorkerMessageHandler> = {
+	message: (message, context) => {
+		context.progress({ type: 'message', message: message.message ?? '', code: message.code });
+	},
+	success: (message, context) => {
+		context.settle(() => context.resolveResult(message.result ?? ''));
+	},
+	error: (message, context) => {
+		context.settle(() => context.rejectResult(createErrorFromPayload(message.error)));
+	}
+};
+
+function handleWorkerMessage(message: WorkerMessage, context: WorkerMessageContext) {
+	if (context.isSettled()) return;
+
+	workerMessageHandlers[message.type](message, context);
+}
+
 function writeResultEvents(result: string, writeEvent: (event: unknown) => void) {
 	const chunkSize = 16_384;
 	writeEvent({ type: 'result-start' });
@@ -211,25 +240,14 @@ function writeResultEvents(result: string, writeEvent: (event: unknown) => void)
 
 async function enqueueTransform<T>(transform: () => Promise<T>, signal?: AbortSignal) {
 	const queuedTransform = transformQueue.then(
-		() => runUnlessAborted(transform, signal),
-		() => runUnlessAborted(transform, signal)
+		() => runUnlessAborted(transform, signal, transformAbortMessage),
+		() => runUnlessAborted(transform, signal, transformAbortMessage)
 	);
 	transformQueue = queuedTransform.then(
 		() => undefined,
 		() => undefined
 	);
 	return queuedTransform;
-}
-
-async function runUnlessAborted<T>(operation: () => Promise<T>, signal?: AbortSignal) {
-	throwIfAborted(signal);
-	const result = await operation();
-	throwIfAborted(signal);
-	return result;
-}
-
-function throwIfAborted(signal?: AbortSignal) {
-	if (signal?.aborted) throw new Error('XSLT transformation cancelled.');
 }
 
 function acceptsStreamingProgress(request: Request) {
@@ -248,29 +266,11 @@ function parseTransformRequest(value: unknown): TransformRequest {
 }
 
 function createErrorPayload(error: unknown): TransformErrorPayload {
-	if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
-
-	const code = (error as Error & { code?: string | number }).code;
-	return { name: error.name, message: error.message, stack: error.stack, code };
+	return createDisplayError(error);
 }
 
 function createErrorFromPayload(errorPayload: TransformErrorPayload | undefined) {
-	const error = new Error(errorPayload?.message ?? 'XSLT transformation failed.');
-	error.name = errorPayload?.name ?? 'Error';
-	error.stack = errorPayload?.stack;
-	(error as Error & { code?: string | number }).code = errorPayload?.code;
-	return error;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-	return typeof value === 'object' && value !== null;
-}
-
-function jsonResponse(body: unknown, status = 200) {
-	return new Response(JSON.stringify(body), {
-		status,
-		headers: { 'Content-Type': 'application/json' }
-	});
+	return createErrorFromDisplayError(errorPayload, 'XSLT transformation failed.');
 }
 
 const transformWorkerSource = `

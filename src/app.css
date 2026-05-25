@@ -881,8 +881,12 @@
 }
 
 .tool-panel__progress-step--active .tool-panel__progress-marker {
-	border-color: transparent;
+	border-width: 2px;
+	border-color: color-mix(in srgb, var(--app-accent) 28%, transparent);
+	border-top-color: var(--app-accent);
+	border-right-color: var(--app-accent);
 	background: transparent;
+	animation: progress-marker-spin 0.85s linear infinite;
 }
 
 .tool-panel__progress-step--done {
@@ -906,6 +910,12 @@
 
 .tool-panel__progress-detail {
 	font-weight: 400;
+}
+
+@keyframes progress-marker-spin {
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 .tool-panel__empty {

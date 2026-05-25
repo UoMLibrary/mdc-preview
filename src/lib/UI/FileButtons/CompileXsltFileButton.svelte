@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { createHttpResponseMessage } from '$lib/Utils/http-response.js';
+	import { getErrorMessage } from '$lib/Tei/transform-errors.js';
 	import {
 		selectParsedXmlFile,
 		type FileData,
@@ -16,8 +18,22 @@
 		sef: unknown;
 	}
 
+	interface CompileSource extends XmlFilePayloadBase {
+		contents: string;
+		entryPath?: string;
+		files?: ParsedXsltProjectResult['files'];
+	}
+
+	interface CompileRequest {
+		contents: string;
+		entryPath?: string;
+		files?: ParsedXsltProjectResult['files'];
+	}
+
+	type CompileContext = Pick<ErrorPayload, 'fileData' | 'metaData'>;
 	type CancelCompile = () => void;
 	type XsltCompileProgressStage = 'xslt-uploaded' | 'sef-compiling' | 'sef-loaded';
+	type AbortReason = 'cancel' | 'timeout';
 	type CompileApiResponse =
 		| { status: 'success'; sef: unknown }
 		| { status: 'error'; error?: unknown };
@@ -59,84 +75,81 @@
 	let activeCancel: CancelCompile | null = null;
 
 	async function handleFileOpen() {
-		let compileContext: Pick<ErrorPayload, 'fileData' | 'metaData'> | null = null;
-
-		try {
-			const xmlFile = await selectParsedXmlFile({ accept: '.xsl, .xslt', started });
-			if (!xmlFile) return;
-
-			const { fileData, contents, metaData, errors } = xmlFile;
-			compileContext = { fileData, metaData };
-			progress('xslt-uploaded');
-
-			if (errors.length > 0) {
-				error({ fileData, sef: null, metaData, errors });
-				return;
-			}
-
-			progress('sef-compiling');
-			const sef = await compileXslt({ contents });
-			progress('sef-loaded');
-			loaded({ fileData, sef, metaData, errors: [] });
-		} catch (compileError) {
-			if (isCompilationCancelled(compileError)) return;
-
-			error(createCompileErrorPayload(compileError, compileContext, 'XSLT compile error'));
-		}
+		await handleStylesheetOpen(loadStylesheetFile, 'XSLT compile error');
 	}
 
 	async function handleProjectOpen() {
-		let compileContext: Pick<ErrorPayload, 'fileData' | 'metaData'> | null = null;
+		await handleStylesheetOpen(loadStylesheetProject, 'XSLT project');
+	}
+
+	async function handleStylesheetOpen(
+		loadSource: () => Promise<CompileSource | null>,
+		fallbackName: string
+	) {
+		let compileContext: CompileContext | null = null;
 
 		try {
-			const xsltProject = await selectParsedXsltProject({
-				accept: '.xsl, .xslt',
-				started,
-				preferredEntryNames
-			});
-			if (!xsltProject) return;
+			const source = await loadSource();
+			if (!source) return;
 
-			const { fileData, contents, metaData, errors, entryPath, files } = xsltProject;
-			compileContext = { fileData, metaData };
-			progress('xslt-uploaded');
+			compileContext = createCompileContext(source);
+			await compileAndLoadSource(source);
+		} catch (compileError) {
+			if (isCompilationCancelled(compileError)) return;
 
-			if (errors.length > 0) {
-				error({ fileData, sef: null, metaData, errors });
-				return;
-			}
-
-			progress('sef-compiling');
-			const sef = await compileXslt({ contents, entryPath, files });
-			progress('sef-loaded');
-			loaded({ fileData, sef, metaData, errors: [], entryPath, files });
-		} catch (projectError) {
-			if (isCompilationCancelled(projectError)) return;
-
-			error(createCompileErrorPayload(projectError, compileContext, 'XSLT project'));
+			error(createCompileErrorPayload(compileError, compileContext, fallbackName));
 		}
 	}
 
-	async function compileXslt(payload: {
-		contents: string;
-		entryPath?: string;
-		files?: ParsedXsltProjectResult['files'];
-	}): Promise<unknown> {
-		const { body, contentType } = createCompileRequest(payload);
-		const controller = new AbortController();
-		let abortReason: 'cancel' | 'timeout' | null = null;
-		const timeout = setTimeout(() => {
-			if (controller.signal.aborted) return;
+	async function loadStylesheetFile(): Promise<CompileSource | null> {
+		return selectParsedXmlFile({ accept: '.xsl, .xslt', started });
+	}
 
-			abortReason = 'timeout';
-			controller.abort();
-		}, 120_000);
-		const cancel = () => {
-			if (controller.signal.aborted) return;
+	async function loadStylesheetProject(): Promise<CompileSource | null> {
+		return selectParsedXsltProject({
+			accept: '.xsl, .xslt',
+			started,
+			preferredEntryNames
+		});
+	}
 
-			abortReason = 'cancel';
-			controller.abort();
+	async function compileAndLoadSource(source: CompileSource) {
+		progress('xslt-uploaded');
+		if (reportParseErrors(source)) return;
+
+		progress('sef-compiling');
+		const sef = await compileXslt(source);
+		progress('sef-loaded');
+		loaded(createLoadedPayload(source, sef));
+	}
+
+	function reportParseErrors(source: CompileSource) {
+		if (source.errors.length === 0) return false;
+
+		error({
+			fileData: source.fileData,
+			sef: null,
+			metaData: source.metaData,
+			errors: source.errors
+		});
+		return true;
+	}
+
+	function createLoadedPayload(source: CompileSource, sef: unknown): LoadedPayload {
+		return {
+			fileData: source.fileData,
+			sef,
+			metaData: source.metaData,
+			errors: [],
+			entryPath: source.entryPath,
+			files: source.files
 		};
-		setActiveCancel(cancel);
+	}
+
+	async function compileXslt(payload: CompileRequest): Promise<unknown> {
+		const { body, contentType } = createCompileRequest(payload);
+		const abortable = createCompileAbort();
+		setActiveCancel(abortable.cancel);
 
 		try {
 			const resp = await fetch('/api/compile-xslt-to-sef', {
@@ -145,39 +158,34 @@
 					'Content-Type': contentType
 				},
 				body,
-				signal: controller.signal
+				signal: abortable.signal
 			});
 
-			const json = await readCompileResponse(resp);
-			if (!resp.ok || json.status !== 'success') {
-				throw new Error(createCompileFailureMessage(json, resp));
-			}
-
-			return json.sef;
+			return readSuccessfulCompileResponse(resp);
 		} catch (compileError) {
-			if (controller.signal.aborted) {
-				if (abortReason === 'cancel') throw new XsltCompilationCancelled();
-				throw new Error('XSLT compilation timed out after 120 seconds.');
-			}
+			const abortError = abortable.getError();
+			if (abortError) throw abortError;
 
 			throw compileError;
 		} finally {
-			clearTimeout(timeout);
-			clearActiveCancel(cancel);
+			abortable.clear();
+			clearActiveCancel(abortable.cancel);
 		}
 	}
 
-	function createCompileRequest(payload: {
-		contents: string;
-		entryPath?: string;
-		files?: ParsedXsltProjectResult['files'];
-	}) {
+	function createCompileRequest(payload: CompileRequest) {
 		return payload.files && payload.files.length > 1
 			? {
 					body: JSON.stringify({ entryPath: payload.entryPath, files: payload.files }),
 					contentType: 'application/json'
 				}
 			: { body: payload.contents, contentType: 'application/xslt+xml' };
+	}
+
+	async function readSuccessfulCompileResponse(response: Response) {
+		const json = await readCompileResponse(response);
+		assertCompileSuccess(json, response);
+		return json.sef;
 	}
 
 	async function readCompileResponse(response: Response): Promise<CompileApiResponse> {
@@ -194,21 +202,45 @@
 		return { status: 'error', error: createHttpResponseMessage(response, responseText) };
 	}
 
+	function assertCompileSuccess(
+		payload: CompileApiResponse,
+		response: Response
+	): asserts payload is { status: 'success'; sef: unknown } {
+		if (response.ok && payload.status === 'success') return;
+
+		throw new Error(createCompileFailureMessage(payload, response));
+	}
+
 	function createCompileFailureMessage(payload: CompileApiResponse, response: Response) {
 		if (payload.status === 'error' && payload.error) return getErrorMessage(payload.error);
 
 		return `XSLT compilation failed with HTTP ${response.status}`;
 	}
 
-	function createHttpResponseMessage(response: Response, responseText: string) {
-		const bodyPreview = responseText
-			.replace(/<[^>]*>/g, ' ')
-			.replace(/\s+/g, ' ')
-			.trim()
-			.slice(0, 240);
-		const details = bodyPreview || response.statusText;
+	function createCompileAbort() {
+		const controller = new AbortController();
+		let abortReason: AbortReason | null = null;
+		const abortCompile = (reason: AbortReason) => {
+			if (controller.signal.aborted) return;
 
-		return details ? `HTTP ${response.status}: ${details}` : `HTTP ${response.status}`;
+			abortReason = reason;
+			controller.abort();
+		};
+		const timeout = setTimeout(() => abortCompile('timeout'), 120_000);
+
+		return {
+			signal: controller.signal,
+			cancel: () => abortCompile('cancel'),
+			getError: () => getCompileAbortError(controller.signal, abortReason),
+			clear: () => clearTimeout(timeout)
+		};
+	}
+
+	function getCompileAbortError(signal: AbortSignal, abortReason: AbortReason | null) {
+		if (!signal.aborted) return null;
+		if (abortReason === 'cancel') return new XsltCompilationCancelled();
+
+		return new Error('XSLT compilation timed out after 120 seconds.');
 	}
 
 	function createSyntheticFileData(name: string): FileData {
@@ -221,30 +253,27 @@
 		};
 	}
 
+	function createCompileContext(source: CompileSource): CompileContext {
+		return { fileData: source.fileData, metaData: source.metaData };
+	}
+
 	function createCompileErrorPayload(
 		errorValue: unknown,
-		compileContext: Pick<ErrorPayload, 'fileData' | 'metaData'> | null,
+		compileContext: CompileContext | null,
 		fallbackName: string
 	): ErrorPayload {
 		return {
-			fileData: compileContext?.fileData ?? createSyntheticFileData(fallbackName),
+			fileData: getCompileErrorFileData(compileContext, fallbackName),
 			sef: null,
 			metaData: compileContext?.metaData ?? {},
 			errors: [getErrorMessage(errorValue)]
 		};
 	}
 
-	function getErrorMessage(errorValue: unknown) {
-		if (
-			typeof errorValue === 'object' &&
-			errorValue !== null &&
-			'message' in errorValue &&
-			typeof errorValue.message === 'string'
-		) {
-			return errorValue.message;
-		}
+	function getCompileErrorFileData(compileContext: CompileContext | null, fallbackName: string) {
+		if (compileContext) return compileContext.fileData;
 
-		return errorValue instanceof Error ? errorValue.message : String(errorValue);
+		return createSyntheticFileData(fallbackName);
 	}
 
 	function isCompilationCancelled(errorValue: unknown) {

@@ -13,6 +13,11 @@
 		children: Snippet;
 	}
 
+	interface KeyboardAction {
+		run: () => void;
+		preventDefault: boolean;
+	}
+
 	let { children }: Props = $props();
 
 	let fileMenuOpen = $state(false);
@@ -48,27 +53,47 @@
 
 	function handleWindowClick(event: MouseEvent) {
 		if (!fileMenuOpen) return;
-
-		const target = event.target as Node | null;
-		if (target && (fileMenuButton?.contains(target) || fileMenuPanel?.contains(target))) return;
+		if (isFileMenuEventTarget(event.target)) return;
 
 		closeFileMenu();
 	}
 
 	function handleWindowKeydown(event: KeyboardEvent) {
-		if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'o') {
-			event.preventDefault();
-			void handleOpenTeiFile();
-			return;
-		}
+		const action = getKeyboardAction(event);
+		if (!action) return;
 
-		if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'w') {
-			event.preventDefault();
-			handleCloseProject();
-			return;
-		}
+		if (action.preventDefault) event.preventDefault();
+		action.run();
+	}
 
-		if (event.key === 'Escape') closeFileMenu();
+	function isFileMenuEventTarget(target: EventTarget | null) {
+		if (!(target instanceof Node)) return false;
+
+		return containsNode(fileMenuButton, target) || containsNode(fileMenuPanel, target);
+	}
+
+	function containsNode(element: HTMLElement | null, target: Node) {
+		return element?.contains(target) ?? false;
+	}
+
+	function getKeyboardAction(event: KeyboardEvent) {
+		if (isShortcut(event, 'o')) return createKeyboardAction(() => void handleOpenTeiFile(), true);
+		if (isShortcut(event, 'w')) return createKeyboardAction(handleCloseProject, true);
+		if (event.key === 'Escape') return createKeyboardAction(closeFileMenu, false);
+
+		return null;
+	}
+
+	function createKeyboardAction(run: () => void, preventDefault: boolean): KeyboardAction {
+		return { run, preventDefault };
+	}
+
+	function isShortcut(event: KeyboardEvent, key: string) {
+		return hasCommandModifier(event) && event.key.toLowerCase() === key;
+	}
+
+	function hasCommandModifier(event: KeyboardEvent) {
+		return event.metaKey || event.ctrlKey;
 	}
 </script>
 

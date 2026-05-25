@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-export type AppTheme = 'light' | 'dark';
+type AppTheme = 'light' | 'dark';
 
 const storageKey = 'mdc-preview-theme';
 const fallbackTheme: AppTheme = 'dark';

@@ -31,9 +31,11 @@
 <style>
 	.spinner {
 		display: inline-block;
+		box-sizing: border-box;
 		width: var(--spinner-size);
 		height: var(--spinner-size);
-		border: calc(var(--spinner-size) / 8) solid transparent;
+		border: max(1px, calc(var(--spinner-size) / 8)) solid
+			color-mix(in srgb, var(--spinner-color) 24%, transparent);
 		border-top-color: var(--spinner-color);
 		border-right-color: var(--spinner-color);
 		border-radius: 50%;

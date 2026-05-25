@@ -1,10 +1,17 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { parseMarkdown, type MarkdownInline } from '$lib/Docs/markdown.js';
+	import { parseMarkdown } from '$lib/Docs/markdown.js';
 
 	interface Props {
 		markdown: string;
 	}
+
+	type MarkdownBlock = ReturnType<typeof parseMarkdown>[number];
+	type MarkdownContentBlock = Extract<MarkdownBlock, { content: unknown[] }>;
+	type MarkdownListBlock = Extract<MarkdownBlock, { items: unknown[][] }>;
+	type MarkdownInline =
+		| MarkdownContentBlock['content'][number]
+		| MarkdownListBlock['items'][number][number];
 
 	let { markdown }: Props = $props();
 	const blocks = $derived(parseMarkdown(markdown));
@@ -59,7 +66,9 @@
 				</ul>
 			{/if}
 		{:else if block.type === 'code'}
-			<pre><code class={block.language ? `language-${block.language}` : undefined}>{block.text}</code></pre>
+			<pre><code class={block.language ? `language-${block.language}` : undefined}
+					>{block.text}</code
+				></pre>
 		{/if}
 	{/each}
 </article>

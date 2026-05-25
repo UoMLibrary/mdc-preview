@@ -1,4 +1,6 @@
 import saxon from 'saxon-js';
+import { getErrorMessage } from '$lib/Tei/transform-errors.js';
+import { isRecord, jsonResponse, runUnlessAborted } from '$lib/server/api-utils.js';
 import type { SaxonDocument, SaxonPlatform, SaxonSefNode } from 'saxon-js';
 import type { RequestHandler } from './$types';
 
@@ -13,6 +15,7 @@ interface CompileProjectRequest {
 }
 
 const virtualProjectRootUri = 'file:///mdc-preview-xslt-project/';
+const compileAbortMessage = 'XSLT compilation cancelled.';
 const xsltReferencePattern =
 	/<\s*(?:[\w.-]+:)?(?:include|import)\b[^>]*\bhref\s*=\s*(['"])(.*?)\1/gi;
 let compileQueue = Promise.resolve();
@@ -100,25 +103,14 @@ async function compileXsltToSef(
 
 async function enqueueCompile<T>(compile: () => Promise<T>, signal?: AbortSignal) {
 	const queuedCompile = compileQueue.then(
-		() => runUnlessAborted(compile, signal),
-		() => runUnlessAborted(compile, signal)
+		() => runUnlessAborted(compile, signal, compileAbortMessage),
+		() => runUnlessAborted(compile, signal, compileAbortMessage)
 	);
 	compileQueue = queuedCompile.then(
 		() => undefined,
 		() => undefined
 	);
 	return queuedCompile;
-}
-
-async function runUnlessAborted<T>(operation: () => Promise<T>, signal?: AbortSignal) {
-	throwIfAborted(signal);
-	const result = await operation();
-	throwIfAborted(signal);
-	return result;
-}
-
-function throwIfAborted(signal?: AbortSignal) {
-	if (signal?.aborted) throw new Error('XSLT compilation cancelled.');
 }
 
 function parseProjectRequest(value: unknown): CompileProjectRequest {
@@ -315,19 +307,4 @@ function isChecksumNodeProperty(node: SaxonSefNode, key: string) {
 		key !== 'C' &&
 		key !== String.fromCharCode(931)
 	);
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-	return typeof value === 'object' && value !== null;
-}
-
-function jsonResponse(body: unknown, status = 200) {
-	return new Response(JSON.stringify(body), {
-		status,
-		headers: { 'Content-Type': 'application/json' }
-	});
-}
-
-function getErrorMessage(error: unknown) {
-	return error instanceof Error ? error.message : String(error);
 }

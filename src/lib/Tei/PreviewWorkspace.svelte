@@ -7,6 +7,15 @@
 	// Stores
 	import SefStore from '$lib/stores/sef-store.js';
 	import TeiStore from '$lib/stores/tei-store.js';
+	import { createDisplayError } from '$lib/Tei/transform-errors.js';
+	import {
+		getProgressStatus,
+		getTransformEndStage,
+		hasProgressStarted,
+		runGuardedTransform,
+		type TransformProgressStep,
+		type TransformStage
+	} from '$lib/Tei/transform-progress.js';
 
 	import { previewSefIds, type PreviewSefId } from '$lib/Tei/preview-sef-ids.js';
 	import { previewConfigData } from '$lib/Tei/preview-utils.js';
@@ -40,9 +49,9 @@
 	let PreTransformError = $state<TransformDisplayError | null>(null);
 	let JSONTransformError = $state<TransformDisplayError | null>(null);
 	let ViewModelError = $state<TransformDisplayError | null>(null);
-	let preTransformStage = $state<PreviewTransformStage>('idle');
-	let jsonTransformStage = $state<PreviewTransformStage>('idle');
-	let viewModelStage = $state<PreviewTransformStage>('idle');
+	let preTransformStage = $state<TransformStage>('idle');
+	let jsonTransformStage = $state<TransformStage>('idle');
+	let viewModelStage = $state<TransformStage>('idle');
 	let preTransformMessages = $state<TransformProgressMessage[]>([]);
 	let jsonTransformMessages = $state<TransformProgressMessage[]>([]);
 	let previewCancelled = $state(false);
@@ -70,25 +79,29 @@
 	);
 
 	const progressSteps = $derived(
-		getProgressSteps(
-			preTransformStage,
-			jsonTransformStage,
-			viewModelStage,
-			PreTransformError,
-			JSONTransformError,
-			ViewModelError,
-			getLatestTransformMessage(preTransformMessages),
-			getLatestTransformMessage(jsonTransformMessages)
-		)
+		getProgressSteps({
+			preStage: preTransformStage,
+			jsonStage: jsonTransformStage,
+			modelStage: viewModelStage,
+			preError: PreTransformError,
+			jsonError: JSONTransformError,
+			modelError: ViewModelError,
+			preDetail: getLatestTransformMessage(preTransformMessages),
+			jsonDetail: getLatestTransformMessage(jsonTransformMessages),
+			modelReady: Boolean(ViewModelOutput)
+		})
 	);
 
-	type PreviewTransformStage = 'idle' | 'waiting-for-input' | 'transforming' | 'complete';
-	type ProgressStepStatus = 'pending' | 'active' | 'done' | 'error';
-
-	interface ProgressStep {
-		label: string;
-		detail?: string;
-		status: ProgressStepStatus;
+	interface PreviewProgressState {
+		preStage: TransformStage;
+		jsonStage: TransformStage;
+		modelStage: TransformStage;
+		preError: TransformDisplayError | null;
+		jsonError: TransformDisplayError | null;
+		modelError: TransformDisplayError | null;
+		preDetail: string | null;
+		jsonDetail: string | null;
+		modelReady: boolean;
 	}
 
 	$effect(() => {
@@ -108,43 +121,60 @@
 		stylesheetInternal: unknown
 	) {
 		const runId = ++preTransformRun;
+		const hasSource = hasXmlDocument(xmlDoc);
+		const controller = preparePreTransformRun(hasSource, stylesheetInternal);
+
+		await runGuardedTransform({
+			isStale: () => runId !== preTransformRun,
+			run: () =>
+				runPreviewPreTransformToString(xmlDoc, stylesheetInternal, {
+					signal: controller?.signal,
+					progress: (message) => {
+						if (runId !== preTransformRun) return;
+						preTransformMessages = [...preTransformMessages.slice(-5), message];
+					}
+				}),
+			applyResult: (result) => applyPreTransformResult(result, hasSource),
+			applyError: applyPreTransformError,
+			release: () => releasePreTransformController(controller)
+		});
+	}
+
+	function preparePreTransformRun(hasSource: boolean, stylesheetInternal: unknown) {
 		previewCancelled = false;
 		preTransformController?.abort();
-		const controller = xmlDoc?.documentElement && stylesheetInternal ? new AbortController() : null;
+		const controller = createTransformController(hasSource, stylesheetInternal);
 		preTransformController = controller;
+		resetPreTransformState();
+		preTransformStage = getTransformStartStage(controller, 'idle');
+		return controller;
+	}
+
+	function resetPreTransformState() {
 		preTransformXmlOutput = null;
 		JSONTransformObjOutput = null;
 		ViewModelOutput = null;
 		PreTransformError = null;
 		preTransformMessages = [];
-		preTransformStage = xmlDoc?.documentElement && stylesheetInternal ? 'transforming' : 'idle';
+	}
 
-		try {
-			const result = await runPreviewPreTransformToString(xmlDoc, stylesheetInternal, {
-				signal: controller?.signal,
-				progress: (message) => {
-					if (runId !== preTransformRun) return;
-					preTransformMessages = [...preTransformMessages.slice(-5), message];
-				}
-			});
-			if (runId !== preTransformRun) return;
+	function applyPreTransformResult(
+		result: Awaited<ReturnType<typeof runPreviewPreTransformToString>>,
+		hasSource: boolean
+	) {
+		preTransformXmlOutput = result.value;
+		PreTransformError = result.error;
+		preTransformStage = getTransformEndStage(result.value, result.error, hasSource);
+	}
 
-			preTransformXmlOutput = result.value;
-			PreTransformError = result.error;
-			preTransformStage = getTransformEndStage(
-				result.value,
-				result.error,
-				Boolean(xmlDoc?.documentElement)
-			);
-		} catch (error) {
-			if (runId !== preTransformRun) return;
+	function applyPreTransformError(error: unknown) {
+		preTransformXmlOutput = null;
+		PreTransformError = createDisplayError(error);
+		preTransformStage = 'idle';
+	}
 
-			preTransformXmlOutput = null;
-			PreTransformError = createDisplayError(error);
-			preTransformStage = 'idle';
-		} finally {
-			if (preTransformController === controller) preTransformController = null;
-		}
+	function releasePreTransformController(controller: AbortController | null) {
+		if (preTransformController === controller) preTransformController = null;
 	}
 
 	async function runJSONTransform(
@@ -152,48 +182,81 @@
 		stylesheetInternal: unknown
 	) {
 		const runId = ++jsonTransformRun;
+		const hasSource = Boolean(xmlString);
+		const controller = prepareJsonTransformRun(hasSource, stylesheetInternal);
+
+		await runGuardedTransform({
+			isStale: () => runId !== jsonTransformRun,
+			run: () =>
+				runPreviewJsonTransformFromString(xmlString, stylesheetInternal, {
+					signal: controller?.signal,
+					progress: (message) => {
+						if (runId !== jsonTransformRun) return;
+						jsonTransformMessages = [...jsonTransformMessages.slice(-5), message];
+					}
+				}),
+			applyResult: (result) => applyJsonTransformResult(result, hasSource),
+			applyError: applyJsonTransformError,
+			release: () => releaseJsonTransformController(controller)
+		});
+	}
+
+	function prepareJsonTransformRun(hasSource: boolean, stylesheetInternal: unknown) {
 		jsonTransformController?.abort();
-		const controller = xmlString && stylesheetInternal ? new AbortController() : null;
+		const controller = createTransformController(hasSource, stylesheetInternal);
 		jsonTransformController = controller;
 		JSONTransformObjOutput = null;
 		ViewModelOutput = null;
 		JSONTransformError = null;
 		jsonTransformMessages = [];
-		jsonTransformStage = xmlString && stylesheetInternal ? 'transforming' : 'waiting-for-input';
+		jsonTransformStage = getTransformStartStage(controller, 'waiting-for-input');
+		return controller;
+	}
 
-		try {
-			const result = await runPreviewJsonTransformFromString(xmlString, stylesheetInternal, {
-				signal: controller?.signal,
-				progress: (message) => {
-					if (runId !== jsonTransformRun) return;
-					jsonTransformMessages = [...jsonTransformMessages.slice(-5), message];
-				}
-			});
-			if (runId !== jsonTransformRun) return;
+	function applyJsonTransformResult(
+		result: Awaited<ReturnType<typeof runPreviewJsonTransformFromString>>,
+		hasSource: boolean
+	) {
+		JSONTransformObjOutput = result.value;
+		JSONTransformError = result.error;
+		jsonTransformStage = getTransformEndStage(result.value, result.error, hasSource);
+	}
 
-			JSONTransformObjOutput = result.value;
-			JSONTransformError = result.error;
-			jsonTransformStage = getTransformEndStage(result.value, result.error, Boolean(xmlString));
-		} catch (error) {
-			if (runId !== jsonTransformRun) return;
+	function applyJsonTransformError(error: unknown) {
+		JSONTransformObjOutput = null;
+		JSONTransformError = createDisplayError(error);
+		jsonTransformStage = 'idle';
+	}
 
-			JSONTransformObjOutput = null;
-			JSONTransformError = createDisplayError(error);
-			jsonTransformStage = 'idle';
-		} finally {
-			if (jsonTransformController === controller) jsonTransformController = null;
-		}
+	function releaseJsonTransformController(controller: AbortController | null) {
+		if (jsonTransformController === controller) jsonTransformController = null;
 	}
 
 	function runViewModelTransform(cudlJson: CudlObject | null, config: PreviewConfig | undefined) {
 		ViewModelError = null;
+		const inputs = getViewModelInputs(cudlJson, config);
 
-		if (!cudlJson || !config) {
-			ViewModelOutput = null;
-			viewModelStage = 'waiting-for-input';
+		if (!inputs) {
+			resetViewModelOutput();
 			return;
 		}
 
+		createViewModelOutput(inputs.cudlJson, inputs.config);
+	}
+
+	function getViewModelInputs(cudlJson: CudlObject | null, config: PreviewConfig | undefined) {
+		if (!cudlJson) return null;
+		if (!config) return null;
+
+		return { cudlJson, config };
+	}
+
+	function resetViewModelOutput() {
+		ViewModelOutput = null;
+		viewModelStage = 'waiting-for-input';
+	}
+
+	function createViewModelOutput(cudlJson: CudlObject, config: PreviewConfig) {
 		viewModelStage = 'transforming';
 
 		try {
@@ -205,6 +268,17 @@
 			ViewModelError = createDisplayError(error);
 			viewModelStage = 'idle';
 		}
+	}
+
+	function createTransformController(hasSource: boolean, stylesheetInternal: unknown) {
+		return hasSource && stylesheetInternal ? new AbortController() : null;
+	}
+
+	function getTransformStartStage(
+		controller: AbortController | null,
+		fallbackStage: TransformStage
+	): TransformStage {
+		return controller ? 'transforming' : fallbackStage;
 	}
 
 	function selectConfig(org: string) {
@@ -242,61 +316,58 @@
 		viewModelStage = 'idle';
 	}
 
-	function getTransformEndStage<T>(
-		value: T | null,
-		error: TransformDisplayError | null,
-		hasTransformInput: boolean
-	): PreviewTransformStage {
-		if (error) return 'idle';
-		if (value) return 'complete';
-		if (!hasTransformInput) return 'waiting-for-input';
-		return 'idle';
-	}
-
-	function getProgressSteps(
-		preStage: PreviewTransformStage,
-		jsonStage: PreviewTransformStage,
-		modelStage: PreviewTransformStage,
-		preError: TransformDisplayError | null,
-		jsonError: TransformDisplayError | null,
-		modelError: TransformDisplayError | null,
-		preDetail: string | null,
-		jsonDetail: string | null
-	): ProgressStep[] {
-		const hasError = Boolean(preError || jsonError || modelError);
-		if (ViewModelOutput || (!hasProgressStarted(preStage, jsonStage, modelStage) && !hasError)) {
-			return [];
-		}
+	function getProgressSteps(state: PreviewProgressState): TransformProgressStep[] {
+		if (shouldHideProgress(state)) return [];
 
 		return [
 			{ label: 'TEI loaded', status: 'done' },
-			{
-				label: preError ? 'Pre-filter transform failed' : 'Running pre-filter transform',
-				detail: preError?.message ?? preDetail ?? undefined,
-				status: getProgressStatus(preStage, !!preError)
-			},
-			{
-				label: jsonError ? 'JSON transform failed' : 'Running JSON transform',
-				detail: jsonError?.message ?? jsonDetail ?? undefined,
-				status: getProgressStatus(jsonStage, !!jsonError)
-			},
-			{
-				label: modelError ? 'Preview generation failed' : 'Creating preview',
-				detail: modelError?.message,
-				status: getProgressStatus(modelStage, !!modelError)
-			}
+			createProgressStep(
+				state.preError,
+				'Pre-filter transform failed',
+				'Running pre-filter transform',
+				state.preDetail,
+				state.preStage
+			),
+			createProgressStep(
+				state.jsonError,
+				'JSON transform failed',
+				'Running JSON transform',
+				state.jsonDetail,
+				state.jsonStage
+			),
+			createProgressStep(
+				state.modelError,
+				'Preview generation failed',
+				'Creating preview',
+				null,
+				state.modelStage
+			)
 		];
 	}
 
-	function hasProgressStarted(...stages: PreviewTransformStage[]) {
-		return stages.some((stage) => stage !== 'idle' && stage !== 'waiting-for-input');
+	function shouldHideProgress(state: PreviewProgressState) {
+		const stages = [state.preStage, state.jsonStage, state.modelStage];
+		return state.modelReady || (!hasProgressStarted(stages) && !hasProgressError(state));
 	}
 
-	function getProgressStatus(stage: PreviewTransformStage, hasError: boolean): ProgressStepStatus {
-		if (hasError) return 'error';
-		if (stage === 'transforming') return 'active';
-		if (stage === 'complete') return 'done';
-		return 'pending';
+	function hasProgressError(state: PreviewProgressState) {
+		return Boolean(state.preError || state.jsonError || state.modelError);
+	}
+
+	function createProgressStep(
+		error: TransformDisplayError | null,
+		errorLabel: string,
+		activeLabel: string,
+		detail: string | null,
+		stage: TransformStage
+	): TransformProgressStep {
+		if (error) return { label: errorLabel, detail: error.message, status: 'error' };
+
+		return {
+			label: activeLabel,
+			detail: detail ?? undefined,
+			status: getProgressStatus(stage, false)
+		};
 	}
 
 	function getLatestTransformMessage(messages: TransformProgressMessage[]) {
@@ -313,19 +384,36 @@
 		modelError: TransformDisplayError | null
 	) {
 		if (cancelled) return 'Preview generation was cancelled';
-		if (!hasTei) return 'Preview generation requires a TEI to be loaded';
-		if (!hasPreTransform) return 'Preview generation requires a pre-filter stylesheet';
-		if (!hasJsonTransform) return 'Preview generation requires a JSON transform stylesheet';
-		if (preError || jsonError || modelError) return 'Preview generation failed';
+
+		const missingMessage = getMissingPreviewInputMessage(hasTei, hasPreTransform, hasJsonTransform);
+		if (missingMessage) return missingMessage;
+		if (hasTransformError(preError, jsonError, modelError)) return 'Preview generation failed';
 
 		return 'Preview generation is waiting for transform output';
 	}
 
-	function createDisplayError(error: unknown): TransformDisplayError {
-		if (!(error instanceof Error)) return { name: 'Error', message: String(error) };
+	function getMissingPreviewInputMessage(
+		hasTei: boolean,
+		hasPreTransform: boolean,
+		hasJsonTransform: boolean
+	) {
+		if (!hasTei) return 'Preview generation requires a TEI to be loaded';
+		if (!hasPreTransform) return 'Preview generation requires a pre-filter stylesheet';
+		if (!hasJsonTransform) return 'Preview generation requires a JSON transform stylesheet';
 
-		const code = (error as Error & { code?: string | number }).code;
-		return { name: error.name, message: error.message, stack: error.stack, code };
+		return null;
+	}
+
+	function hasTransformError(
+		preError: TransformDisplayError | null,
+		jsonError: TransformDisplayError | null,
+		modelError: TransformDisplayError | null
+	) {
+		return Boolean(preError || jsonError || modelError);
+	}
+
+	function hasXmlDocument(xmlDoc: XMLDocument | null | undefined) {
+		return Boolean(xmlDoc?.documentElement);
 	}
 </script>
 

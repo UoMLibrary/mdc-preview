@@ -2,11 +2,15 @@
 	import SefStore from '$lib/stores/sef-store.js';
 	import { getPanelStatus } from '$lib/Tei/panel-status.js';
 	import CompileXsltFileButton from '$lib/UI/FileButtons/CompileXsltFileButton.svelte';
-	import LoadingSpinner from '$lib/UI/LoadingSpinner.svelte';
 
 	import SaveJsonFileButton from '$lib/UI/FileButtons/SaveJsonFileButton.svelte';
 	import OpenJsonFileButton from '$lib/UI/FileButtons/OpenJsonFileButton.svelte';
 	import { previewSefIds, type PreviewSefId } from '$lib/Tei/preview-sef-ids.js';
+	import type {
+		TransformProgressStep,
+		ProgressStepStatus,
+		TransformStage
+	} from '$lib/Tei/transform-progress.js';
 	import type {
 		TransformDisplayError,
 		TransformProgressMessage
@@ -23,13 +27,13 @@
 		| 'xslt-error'
 		| 'sef-error';
 	type StylesheetLoadSource = 'unknown' | 'xslt' | 'sef';
-	type StylesheetTransformStage = 'idle' | 'waiting-for-input' | 'transforming' | 'complete';
-	type ProgressStepStatus = 'pending' | 'active' | 'done' | 'error';
+	type StylesheetTransformStage = TransformStage;
+	type ProgressStep = TransformProgressStep;
 
-	interface ProgressStep {
-		label: string;
-		detail?: string;
-		status: ProgressStepStatus;
+	interface LoadProgressState {
+		stage: StylesheetLoadStage;
+		source: StylesheetLoadSource;
+		hasSef: boolean;
 	}
 
 	interface Props {
@@ -131,10 +135,10 @@
 		hasTransformError: boolean,
 		latestTransformMessage: string | null
 	): ProgressStep[] {
-		if (stage === 'idle' && !hasSef && currentTransformStage === 'idle') return [];
-		const steps = getLoadProgressSteps(stage, source, hasSef);
+		if (shouldHideProgressSteps(stage, hasSef, currentTransformStage)) return [];
+		const steps = getLoadProgressSteps({ stage, source, hasSef });
 
-		if (hasSef || stage === 'sef-loaded') {
+		if (shouldShowTransformStep(stage, hasSef)) {
 			steps.push(
 				getTransformProgressStep(currentTransformStage, hasTransformError, latestTransformMessage)
 			);
@@ -143,37 +147,66 @@
 		return steps;
 	}
 
-	function getLoadProgressSteps(
+	function shouldHideProgressSteps(
 		stage: StylesheetLoadStage,
-		source: StylesheetLoadSource,
-		hasSef: boolean
-	): ProgressStep[] {
-		if (source === 'sef' || stage === 'sef-reading') {
-			return [
-				{
-					label: stage === 'sef-reading' ? 'Reading SEF' : 'SEF uploaded',
-					status: stage === 'sef-reading' ? 'active' : 'done'
-				},
-				{ label: 'SEF loaded', status: stage === 'sef-loaded' || hasSef ? 'done' : 'pending' }
-			];
-		}
+		hasSef: boolean,
+		currentTransformStage: StylesheetTransformStage
+	) {
+		return stage === 'idle' && !hasSef && currentTransformStage === 'idle';
+	}
 
-		if (stage === 'idle' && hasSef) return [{ label: 'SEF loaded', status: 'done' }];
+	function shouldShowTransformStep(stage: StylesheetLoadStage, hasSef: boolean) {
+		return hasSef || stage === 'sef-loaded';
+	}
 
+	function getLoadProgressSteps(state: LoadProgressState): ProgressStep[] {
+		if (isSefLoadFlow(state)) return getSefLoadProgressSteps(state);
+		if (isIdleWithLoadedSef(state)) return [{ label: 'SEF loaded', status: 'done' }];
+
+		return getXsltLoadProgressSteps(state);
+	}
+
+	function getXsltLoadProgressSteps(state: LoadProgressState): ProgressStep[] {
 		return [
 			{
-				label: stage === 'xslt-reading' ? 'Reading XSLT' : 'XSLT uploaded',
-				status: getXsltUploadStatus(stage)
+				label: getXsltUploadLabel(state.stage),
+				status: getXsltUploadStatus(state.stage)
 			},
 			{
 				label: 'Processing XSLT to SEF',
-				status: getSefCompileStatus(stage)
+				status: getSefCompileStatus(state.stage)
 			},
 			{
 				label: 'SEF loaded',
-				status: stage === 'sef-loaded' || hasSef ? 'done' : 'pending'
+				status: isSefLoaded(state) ? 'done' : 'pending'
 			}
 		];
+	}
+
+	function getXsltUploadLabel(stage: StylesheetLoadStage) {
+		return stage === 'xslt-reading' ? 'Reading XSLT' : 'XSLT uploaded';
+	}
+
+	function getSefLoadProgressSteps(state: LoadProgressState): ProgressStep[] {
+		return [
+			{
+				label: state.stage === 'sef-reading' ? 'Reading SEF' : 'SEF uploaded',
+				status: state.stage === 'sef-reading' ? 'active' : 'done'
+			},
+			{ label: 'SEF loaded', status: isSefLoaded(state) ? 'done' : 'pending' }
+		];
+	}
+
+	function isSefLoadFlow(state: LoadProgressState) {
+		return state.source === 'sef' || state.stage === 'sef-reading';
+	}
+
+	function isIdleWithLoadedSef(state: LoadProgressState) {
+		return state.stage === 'idle' && state.hasSef;
+	}
+
+	function isSefLoaded(state: LoadProgressState) {
+		return state.stage === 'sef-loaded' || state.hasSef;
 	}
 
 	function getXsltUploadStatus(stage: StylesheetLoadStage): ProgressStepStatus {
@@ -195,26 +228,27 @@
 		latestTransformMessage: string | null
 	): ProgressStep {
 		if (hasTransformError) return { label: 'Transform failed', status: 'error' };
-		if (currentTransformStage === 'transforming') {
-			return {
-				label: 'Transforming XML',
-				detail: latestTransformMessage ?? undefined,
-				status: 'active'
-			};
-		}
-		if (currentTransformStage === 'complete') {
-			return {
-				label: 'Transform complete',
-				detail: latestTransformMessage ?? undefined,
-				status: 'done'
-			};
-		}
-		if (currentTransformStage === 'waiting-for-input') {
-			return { label: 'Waiting for XML input', status: 'pending' };
-		}
 
-		return { label: 'Transforming XML', status: 'pending' };
+		return transformProgressStepFactories[currentTransformStage](latestTransformMessage);
 	}
+
+	const transformProgressStepFactories: Record<
+		StylesheetTransformStage,
+		(latestTransformMessage: string | null) => ProgressStep
+	> = {
+		transforming: (latestTransformMessage) => ({
+			label: 'Transforming XML',
+			detail: latestTransformMessage ?? undefined,
+			status: 'active'
+		}),
+		complete: (latestTransformMessage) => ({
+			label: 'Transform complete',
+			detail: latestTransformMessage ?? undefined,
+			status: 'done'
+		}),
+		'waiting-for-input': () => ({ label: 'Waiting for XML input', status: 'pending' }),
+		idle: () => ({ label: 'Transforming XML', status: 'pending' })
+	};
 
 	function getLatestTransformMessage(messages: TransformProgressMessage[]) {
 		return messages.at(-1)?.message ?? null;
@@ -271,11 +305,7 @@
 			<div class="tool-panel__progress" aria-live="polite">
 				{#each progressSteps as step (step.label)}
 					<div class="tool-panel__progress-step tool-panel__progress-step--{step.status}">
-						<span class="tool-panel__progress-marker" aria-hidden="true">
-							{#if step.status === 'active'}
-								<LoadingSpinner size="12" unit="px" duration="1s" color="purple" />
-							{/if}
-						</span>
+						<span class="tool-panel__progress-marker" aria-hidden="true"></span>
 						<span>
 							{step.label}
 							{#if step.detail}
