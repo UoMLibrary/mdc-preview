@@ -29,6 +29,10 @@
 	import PrintPanel from '$lib/Tei/Panels/PrintPanel.svelte';
 
 	type StylesheetTransformStage = 'idle' | 'waiting-for-input' | 'transforming' | 'complete';
+	interface TransformInputState {
+		xmlDoc: XMLDocument | null | undefined;
+		stylesheet: unknown;
+	}
 
 	let page = $state(0);
 	let preTransformXmlDocOutput = $state<XMLDocument | null>(null); // the output of the preTransform (transient)
@@ -44,13 +48,25 @@
 	let jsonTransformMessages = $state<TransformProgressMessage[]>([]);
 	let preTransformRun = 0;
 	let jsonTransformRun = 0;
+	let previousPreTransformInput: TransformInputState | null = null;
+	let previousJsonTransformInput: TransformInputState | null = null;
 
 	$effect(() => {
-		runPreTransform($TeiStore.xmlDoc, $SefStore?.[previewSefIds.preTransform]);
+		const xmlDoc = $TeiStore.xmlDoc;
+		const sefObj = $SefStore?.[previewSefIds.preTransform];
+		if (!hasTransformInputChanged(previousPreTransformInput, xmlDoc, sefObj?.sef)) return;
+
+		previousPreTransformInput = { xmlDoc, stylesheet: sefObj?.sef };
+		runPreTransform(xmlDoc, sefObj);
 	});
 
 	$effect(() => {
-		runJSONTransform(preTransformXmlDocOutput, $SefStore?.[previewSefIds.jsonTransform]);
+		const xmlDoc = preTransformXmlDocOutput;
+		const sefObj = $SefStore?.[previewSefIds.jsonTransform];
+		if (!hasTransformInputChanged(previousJsonTransformInput, xmlDoc, sefObj?.sef)) return;
+
+		previousJsonTransformInput = { xmlDoc, stylesheet: sefObj?.sef };
+		runJSONTransform(xmlDoc, sefObj);
 	});
 
 	$effect(() => {
@@ -142,6 +158,15 @@
 
 		const code = (error as Error & { code?: string | number }).code;
 		return { name: error.name, message: error.message, stack: error.stack, code };
+	}
+
+	function hasTransformInputChanged(
+		previousInput: TransformInputState | null,
+		xmlDoc: XMLDocument | null | undefined,
+		stylesheet: unknown
+	) {
+		if (!previousInput) return true;
+		return previousInput.xmlDoc !== xmlDoc || previousInput.stylesheet !== stylesheet;
 	}
 
 	function getTransformStartStage(
