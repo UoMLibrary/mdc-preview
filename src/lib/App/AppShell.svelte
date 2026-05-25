@@ -19,9 +19,12 @@
 	let fileMenuPanel = $state<HTMLDivElement | null>(null);
 
 	const previewHref = resolve('/');
+	const helpHref = resolve('/help');
 	const settingsHref = resolve('/settings');
 
+	const isHelpRoute = $derived(page.route.id === '/help');
 	const isSettingsRoute = $derived(page.route.id === '/settings');
+	const isClosableRoute = $derived(isHelpRoute || isSettingsRoute);
 
 	function toggleFileMenu() {
 		fileMenuOpen = !fileMenuOpen;
@@ -107,17 +110,26 @@
 						</div>
 					{/if}
 				</div>
+
+				<a
+					class="app-shell__menu-trigger"
+					class:app-shell__menu-trigger--active={isHelpRoute}
+					href={helpHref}
+					aria-current={isHelpRoute ? 'page' : undefined}
+				>
+					Help
+				</a>
 			</nav>
 		</div>
 
 		<div class="app-shell__right">
 			<ThemeSwitch />
-			{#if isSettingsRoute}
+			{#if isClosableRoute}
 				<a
 					class="app-shell__icon-button"
 					href={previewHref}
-					aria-label="Close settings"
-					title="Close settings"
+					aria-label={isHelpRoute ? 'Close help' : 'Close settings'}
+					title={isHelpRoute ? 'Close help' : 'Close settings'}
 				>
 					<SvgIcon name="xmark" scale="0.82" />
 				</a>

@@ -23,7 +23,7 @@
 						<b>{data.label}: </b>
 						{#each data.value as value, idx (idx)}
 							{#if value?.link}
-								<a href={resolve(value.link as Parameters<typeof resolve>[0])} class="cudLink">
+								<a href={resolve(value.link as '/')} class="cudLink">
 									<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 									{@html value.text}</a
 								>{#if idx < data.value.length - 1};&nbsp;{/if}
