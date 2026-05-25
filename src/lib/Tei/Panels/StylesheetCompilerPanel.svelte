@@ -28,6 +28,7 @@
 
 	interface ProgressStep {
 		label: string;
+		detail?: string;
 		status: ProgressStepStatus;
 	}
 
@@ -56,7 +57,14 @@
 	const preferredEntryNames = $derived(getPreferredEntryNames(sefId));
 	const isLoading = $derived(isLoadStageBusy(loadStage));
 	const progressSteps = $derived(
-		getProgressSteps(loadStage, loadSource, transformStage, !!sefData?.sef, !!runtimeError)
+		getProgressSteps(
+			loadStage,
+			loadSource,
+			transformStage,
+			!!sefData?.sef,
+			!!runtimeError,
+			getLatestTransformMessage(transformMessages)
+		)
 	);
 	const status = $derived(
 		getPanelStatus(!!sefData?.errors?.length || !!runtimeError, !!sefData?.sef)
@@ -120,13 +128,16 @@
 		source: StylesheetLoadSource,
 		currentTransformStage: StylesheetTransformStage,
 		hasSef: boolean,
-		hasTransformError: boolean
+		hasTransformError: boolean,
+		latestTransformMessage: string | null
 	): ProgressStep[] {
 		if (stage === 'idle' && !hasSef && currentTransformStage === 'idle') return [];
 		const steps = getLoadProgressSteps(stage, source, hasSef);
 
 		if (hasSef || stage === 'sef-loaded') {
-			steps.push(getTransformProgressStep(currentTransformStage, hasTransformError));
+			steps.push(
+				getTransformProgressStep(currentTransformStage, hasTransformError, latestTransformMessage)
+			);
 		}
 
 		return steps;
@@ -180,11 +191,16 @@
 
 	function getTransformProgressStep(
 		currentTransformStage: StylesheetTransformStage,
-		hasTransformError: boolean
+		hasTransformError: boolean,
+		latestTransformMessage: string | null
 	): ProgressStep {
 		if (hasTransformError) return { label: 'Transform failed', status: 'error' };
 		if (currentTransformStage === 'transforming') {
-			return { label: 'Transforming XML', status: 'active' };
+			return {
+				label: 'Transforming XML',
+				detail: latestTransformMessage ?? undefined,
+				status: 'active'
+			};
 		}
 		if (currentTransformStage === 'complete') return { label: 'Transform complete', status: 'done' };
 		if (currentTransformStage === 'waiting-for-input') {
@@ -192,6 +208,10 @@
 		}
 
 		return { label: 'Transforming XML', status: 'pending' };
+	}
+
+	function getLatestTransformMessage(messages: TransformProgressMessage[]) {
+		return messages.at(-1)?.message ?? null;
 	}
 </script>
 
@@ -250,7 +270,12 @@
 								<LoadingSpinner size="12" unit="px" duration="1s" color="purple" />
 							{/if}
 						</span>
-						<span>{step.label}</span>
+						<span>
+							{step.label}
+							{#if step.detail}
+								<span class="tool-panel__progress-detail"> - {step.detail}</span>
+							{/if}
+						</span>
 					</div>
 				{/each}
 			</div>
@@ -259,17 +284,6 @@
 		{#if isLoading}
 			<div class="tool-panel__loading"></div>
 		{:else}
-			{#if transformMessages.length > 0}
-				<p class="tool-panel__section-title">Transform messages</p>
-				<div class="tool-panel__transform-messages">
-					{#each transformMessages as message, index (`${message.time}-${index}`)}
-						<p>
-							<span class="tool-panel__transform-message-time">{message.time}</span>
-							<span>{message.message}</span>
-						</p>
-					{/each}
-				</div>
-			{/if}
 			{#if noStylesheetLoaded}
 				<p class="tool-panel__empty">{emptyMessage}</p>
 			{/if}

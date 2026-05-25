@@ -316,7 +316,8 @@
 
 .tool-panel__button,
 .tool-panel__json-depth-button,
-.tool-panel__header button {
+.tool-panel__header button,
+.tool-panel__select {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -332,7 +333,8 @@
 
 .tool-panel__button:hover,
 .tool-panel__json-depth-button:hover,
-.tool-panel__header button:hover {
+.tool-panel__header button:hover,
+.tool-panel__select:hover {
 	border-color: #94a3b8;
 	background: #f1f5f9;
 }
@@ -341,6 +343,10 @@
 .tool-panel__json-depth-button:active,
 .tool-panel__header button:active {
 	background: #e2e8f0;
+}
+
+.tool-panel__select {
+	padding-right: 1.75rem;
 }
 
 .tool-panel__body {
@@ -415,6 +421,10 @@
 	background: #fee2e2;
 }
 
+.tool-panel__progress-detail {
+	font-weight: 400;
+}
+
 .tool-panel__empty {
 	margin: 0;
 	padding: 0.25rem;
@@ -435,29 +445,6 @@
 .tool-panel__details {
 	margin-bottom: 0.5rem;
 	padding: 0 0.5rem;
-}
-
-.tool-panel__transform-messages {
-	display: grid;
-	gap: 0.25rem;
-	margin-bottom: 0.75rem;
-	padding: 0 0.5rem;
-	color: var(--app-muted);
-	font-family:
-		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-		monospace;
-}
-
-.tool-panel__transform-messages p {
-	display: grid;
-	grid-template-columns: max-content minmax(0, 1fr);
-	gap: 0.5rem;
-	margin: 0;
-}
-
-.tool-panel__transform-message-time {
-	color: var(--app-text);
-	font-weight: 700;
 }
 
 .tool-panel__details-label {
