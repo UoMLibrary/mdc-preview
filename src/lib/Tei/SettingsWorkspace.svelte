@@ -222,7 +222,7 @@
 		title="XML output from Pre filter transformation"
 		xmlDoc={preTransformXmlDocOutput}
 		saveFile="preFilterOutput.xml"
-		message="XML content generation requires TEI XML and preFiler XSLT to be configured"
+		message="XML content generation requires TEI XML and preFilter XSLT to be configured"
 	/>
 
 	<!-- + symbol (decorative) -->
