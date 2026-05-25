@@ -64,26 +64,52 @@ async function transformRequestInProcess(transformRequest: TransformRequest) {
 
 function streamTransformRequest(transformRequest: TransformRequest, signal: AbortSignal) {
 	const encoder = new TextEncoder();
+	const transformController = new AbortController();
+	const abortTransform = () => {
+		if (!transformController.signal.aborted) transformController.abort();
+	};
+	signal.addEventListener('abort', abortTransform, { once: true });
+	if (signal.aborted) abortTransform();
+	let streamClosed = false;
 
 	return new Response(
 		new ReadableStream({
 			async start(controller) {
 				const writeEvent = (event: unknown) => {
-					controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
+					if (streamClosed || transformController.signal.aborted) return;
+
+					try {
+						controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
+					} catch (_error) {
+						streamClosed = true;
+						abortTransform();
+					}
 				};
 
 				try {
 					writeEvent({ type: 'stage', message: 'Queued for transform' });
 					const result = await enqueueTransform(
-						() => transformRequestInWorker(transformRequest, writeEvent, signal),
-						signal
+						() => transformRequestInWorker(transformRequest, writeEvent, transformController.signal),
+						transformController.signal
 					);
 					writeEvent({ type: 'success', result });
 				} catch (error) {
 					writeEvent({ type: 'error', error: createErrorPayload(error) });
 				} finally {
-					controller.close();
+					streamClosed = true;
+					signal.removeEventListener('abort', abortTransform);
+
+					try {
+						controller.close();
+					} catch (_error) {
+						// The client can close the response while the worker is still winding down.
+					}
 				}
+			},
+			cancel() {
+				streamClosed = true;
+				signal.removeEventListener('abort', abortTransform);
+				abortTransform();
 			}
 		}),
 		{
@@ -132,6 +158,8 @@ function transformRequestInWorker(
 				signal.addEventListener('abort', abortTransform, { once: true });
 
 				worker.on('message', (message: WorkerMessage) => {
+					if (settled) return;
+
 					if (message.type === 'message') {
 						progress({ type: 'message', message: message.message ?? '', code: message.code });
 						return;

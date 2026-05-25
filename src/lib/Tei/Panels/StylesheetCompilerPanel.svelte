@@ -202,7 +202,13 @@
 				status: 'active'
 			};
 		}
-		if (currentTransformStage === 'complete') return { label: 'Transform complete', status: 'done' };
+		if (currentTransformStage === 'complete') {
+			return {
+				label: 'Transform complete',
+				detail: latestTransformMessage ?? undefined,
+				status: 'done'
+			};
+		}
 		if (currentTransformStage === 'waiting-for-input') {
 			return { label: 'Waiting for XML input', status: 'pending' };
 		}
